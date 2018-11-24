@@ -1,1 +1,4 @@
 https://dal-s.github.io/2018/11/21/markdown语法说明/
+https://dal-s.github.io/2018/11/20/hexo-使用next主题/
+https://dal-s.github.io/2018/11/20/hello-blog/
+https://dal-s.github.io/2018/11/20/hello-world/
