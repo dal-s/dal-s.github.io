@@ -73,7 +73,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT">
+  <meta name="keywords" content="go,">
 
 
 
@@ -84,17 +84,18 @@
 
 
 
-<meta name="description" content="享受编程带来的快乐">
-<meta name="keywords" content="技术">
-<meta property="og:type" content="website">
-<meta property="og:title" content="dal&#39;s blog">
-<meta property="og:url" content="https://dal-s.github.io/categories/书单/index.html">
+<meta name="description" content="golang 中数组、slice、map都属于collection类型，大概就是分出一片空间存储一堆的数据。 他们的主要区别：  数组有长度，slice没有， map是无序的，数组和slice有序 数组和slice下标数数字，map的key是任意等值性类型  数组的三种声明方式:123456var i [10]inti[0]=1var i=[10]inti:=[10]int  数组是值，数组间复制">
+<meta name="keywords" content="go">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Go系列(二):数组 map slice">
+<meta property="og:url" content="https://dal-s.github.io/2018/11/27/Go系列-二-数组 map slice/index.html">
 <meta property="og:site_name" content="dal&#39;s blog">
-<meta property="og:description" content="享受编程带来的快乐">
+<meta property="og:description" content="golang 中数组、slice、map都属于collection类型，大概就是分出一片空间存储一堆的数据。 他们的主要区别：  数组有长度，slice没有， map是无序的，数组和slice有序 数组和slice下标数数字，map的key是任意等值性类型  数组的三种声明方式:123456var i [10]inti[0]=1var i=[10]inti:=[10]int  数组是值，数组间复制">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-11-27T10:17:29.519Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="dal&#39;s blog">
-<meta name="twitter:description" content="享受编程带来的快乐">
+<meta name="twitter:title" content="Go系列(二):数组 map slice">
+<meta name="twitter:description" content="golang 中数组、slice、map都属于collection类型，大概就是分出一片空间存储一堆的数据。 他们的主要区别：  数组有长度，slice没有， map是无序的，数组和slice有序 数组和slice下标数数字，map的key是任意等值性类型  数组的三种声明方式:123456var i [10]inti[0]=1var i=[10]inti:=[10]int  数组是值，数组间复制">
 
 
 
@@ -124,13 +125,13 @@
 
 
 
-  <link rel="canonical" href="https://dal-s.github.io/categories/书单/">
+  <link rel="canonical" href="https://dal-s.github.io/2018/11/27/Go系列-二-数组 map slice/">
 
 
 
 
 
-  <title>分类: 书单 | dal's blog</title>
+  <title>Go系列(二):数组 map slice | dal's blog</title>
   
 
 
@@ -149,7 +150,7 @@
     
   
 
-  <div class="container sidebar-position-left ">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
@@ -275,53 +276,204 @@
           <div id="content" class="content">
             
 
-  
-  
-  
-  <div class="post-block category">
+  <div id="posts" class="posts-expand">
+    
 
-    <div id="posts" class="posts-collapse">
-      <div class="collection-title">
-        <h1>书单<small>分类</small>
-        </h1>
-      </div>
+  
 
-      
-        
+  
+  
+  
 
   <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://dal-s.github.io/2018/11/27/Go系列-二-数组 map slice/">
 
-      <h2 class="post-title">
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="DaLi">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="dal's blog">
+    </span>
+
+    
+      <header class="post-header">
+
         
-            <a class="post-title-link" href="/2018/11/24/书单备忘录/" itemprop="url">
-              
-                <span itemprop="name">书单备忘录</span>
-              
-            </a>
         
-      </h2>
+          <h1 class="post-title" itemprop="name headline">Go系列(二):数组 map slice</h1>
+        
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2018-11-24T12:47:09+08:00" content="2018-11-24">
-          11-24
-        </time>
-      </div>
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-27T15:29:55+08:00">
+                2018-11-27
+              </time>
+            
 
-    </header>
-  </article>
+            
 
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/golang/" itemprop="url" rel="index">
+                    <span itemprop="name">golang</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/11/27/Go系列-二-数组 map slice/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2018/11/27/Go系列-二-数组 map slice/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2018/11/27/Go系列-二-数组 map slice/" class="leancloud_visitors" data-flag-title="Go系列(二):数组 map slice">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>golang 中数组、slice、map都属于collection类型，大概就是分出一片空间存储一堆的数据。</p>
+<p>他们的主要区别：</p>
+<ul>
+<li>数组有长度，slice没有，</li>
+<li>map是无序的，数组和slice有序</li>
+<li>数组和slice下标数数字，map的key是任意等值性类型</li>
+</ul>
+<p>数组的三种声明方式:<br><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> i [<span class="number">10</span>]<span class="keyword">int</span></span><br><span class="line">i[<span class="number">0</span>]=<span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> i=[<span class="number">10</span>]<span class="keyword">int</span></span><br><span class="line"></span><br><span class="line">i:=[<span class="number">10</span>]<span class="keyword">int</span></span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>数组是值，数组间复制相当于复制了一个数组副本<br>数组作为参数传入函数，函数收到的也是数组的副本，而非指针（地址）<br>数组的大小是类型声明的一部分，不可或缺<br><a id="more"></a></p>
+</blockquote>
+<p>slice的声明方式：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> i []<span class="keyword">int</span>  <span class="comment">//这里的i就是没有长度的slice了</span></span><br><span class="line"></span><br><span class="line">初始化:</span><br><span class="line"><span class="keyword">var</span> i []<span class="keyword">type</span>=<span class="built_in">make</span>([]<span class="keyword">type</span>,<span class="built_in">len</span>) <span class="comment">//len是切片的初始长度</span></span><br><span class="line">或</span><br><span class="line">i := <span class="built_in">make</span>([]<span class="keyword">type</span>,<span class="built_in">len</span>)</span><br><span class="line"></span><br><span class="line">i :=[] <span class="keyword">int</span>&#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>&#125;</span><br><span class="line">i := arr[:] <span class="comment">//arr是一个数组 :两侧可以写数组下标，表示数字的0~len的值</span></span><br><span class="line"></span><br><span class="line">Tips:<span class="built_in">make</span> 和<span class="built_in">new</span> 都是初始化slice的一种方式，他们的区别下一节再写</span><br></pre></td></tr></table></figure>
+<p>map的声明方式:<br><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> i_map <span class="keyword">map</span>[key_type]value_type</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> i <span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">int</span>  <span class="comment">//声明了一个map，但还无法使用，必须初始化以后才能使用</span></span><br><span class="line">i=<span class="built_in">make</span>(<span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">int</span>) <span class="comment">//初始化map，初始化后才可以存储数据</span></span><br><span class="line"></span><br><span class="line">i_map := <span class="built_in">make</span>(<span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">int</span>) <span class="comment">//另一种方式，省略var关键字，但是只可以在函数内部使用</span></span><br><span class="line"></span><br><span class="line">i_map :=<span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">int</span>&#123;<span class="string">"key1"</span>:<span class="number">1</span>,<span class="string">"key2"</span>:<span class="number">2</span>&#125; <span class="comment">//直接初始化使用</span></span><br></pre></td></tr></table></figure></p>
+<p>今天用了make方式初始化了slice和map，golang中还有new方法也是初始化变量，其中某些区别下一节再细聊。</p>
 
       
     </div>
+    
+    
+    
 
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/go/" rel="tag"># go</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/11/26/Go系列-一-变量声明/" rel="next" title="Go系列(一):变量声明">
+                <i class="fa fa-chevron-left"></i> Go系列(一):变量声明
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
 
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -329,6 +481,13 @@
 
 
           
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
 
         </div>
         
@@ -567,6 +726,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 
