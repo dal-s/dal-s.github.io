@@ -1,11 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[Go系列(二):数组 map slice]]></title>
+    <url>%2F2018%2F11%2F26%2FGo%E7%B3%BB%E5%88%97-%E4%BA%8C-%E6%95%B0%E7%BB%84%20map%20slice%2F</url>
+    <content type="text"><![CDATA[golang 中数组、slice、map都属于collection类型，大概就是分出一片空间存储一堆的数据。 他们的主要区别： 数组有长度，slice没有， map是无序的，数组和slice有序 数组和slice下标数数字，map的key是任意等值性类型 数组的三种声明方式:123456var i [10]inti[0]=1var i=[10]inti:=[10]int 数组是值，数组间复制相当于复制了一个数组副本 数组作为参数传入函数，函数收到的也是数组的副本，而非指针（地址） 数组的大小是类型声明的一部分，不可或缺slice的声明方式： 1234567891011var i []int //这里的i就是没有长度的slice了初始化:var i []type=make([]type,len) //len是切片的初始长度或i := make([]type,len)i :=[] int&#123;1,2,3&#125;i := arr[:] //arr是一个数组 :两侧可以写数组下标，表示数字的0~len的值Tips:make 和new 都是初始化slice的一种方式，他们的区别下一节再写 map的声明方式:12345678var i_map map[key_type]value_typevar i map[string]int //声明了一个map，但还无法使用，必须初始化以后才能使用i=make(map[string]int) //初始化map，初始化后才可以存储数据i_map := make(map[string]int) //另一种方式，省略var关键字，但是只可以在函数内部使用i_map :=map[string]int&#123;"key1":1,"key2":2&#125; //直接初始化使用 今天用了make方式初始化了slice和map，golang中还有new方法也是初始化变量，其中某些区别下一节再细聊。]]></content>
+      <categories>
+        <category>-golang</category>
+      </categories>
+  </entry>
+  <entry>
     <title><![CDATA[Go系列(一):变量声明]]></title>
     <url>%2F2018%2F11%2F26%2FGo%E7%B3%BB%E5%88%97-%E4%B8%80-%E5%8F%98%E9%87%8F%E5%A3%B0%E6%98%8E%2F</url>
     <content type="text"><![CDATA[golang 整体看起来像是like c风格，常用变量类型有 1int string array map slice 等 变量声明方式有以下三种： 1、var 变量名 变量类型 (可用作全局变量声明) 2、var 变量名 = value，自行判定变量类型 3、省略var 变量名:=value，自行判定变量类型，只能用于函数内部，不可用作全局变量声明 示例:123456var i_int int i_int=3var i_int=3i_int:=3 多变量声明123456789101112var name1 name2 name3 type name1,name2,name3 = v1,v2,v3(var name1 type1=v1)var name1,name2,name3 = v1,v2,v3name1,name2,name3 :=v1,v2,v3var ( name1 type1 name2 type2) //常用语全局变量声明 特殊变量 _常用语接收代码不需要的变量，是一个only read 变量，如果代码中某个变量声明但未使用，代码编译会报错，这时可以使用_接收变量，绕过这个error。12345func main()&#123; var a int =1 //fmt.Println(a) _ =a&#125; 下一节：array、map、slice的使用]]></content>
       <categories>
-        <category>-golang</category>
+        <category>golang</category>
       </categories>
   </entry>
   <entry>
