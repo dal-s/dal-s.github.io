@@ -73,7 +73,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT">
+  <meta name="keywords" content="go,">
 
 
 
@@ -84,17 +84,18 @@
 
 
 
-<meta name="description" content="享受编程带来的快乐">
-<meta name="keywords" content="技术">
-<meta property="og:type" content="website">
-<meta property="og:title" content="dal&#39;s blog">
-<meta property="og:url" content="https://dal-s.github.io/archives/index.html">
+<meta name="description" content="主要介绍golang的函数，包括声明方式、多返回值特性、匿名函数等。 函数的声明我们从源码里粘一段声明出来示例。1234func Reverse(data Interface) Interface &amp;#123;    return &amp;amp;reverse&amp;#123;data&amp;#125;&amp;#125;">
+<meta name="keywords" content="go">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Go系列(四):函数和方法">
+<meta property="og:url" content="https://dal-s.github.io/2018/12/04/Go系列-四-函数和方法/index.html">
 <meta property="og:site_name" content="dal&#39;s blog">
-<meta property="og:description" content="享受编程带来的快乐">
+<meta property="og:description" content="主要介绍golang的函数，包括声明方式、多返回值特性、匿名函数等。 函数的声明我们从源码里粘一段声明出来示例。1234func Reverse(data Interface) Interface &amp;#123;    return &amp;amp;reverse&amp;#123;data&amp;#125;&amp;#125;">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-12-04T12:54:26.679Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="dal&#39;s blog">
-<meta name="twitter:description" content="享受编程带来的快乐">
+<meta name="twitter:title" content="Go系列(四):函数和方法">
+<meta name="twitter:description" content="主要介绍golang的函数，包括声明方式、多返回值特性、匿名函数等。 函数的声明我们从源码里粘一段声明出来示例。1234func Reverse(data Interface) Interface &amp;#123;    return &amp;amp;reverse&amp;#123;data&amp;#125;&amp;#125;">
 
 
 
@@ -124,13 +125,13 @@
 
 
 
-  <link rel="canonical" href="https://dal-s.github.io/archives/">
+  <link rel="canonical" href="https://dal-s.github.io/2018/12/04/Go系列-四-函数和方法/">
 
 
 
 
 
-  <title>归档 | dal's blog</title>
+  <title>Go系列(四):函数和方法 | dal's blog</title>
   
 
 
@@ -149,7 +150,7 @@
     
   
 
-  <div class="container sidebar-position-left page-archive">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
@@ -275,387 +276,219 @@
           <div id="content" class="content">
             
 
-  
-  
-  
-  <div class="post-block archive">
-    <div id="posts" class="posts-collapse">
-      <span class="archive-move-on"></span>
+  <div id="posts" class="posts-expand">
+    
 
-      <span class="archive-page-counter">
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://dal-s.github.io/2018/12/04/Go系列-四-函数和方法/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="DaLi">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="dal's blog">
+    </span>
+
+    
+      <header class="post-header">
+
         
         
+          <h1 class="post-title" itemprop="name headline">Go系列(四):函数和方法</h1>
         
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-04T20:54:55+08:00">
+                2018-12-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
           
-        
-        嗯..! 目前共计 10 篇日志。 继续努力。
-      </span>
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/golang/" itemprop="url" rel="index">
+                    <span itemprop="name">golang</span>
+                  </a>
+                </span>
 
-      
-
-        
-        
-        
-
-        
+                
+                
+              
+            </span>
           
-          <div class="collection-title">
-            <h1 class="archive-year" id="archive-year-2018">2018</h1>
-          </div>
-        
-        
 
-        
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/12/04/Go系列-四-函数和方法/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2018/12/04/Go系列-四-函数和方法/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
 
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
+          
+          
+             <span id="/2018/12/04/Go系列-四-函数和方法/" class="leancloud_visitors" data-flag-title="Go系列(四):函数和方法">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
 
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2018/12/04/Go系列-四-函数和方法/" itemprop="url">
-              
-                <span itemprop="name">Go系列(四):函数和方法</span>
-              
-            </a>
-        
-      </h2>
+          
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2018-12-04T20:54:55+08:00" content="2018-12-04">
-          12-04
-        </time>
-      </div>
+          
 
-    </header>
-  </article>
+          
 
+        </div>
+      </header>
+    
 
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2018/11/29/Go系列-三-new和make/" itemprop="url">
-              
-                <span itemprop="name">Go系列(三):new和make</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2018-11-29T15:29:55+08:00" content="2018-11-29">
-          11-29
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2018/11/27/Go系列-二-数组 map slice/" itemprop="url">
-              
-                <span itemprop="name">Go系列(二):数组 map slice</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2018-11-27T15:29:55+08:00" content="2018-11-27">
-          11-27
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
       
 
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2018/11/26/Go系列-一-变量声明/" itemprop="url">
-              
-                <span itemprop="name">Go系列(一):变量声明</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2018-11-26T15:29:55+08:00" content="2018-11-26">
-          11-26
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
+      
+        <p>主要介绍golang的函数，包括声明方式、多返回值特性、匿名函数等。</p>
+<h5 id="函数的声明"><a href="#函数的声明" class="headerlink" title="函数的声明"></a>函数的声明</h5><p>我们从源码里粘一段声明出来示例。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">func Reverse(data Interface) Interface &#123;</span><br><span class="line">    <span class="built_in">return</span> &amp;reverse&#123;data&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<a id="more"></a>
+<p>这是sort函数中的一段反转字符串的代码，其中func是关键字、Reverse是函数名、data 是入参名、括号内的Interface是入参的类型、括号外的Interface是返回值得类型。<br>以上就是构成一段完整的函数声明需要的所有元素。 函数名称大小写的问题，可以参考golang代码规范。</p>
+<p>其中入参和返回值的类型可以是任何合法的数据类型，结构体、数组、slice、map、channel、int、string等等。</p>
+<p>来，接下来我们粘一段方法的声明方式，很相似，所以放在一起看一下，防止概念不清楚。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">// Less returns the opposite of the embedded implementation\<span class="string">'s Less method.</span></span><br><span class="line"><span class="string">func (r reverse) Less(i, j int) bool &#123;</span></span><br><span class="line"><span class="string">    return r.Interface.Less(j, i)</span></span><br><span class="line"><span class="string">&#125;</span></span><br></pre></td></tr></table></figure>
+<p>来一起看Less这个方法的声明，同样有入参、返回值、方法名、与函数唯一不同的地方在于，方法名前有r reverse，这个r的含义是，该方法是被reverse类型的变量调用<br>调用方法如下：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">type</span> reverse struct &#123;</span><br><span class="line">    // This embedded Interface permits Reverse to use the methods of</span><br><span class="line">    // another Interface implementation.</span><br><span class="line">    Interface</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func IsSorted(data Interface) bool &#123;</span><br><span class="line">    n := data.Len()</span><br><span class="line">    <span class="keyword">for</span> i := n - 1; i &gt; 0; i-- &#123;</span><br><span class="line">        <span class="keyword">if</span> data.Less(i, i-1) &#123;</span><br><span class="line">            <span class="built_in">return</span> <span class="literal">false</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">return</span> <span class="literal">true</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>看data.Less，这里data是一种特殊的数据类型–接口，我们在以后再细说。<br>如果这个例子不太形象，我们再来看下一个，出自golang在线教程中的一段代码。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">type</span> rect struct&#123;</span><br><span class="line">    width,height int</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func (r *rect) area() int&#123;</span><br><span class="line">    <span class="built_in">return</span> r.width*r.height</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func <span class="function"><span class="title">t_main</span></span>() &#123;</span><br><span class="line"></span><br><span class="line">    r := rect&#123;width:10,height:5&#125;</span><br><span class="line">    fmt.Println(r.area())</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>rect是一个结构体，r := rect{width:10,height:5} 定义了r是rect结构体，并为他的成员分别赋值10和5,r.area() 调用area这个方法，计算面积。这个例子应该很形象了，<br>如果我定义一个int型数组的变量来调用该方法呢。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">func <span class="function"><span class="title">main</span></span>() &#123;</span><br><span class="line">    r := rect&#123;width:10,height:5&#125;</span><br><span class="line">    a := []int&#123;1,2&#125;</span><br><span class="line">    fmt.Println(a.area())</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment"># command-line-arguments</span></span><br><span class="line">./hi.go:17:18: a.area undefined (<span class="built_in">type</span> []int has no field or method area)</span><br></pre></td></tr></table></figure></p>
+<p>会报undefined的错误，解释为我们没有给int数组定义一个area的方法，所以不能调用。</p>
+<p>方法和函数的区别到这里应该清楚了，下面看几个golang函数的特性。</p>
+<h5 id="多返回值"><a href="#多返回值" class="headerlink" title="多返回值"></a>多返回值</h5><p>多返回值和defer是golang设计的神来之笔，太牛了，golang函数一般会返回两个值，一个是期望得到的返回值，一个是错误信息，我们继续扒源码看一下。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">func (s *SectionReader) Read(p []byte) (n int, err error) &#123;</span><br><span class="line">    <span class="keyword">if</span> s.off &gt;= s.limit &#123;</span><br><span class="line">        <span class="built_in">return</span> 0, EOF</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> max := s.limit - s.off; int64(len(p)) &gt; max &#123;</span><br><span class="line">        p = p[0:max]</span><br><span class="line">    &#125;</span><br><span class="line">    n, err = s.r.ReadAt(p, s.off)</span><br><span class="line">    s.off += int64(n)</span><br><span class="line">    <span class="built_in">return</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这是io中的一段源码，Read函数返回了两个值，一个是读的字节数n，一个是错误信息err，接收也很简单，就像n, err = s.r.ReadAt(p, s.off) 这个函数一样，一个变量接收字节数，另外一个变量接收错误信息，如果不需要错误信息，也可以用丢弃变量 n, _ = s.r.ReadAt(p, s.off)。</p>
+<p>这个设计妙在既可以又可以的地方，比如写入文件，也会返回两个变量，写入字节数和错误信息，我们完全可以得到已经写入多少字节，以及出现了什么错误。写到这里，我想到断点续传的功能，用golang实现可以说是非常简单了。</p>
+<h5 id="匿名函数"><a href="#匿名函数" class="headerlink" title="匿名函数"></a>匿名函数</h5><p>匿名函数，并不是golang的特权，python的lambda也是类似的功能。来一起看一下</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">func (p *pipe) CloseRead(err error) error &#123;</span><br><span class="line">    <span class="keyword">if</span> err == nil &#123;</span><br><span class="line">        err = ErrClosedPipe</span><br><span class="line">    &#125;</span><br><span class="line">    p.rerr.Store(err)</span><br><span class="line">    p.once.Do(<span class="function"><span class="title">func</span></span>() &#123; close(p.done) &#125;)</span><br><span class="line">    <span class="built_in">return</span> nil</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上面这段代码中 p.once.Do(func() { close(p.done) }) 包含一段匿名函数，有func关键字，没有函数名称{}包围了实现功能。类似这样的用法就叫匿名函数</p>
+<h5 id="可变参数"><a href="#可变参数" class="headerlink" title="可变参数"></a>可变参数</h5><p>可变参数也不是golang独有的特性，其中C语言中也有类似的实现。不过c语言的可变参数是通过一个系统定义好的数组存储的，golang可以直接自己用循环遍历。最常用恐怕就是fmt中的println函数了，我们来扒一下它的源代码。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">// Fprint formats using the default formats <span class="keyword">for</span> its operands and writes to w.</span><br><span class="line">// Spaces are added between operands when neither is a string.</span><br><span class="line">// It returns the number of bytes written and any write error encountered.</span><br><span class="line">func Fprint(w io.Writer, a ...interface&#123;&#125;) (n int, err error) &#123;</span><br><span class="line">    p := newPrinter()</span><br><span class="line">    p.doPrint(a)</span><br><span class="line">    n, err = w.Write(p.buf)</span><br><span class="line">    p.free()</span><br><span class="line">    <span class="built_in">return</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func (p *pp) doPrint(a []interface&#123;&#125;) &#123;</span><br><span class="line">    prevString := <span class="literal">false</span></span><br><span class="line">    <span class="keyword">for</span> argNum, arg := range a &#123;</span><br><span class="line">        isString := arg != nil &amp;&amp; reflect.TypeOf(arg).Kind() == reflect.String</span><br><span class="line">        // Add a space between two non-string arguments.</span><br><span class="line">        <span class="keyword">if</span> argNum &gt; 0 &amp;&amp; !isString &amp;&amp; !prevString &#123;</span><br><span class="line">            p.buf.WriteByte(<span class="string">' '</span>)</span><br><span class="line">        &#125;</span><br><span class="line">        p.printArg(arg, <span class="string">'v'</span>)</span><br><span class="line">        prevString = isString</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>其中 a …interface{} 表示是个可变的参数，且是接口，又看到了这个特殊的类型，我们继续跳过，假装它是一个普通的数据类型就好。在doPrint中用for argNum, arg := range a循环变脸参数列表，argNum表示参数下表，arg是参数值。</p>
+<p>以上是可变参数函数的定义和使用的基本方式。</p>
+<h5 id="defer-panic-recover"><a href="#defer-panic-recover" class="headerlink" title="defer panic recover"></a>defer panic recover</h5><p>defer是golang另外一个神技，defer后跟的语句，在运行结束的最后才运行，经常用在释放资源、关闭文件等操作。大大减少了代码中到处的错误检查和资源释放。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">func (fs *fileStat) loadFileId() error &#123;</span><br><span class="line">    fs.Lock()</span><br><span class="line">    defer fs.Unlock()  //当函数运行结束时，释放锁</span><br><span class="line">    <span class="keyword">if</span> fs.path == <span class="string">""</span> &#123;</span><br><span class="line">        // already <span class="keyword">done</span></span><br><span class="line">        <span class="built_in">return</span> nil</span><br><span class="line">    &#125;</span><br><span class="line">    var path string</span><br><span class="line">    <span class="keyword">if</span> fs.appendNameToPath &#123;</span><br><span class="line">        path = fs.path + `\` + fs.name</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        path = fs.path</span><br><span class="line">    &#125;</span><br><span class="line">    pathp, err := syscall.UTF16PtrFromString(path)</span><br><span class="line">    <span class="keyword">if</span> err != nil &#123;</span><br><span class="line">        <span class="built_in">return</span> err</span><br><span class="line">    &#125;</span><br><span class="line">    h, err := syscall.CreateFile(pathp, 0, 0, nil, syscall.OPEN_EXISTING, syscall.FILE_FLAG_BACKUP_SEMANTICS, 0)</span><br><span class="line">    <span class="keyword">if</span> err != nil &#123;</span><br><span class="line">        <span class="built_in">return</span> err</span><br><span class="line">    &#125;</span><br><span class="line"> 	defer syscall.CloseHandle(h)  //当函数运行结束时，关闭文件句柄</span><br><span class="line">    var i syscall.ByHandleFileInformation</span><br><span class="line">    err = syscall.GetFileInformationByHandle(h, &amp;i)</span><br><span class="line">    <span class="keyword">if</span> err != nil &#123;</span><br><span class="line">        <span class="built_in">return</span> err</span><br><span class="line">    &#125;</span><br><span class="line">    fs.path = <span class="string">""</span></span><br><span class="line">    fs.vol = i.VolumeSerialNumber</span><br><span class="line">    fs.idxhi = i.FileIndexHigh</span><br><span class="line">    fs.idxlo = i.FileIndexLow</span><br><span class="line">    <span class="built_in">return</span> nil</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>释放资源的语句紧跟在资源获取语句之后，后面无论代码如何运行还是报错等等，defer语句都会在最后执行。其余的错误判断中无需做任何特殊处理。</p>
+<p>panic 实现类似asset的功能，报错直接退出，但是它的报错信息不是特别友好，简单看下它的使用方法。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">func <span class="function"><span class="title">init</span></span>() &#123;</span><br><span class="line">    <span class="keyword">if</span> e := os.Getenv(executable_EnvVar); e != <span class="string">""</span> &#123;</span><br><span class="line">        // first <span class="built_in">chdir</span> to another path</span><br><span class="line">        dir := <span class="string">"/"</span></span><br><span class="line">        <span class="keyword">if</span> runtime.GOOS == <span class="string">"windows"</span> &#123;</span><br><span class="line">            cwd, err := os.Getwd()</span><br><span class="line">            <span class="keyword">if</span> err != nil &#123;</span><br><span class="line">                panic(err)  //报错退出</span><br><span class="line">            &#125;</span><br><span class="line">            dir = filepath.VolumeName(cwd)</span><br><span class="line">        &#125;</span><br><span class="line">        os.Chdir(dir)</span><br><span class="line">        <span class="keyword">if</span> ep, err := os.Executable(); err != nil &#123;</span><br><span class="line">            fmt.Fprint(os.Stderr, <span class="string">"ERROR: "</span>, err)</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            fmt.Fprint(os.Stderr, ep)</span><br><span class="line">        &#125;</span><br><span class="line">        os.Exit(0)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>由于panic报错信息很不友好，我们又有了recover函数，用来恢复现场，恢复错误发生时的堆栈信息，还原错误场景。recover通常和defer一起使用，当程序崩溃的时候触发</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">func TestNewTickerLtZeroDuration(t *testing.T) &#123;</span><br><span class="line">    defer <span class="function"><span class="title">func</span></span>() &#123;</span><br><span class="line">        <span class="keyword">if</span> err := recover(); err == nil &#123;</span><br><span class="line">            t.Errorf(<span class="string">"NewTicker(-1) should have panicked"</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;()</span><br><span class="line">    NewTicker(-1)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>当defer函数发生了panic异常，recover会使程序从panic中恢复，并返回panic value。导致panic异常的函数不会继续运行，但能正常返回。在未发生panic异常时调用recover，会返回nil。<br>以上是golang一些特殊的技能，下一节一起来看看golang最强的goroutines</p>
 
       
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2018/11/26/hello-world/" itemprop="url">
-              
-                <span itemprop="name">Hello World</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2018-11-26T15:22:58+08:00" content="2018-11-26">
-          11-26
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2018/11/26/E大博文链接合集/" itemprop="url">
-              
-                <span itemprop="name">E大博文链接合集</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2018-11-26T00:00:00+08:00" content="2018-11-26">
-          11-26
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2018/11/24/书单备忘录/" itemprop="url">
-              
-                <span itemprop="name">书单备忘录</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2018-11-24T12:47:09+08:00" content="2018-11-24">
-          11-24
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2018/11/21/markdown语法说明/" itemprop="url">
-              
-                <span itemprop="name">markdown语法说明</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2018-11-21T10:07:02+08:00" content="2018-11-21">
-          11-21
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2018/11/20/hexo-使用next主题/" itemprop="url">
-              
-                <span itemprop="name">hexo 配置next主题</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2018-11-20T15:33:48+08:00" content="2018-11-20">
-          11-20
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2018/11/20/hello-blog/" itemprop="url">
-              
-                <span itemprop="name">Hello Blog</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2018-11-20T10:59:11+08:00" content="2018-11-20">
-          11-20
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
     </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/go/" rel="tag"># go</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/11/29/Go系列-三-new和make/" rel="next" title="Go系列(三):new和make">
+                <i class="fa fa-chevron-left"></i> Go系列(三):new和make
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
 
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -663,6 +496,13 @@
 
 
           
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
 
         </div>
         
@@ -901,6 +741,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 
