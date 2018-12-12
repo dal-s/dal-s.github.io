@@ -84,18 +84,18 @@
 
 
 
-<meta name="description" content="主要介绍golang的函数，包括声明方式、多返回值特性、匿名函数等。 函数的声明我们从源码里粘一段声明出来示例。1234func Reverse(data Interface) Interface &amp;#123;    return &amp;amp;reverse&amp;#123;data&amp;#125;&amp;#125;">
+<meta name="description" content="并发编程是golang基因中就支持的特性，而且十分的方便好用，很多其他编程语言中的并发控制和通讯都及其便捷。 关键字gogolang中调用函数1234f() //call f() ;wait for it to returngo f() //go的线程来了（严格说和线程是有区别的，姑且这么叫着），不等f函数的返回 golang的并发编程就是这么简单，本节完。等等…还有一点。">
 <meta name="keywords" content="go">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Go系列(四):函数和方法">
-<meta property="og:url" content="https://dal-s.github.io/2018/12/04/Go系列-四-函数和方法/index.html">
+<meta property="og:title" content="Go系列(五):Goroutines">
+<meta property="og:url" content="https://dal-s.github.io/2018/12/12/Go系列-五-Goroutines/index.html">
 <meta property="og:site_name" content="dal&#39;s blog">
-<meta property="og:description" content="主要介绍golang的函数，包括声明方式、多返回值特性、匿名函数等。 函数的声明我们从源码里粘一段声明出来示例。1234func Reverse(data Interface) Interface &amp;#123;    return &amp;amp;reverse&amp;#123;data&amp;#125;&amp;#125;">
+<meta property="og:description" content="并发编程是golang基因中就支持的特性，而且十分的方便好用，很多其他编程语言中的并发控制和通讯都及其便捷。 关键字gogolang中调用函数1234f() //call f() ;wait for it to returngo f() //go的线程来了（严格说和线程是有区别的，姑且这么叫着），不等f函数的返回 golang的并发编程就是这么简单，本节完。等等…还有一点。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-12-04T12:54:26.679Z">
+<meta property="og:updated_time" content="2018-12-12T13:24:11.002Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Go系列(四):函数和方法">
-<meta name="twitter:description" content="主要介绍golang的函数，包括声明方式、多返回值特性、匿名函数等。 函数的声明我们从源码里粘一段声明出来示例。1234func Reverse(data Interface) Interface &amp;#123;    return &amp;amp;reverse&amp;#123;data&amp;#125;&amp;#125;">
+<meta name="twitter:title" content="Go系列(五):Goroutines">
+<meta name="twitter:description" content="并发编程是golang基因中就支持的特性，而且十分的方便好用，很多其他编程语言中的并发控制和通讯都及其便捷。 关键字gogolang中调用函数1234f() //call f() ;wait for it to returngo f() //go的线程来了（严格说和线程是有区别的，姑且这么叫着），不等f函数的返回 golang的并发编程就是这么简单，本节完。等等…还有一点。">
 
 
 
@@ -125,13 +125,13 @@
 
 
 
-  <link rel="canonical" href="https://dal-s.github.io/2018/12/04/Go系列-四-函数和方法/">
+  <link rel="canonical" href="https://dal-s.github.io/2018/12/12/Go系列-五-Goroutines/">
 
 
 
 
 
-  <title>Go系列(四):函数和方法 | dal's blog</title>
+  <title>Go系列(五):Goroutines | dal's blog</title>
   
 
 
@@ -290,7 +290,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://dal-s.github.io/2018/12/04/Go系列-四-函数和方法/">
+    <link itemprop="mainEntityOfPage" href="https://dal-s.github.io/2018/12/12/Go系列-五-Goroutines/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="DaLi">
@@ -307,7 +307,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Go系列(四):函数和方法</h1>
+          <h1 class="post-title" itemprop="name headline">Go系列(五):Goroutines</h1>
         
 
         <div class="post-meta">
@@ -319,8 +319,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-04T20:54:55+08:00">
-                2018-12-04
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-12T20:54:55+08:00">
+                2018-12-12
               </time>
             
 
@@ -360,8 +360,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/12/04/Go系列-四-函数和方法/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2018/12/04/Go系列-四-函数和方法/" itemprop="commentCount"></span>
+                <a href="/2018/12/12/Go系列-五-Goroutines/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2018/12/12/Go系列-五-Goroutines/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -369,7 +369,7 @@
 
           
           
-             <span id="/2018/12/04/Go系列-四-函数和方法/" class="leancloud_visitors" data-flag-title="Go系列(四):函数和方法">
+             <span id="/2018/12/12/Go系列-五-Goroutines/" class="leancloud_visitors" data-flag-title="Go系列(五):Goroutines">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -400,36 +400,18 @@
       
 
       
-        <p>主要介绍golang的函数，包括声明方式、多返回值特性、匿名函数等。</p>
-<h5 id="函数的声明"><a href="#函数的声明" class="headerlink" title="函数的声明"></a>函数的声明</h5><p>我们从源码里粘一段声明出来示例。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">func Reverse(data Interface) Interface &#123;</span><br><span class="line">    <span class="built_in">return</span> &amp;reverse&#123;data&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<a id="more"></a>
-<p>这是sort函数中的一段反转字符串的代码，其中func是关键字、Reverse是函数名、data 是入参名、括号内的Interface是入参的类型、括号外的Interface是返回值得类型。<br>以上就是构成一段完整的函数声明需要的所有元素。 函数名称大小写的问题，可以参考golang代码规范。</p>
-<p>其中入参和返回值的类型可以是任何合法的数据类型，结构体、数组、slice、map、channel、int、string等等。</p>
-<p>来，接下来我们粘一段方法的声明方式，很相似，所以放在一起看一下，防止概念不清楚。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">// Less returns the opposite of the embedded implementation\<span class="string">'s Less method.</span></span><br><span class="line"><span class="string">func (r reverse) Less(i, j int) bool &#123;</span></span><br><span class="line"><span class="string">    return r.Interface.Less(j, i)</span></span><br><span class="line"><span class="string">&#125;</span></span><br></pre></td></tr></table></figure>
-<p>来一起看Less这个方法的声明，同样有入参、返回值、方法名、与函数唯一不同的地方在于，方法名前有r reverse，这个r的含义是，该方法是被reverse类型的变量调用<br>调用方法如下：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">type</span> reverse struct &#123;</span><br><span class="line">    // This embedded Interface permits Reverse to use the methods of</span><br><span class="line">    // another Interface implementation.</span><br><span class="line">    Interface</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func IsSorted(data Interface) bool &#123;</span><br><span class="line">    n := data.Len()</span><br><span class="line">    <span class="keyword">for</span> i := n - 1; i &gt; 0; i-- &#123;</span><br><span class="line">        <span class="keyword">if</span> data.Less(i, i-1) &#123;</span><br><span class="line">            <span class="built_in">return</span> <span class="literal">false</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">return</span> <span class="literal">true</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>看data.Less，这里data是一种特殊的数据类型–接口，我们在以后再细说。<br>如果这个例子不太形象，我们再来看下一个，出自golang在线教程中的一段代码。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">type</span> rect struct&#123;</span><br><span class="line">    width,height int</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func (r *rect) area() int&#123;</span><br><span class="line">    <span class="built_in">return</span> r.width*r.height</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func <span class="function"><span class="title">t_main</span></span>() &#123;</span><br><span class="line"></span><br><span class="line">    r := rect&#123;width:10,height:5&#125;</span><br><span class="line">    fmt.Println(r.area())</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>rect是一个结构体，r := rect{width:10,height:5} 定义了r是rect结构体，并为他的成员分别赋值10和5,r.area() 调用area这个方法，计算面积。这个例子应该很形象了，<br>如果我定义一个int型数组的变量来调用该方法呢。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">func <span class="function"><span class="title">main</span></span>() &#123;</span><br><span class="line">    r := rect&#123;width:10,height:5&#125;</span><br><span class="line">    a := []int&#123;1,2&#125;</span><br><span class="line">    fmt.Println(a.area())</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment"># command-line-arguments</span></span><br><span class="line">./hi.go:17:18: a.area undefined (<span class="built_in">type</span> []int has no field or method area)</span><br></pre></td></tr></table></figure></p>
-<p>会报undefined的错误，解释为我们没有给int数组定义一个area的方法，所以不能调用。</p>
-<p>方法和函数的区别到这里应该清楚了，下面看几个golang函数的特性。</p>
-<h5 id="多返回值"><a href="#多返回值" class="headerlink" title="多返回值"></a>多返回值</h5><p>多返回值和defer是golang设计的神来之笔，太牛了，golang函数一般会返回两个值，一个是期望得到的返回值，一个是错误信息，我们继续扒源码看一下。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">func (s *SectionReader) Read(p []byte) (n int, err error) &#123;</span><br><span class="line">    <span class="keyword">if</span> s.off &gt;= s.limit &#123;</span><br><span class="line">        <span class="built_in">return</span> 0, EOF</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> max := s.limit - s.off; int64(len(p)) &gt; max &#123;</span><br><span class="line">        p = p[0:max]</span><br><span class="line">    &#125;</span><br><span class="line">    n, err = s.r.ReadAt(p, s.off)</span><br><span class="line">    s.off += int64(n)</span><br><span class="line">    <span class="built_in">return</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>这是io中的一段源码，Read函数返回了两个值，一个是读的字节数n，一个是错误信息err，接收也很简单，就像n, err = s.r.ReadAt(p, s.off) 这个函数一样，一个变量接收字节数，另外一个变量接收错误信息，如果不需要错误信息，也可以用丢弃变量 n, _ = s.r.ReadAt(p, s.off)。</p>
-<p>这个设计妙在既可以又可以的地方，比如写入文件，也会返回两个变量，写入字节数和错误信息，我们完全可以得到已经写入多少字节，以及出现了什么错误。写到这里，我想到断点续传的功能，用golang实现可以说是非常简单了。</p>
-<h5 id="匿名函数"><a href="#匿名函数" class="headerlink" title="匿名函数"></a>匿名函数</h5><p>匿名函数，并不是golang的特权，python的lambda也是类似的功能。来一起看一下</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">func (p *pipe) CloseRead(err error) error &#123;</span><br><span class="line">    <span class="keyword">if</span> err == nil &#123;</span><br><span class="line">        err = ErrClosedPipe</span><br><span class="line">    &#125;</span><br><span class="line">    p.rerr.Store(err)</span><br><span class="line">    p.once.Do(<span class="function"><span class="title">func</span></span>() &#123; close(p.done) &#125;)</span><br><span class="line">    <span class="built_in">return</span> nil</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>上面这段代码中 p.once.Do(func() { close(p.done) }) 包含一段匿名函数，有func关键字，没有函数名称{}包围了实现功能。类似这样的用法就叫匿名函数</p>
-<h5 id="可变参数"><a href="#可变参数" class="headerlink" title="可变参数"></a>可变参数</h5><p>可变参数也不是golang独有的特性，其中C语言中也有类似的实现。不过c语言的可变参数是通过一个系统定义好的数组存储的，golang可以直接自己用循环遍历。最常用恐怕就是fmt中的println函数了，我们来扒一下它的源代码。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">// Fprint formats using the default formats <span class="keyword">for</span> its operands and writes to w.</span><br><span class="line">// Spaces are added between operands when neither is a string.</span><br><span class="line">// It returns the number of bytes written and any write error encountered.</span><br><span class="line">func Fprint(w io.Writer, a ...interface&#123;&#125;) (n int, err error) &#123;</span><br><span class="line">    p := newPrinter()</span><br><span class="line">    p.doPrint(a)</span><br><span class="line">    n, err = w.Write(p.buf)</span><br><span class="line">    p.free()</span><br><span class="line">    <span class="built_in">return</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func (p *pp) doPrint(a []interface&#123;&#125;) &#123;</span><br><span class="line">    prevString := <span class="literal">false</span></span><br><span class="line">    <span class="keyword">for</span> argNum, arg := range a &#123;</span><br><span class="line">        isString := arg != nil &amp;&amp; reflect.TypeOf(arg).Kind() == reflect.String</span><br><span class="line">        // Add a space between two non-string arguments.</span><br><span class="line">        <span class="keyword">if</span> argNum &gt; 0 &amp;&amp; !isString &amp;&amp; !prevString &#123;</span><br><span class="line">            p.buf.WriteByte(<span class="string">' '</span>)</span><br><span class="line">        &#125;</span><br><span class="line">        p.printArg(arg, <span class="string">'v'</span>)</span><br><span class="line">        prevString = isString</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>其中 a …interface{} 表示是个可变的参数，且是接口，又看到了这个特殊的类型，我们继续跳过，假装它是一个普通的数据类型就好。在doPrint中用for argNum, arg := range a循环变脸参数列表，argNum表示参数下表，arg是参数值。</p>
-<p>以上是可变参数函数的定义和使用的基本方式。</p>
-<h5 id="defer-panic-recover"><a href="#defer-panic-recover" class="headerlink" title="defer panic recover"></a>defer panic recover</h5><p>defer是golang另外一个神技，defer后跟的语句，在运行结束的最后才运行，经常用在释放资源、关闭文件等操作。大大减少了代码中到处的错误检查和资源释放。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">func (fs *fileStat) loadFileId() error &#123;</span><br><span class="line">    fs.Lock()</span><br><span class="line">    defer fs.Unlock()  //当函数运行结束时，释放锁</span><br><span class="line">    <span class="keyword">if</span> fs.path == <span class="string">""</span> &#123;</span><br><span class="line">        // already <span class="keyword">done</span></span><br><span class="line">        <span class="built_in">return</span> nil</span><br><span class="line">    &#125;</span><br><span class="line">    var path string</span><br><span class="line">    <span class="keyword">if</span> fs.appendNameToPath &#123;</span><br><span class="line">        path = fs.path + `\` + fs.name</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        path = fs.path</span><br><span class="line">    &#125;</span><br><span class="line">    pathp, err := syscall.UTF16PtrFromString(path)</span><br><span class="line">    <span class="keyword">if</span> err != nil &#123;</span><br><span class="line">        <span class="built_in">return</span> err</span><br><span class="line">    &#125;</span><br><span class="line">    h, err := syscall.CreateFile(pathp, 0, 0, nil, syscall.OPEN_EXISTING, syscall.FILE_FLAG_BACKUP_SEMANTICS, 0)</span><br><span class="line">    <span class="keyword">if</span> err != nil &#123;</span><br><span class="line">        <span class="built_in">return</span> err</span><br><span class="line">    &#125;</span><br><span class="line"> 	defer syscall.CloseHandle(h)  //当函数运行结束时，关闭文件句柄</span><br><span class="line">    var i syscall.ByHandleFileInformation</span><br><span class="line">    err = syscall.GetFileInformationByHandle(h, &amp;i)</span><br><span class="line">    <span class="keyword">if</span> err != nil &#123;</span><br><span class="line">        <span class="built_in">return</span> err</span><br><span class="line">    &#125;</span><br><span class="line">    fs.path = <span class="string">""</span></span><br><span class="line">    fs.vol = i.VolumeSerialNumber</span><br><span class="line">    fs.idxhi = i.FileIndexHigh</span><br><span class="line">    fs.idxlo = i.FileIndexLow</span><br><span class="line">    <span class="built_in">return</span> nil</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>释放资源的语句紧跟在资源获取语句之后，后面无论代码如何运行还是报错等等，defer语句都会在最后执行。其余的错误判断中无需做任何特殊处理。</p>
-<p>panic 实现类似asset的功能，报错直接退出，但是它的报错信息不是特别友好，简单看下它的使用方法。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">func <span class="function"><span class="title">init</span></span>() &#123;</span><br><span class="line">    <span class="keyword">if</span> e := os.Getenv(executable_EnvVar); e != <span class="string">""</span> &#123;</span><br><span class="line">        // first <span class="built_in">chdir</span> to another path</span><br><span class="line">        dir := <span class="string">"/"</span></span><br><span class="line">        <span class="keyword">if</span> runtime.GOOS == <span class="string">"windows"</span> &#123;</span><br><span class="line">            cwd, err := os.Getwd()</span><br><span class="line">            <span class="keyword">if</span> err != nil &#123;</span><br><span class="line">                panic(err)  //报错退出</span><br><span class="line">            &#125;</span><br><span class="line">            dir = filepath.VolumeName(cwd)</span><br><span class="line">        &#125;</span><br><span class="line">        os.Chdir(dir)</span><br><span class="line">        <span class="keyword">if</span> ep, err := os.Executable(); err != nil &#123;</span><br><span class="line">            fmt.Fprint(os.Stderr, <span class="string">"ERROR: "</span>, err)</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            fmt.Fprint(os.Stderr, ep)</span><br><span class="line">        &#125;</span><br><span class="line">        os.Exit(0)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>由于panic报错信息很不友好，我们又有了recover函数，用来恢复现场，恢复错误发生时的堆栈信息，还原错误场景。recover通常和defer一起使用，当程序崩溃的时候触发</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">func TestNewTickerLtZeroDuration(t *testing.T) &#123;</span><br><span class="line">    defer <span class="function"><span class="title">func</span></span>() &#123;</span><br><span class="line">        <span class="keyword">if</span> err := recover(); err == nil &#123;</span><br><span class="line">            t.Errorf(<span class="string">"NewTicker(-1) should have panicked"</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;()</span><br><span class="line">    NewTicker(-1)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>当defer函数发生了panic异常，recover会使程序从panic中恢复，并返回panic value。导致panic异常的函数不会继续运行，但能正常返回。在未发生panic异常时调用recover，会返回nil。<br>以上是golang一些特殊的技能，下一节一起来看看golang最强的goroutines</p>
+        <p>并发编程是golang基因中就支持的特性，而且十分的方便好用，很多其他编程语言中的并发控制和通讯都及其便捷。</p>
+<h5 id="关键字go"><a href="#关键字go" class="headerlink" title="关键字go"></a>关键字go</h5><p>golang中调用函数<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">f() //call f() ;<span class="built_in">wait</span> <span class="keyword">for</span> it to <span class="built_in">return</span></span><br><span class="line"></span><br><span class="line">go f() //go的线程来了（严格说和线程是有区别的，姑且这么叫着），不等f函数的返回</span><br></pre></td></tr></table></figure></p>
+<p>golang的并发编程就是这么简单，本节完。<br>等等…还有一点。<br><a id="more"></a></p>
+<h5 id="多线程之间的通信之channel"><a href="#多线程之间的通信之channel" class="headerlink" title="多线程之间的通信之channel"></a>多线程之间的通信之channel</h5><p>无缓冲channel的每次发送和接收发生在不同的线程中，由此来达到数据同步或通信的目的。<br>来一段实例<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">package main</span><br><span class="line">import <span class="string">"fmt"</span></span><br><span class="line">func <span class="function"><span class="title">main</span></span>() &#123;</span><br><span class="line">    messages := make(chan string)</span><br><span class="line">    go <span class="function"><span class="title">func</span></span>() &#123; messages &lt;- <span class="string">"ping"</span> &#125;()</span><br><span class="line">    msg := &lt;-messages</span><br><span class="line">    fmt.Println(msg)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>上面的一小段示例用到了匿名函数，函数体很简单，向messages中写入一个字符串，然后再main中读取出来。这样主线程和go调起来的线程就进行了一次简单的数据同步动作。</p>
+<p>再来，我们用channel来实现等待线程结束，然后主线程退出的功能。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">go <span class="function"><span class="title">func</span></span>() &#123;</span><br><span class="line">    //<span class="keyword">do</span> something.....</span><br><span class="line">    <span class="keyword">done</span> &lt;- <span class="literal">true</span></span><br><span class="line">&#125;()</span><br><span class="line"></span><br><span class="line">&lt;-<span class="keyword">done</span> //阻塞等待子线程完成</span><br></pre></td></tr></table></figure>
+<p>go调起来的线程可以做很多事情，只要退出前向管道中写入字符串表示工作完成，然后在主线程中读出字符串。</p>
+<p>再来，来一个线程池，同时并发多个子线程完成工作。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">func t_worker_pool(id int, <span class="built_in">jobs</span> &lt;-chan int, results chan&lt;- int) &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> j := range <span class="built_in">jobs</span> &#123;</span><br><span class="line"></span><br><span class="line">        fmt.Println(<span class="string">"worker"</span>, id, <span class="string">"started job"</span>, j)</span><br><span class="line"></span><br><span class="line">        time.Sleep(time.Second)</span><br><span class="line"></span><br><span class="line">        fmt.Println(<span class="string">"worker"</span>, id, <span class="string">"finished job"</span>, j)</span><br><span class="line"></span><br><span class="line">        results &lt;- j * 1</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func <span class="function"><span class="title">t_pool</span></span>() &#123;</span><br><span class="line">    <span class="built_in">jobs</span> := make(chan int, 100)</span><br><span class="line">    results := make(chan int, 100)</span><br><span class="line"></span><br><span class="line">    //thread nums</span><br><span class="line">    <span class="keyword">for</span> w := 1; w &lt;= 7; w++ &#123;</span><br><span class="line">        go t_worker_pool(w, <span class="built_in">jobs</span>, results)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //job nums</span><br><span class="line">    <span class="keyword">for</span> j := 1; j &lt;= 20; j++ &#123;</span><br><span class="line">        <span class="built_in">jobs</span> &lt;- j</span><br><span class="line">    &#125;</span><br><span class="line">    close(<span class="built_in">jobs</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> a := 1; a &lt;= 20; a++ &#123;</span><br><span class="line">        &lt;-results // ensure all <span class="built_in">jobs</span> is finished</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>t_pool 函数中调起7个子线程，完成job，并接受其返回的结果。t_worker_pool 是其具体实现，循环读出jbos队列中的信息，然后将结果写入results。t_pool第二个for循环，作用是分配20个job，分配完成后关闭jobs队列。 然后循环等待所有results都被写入内容。实现了使用7个线程完成20个job的功能。</p>
+<p>多线程之间通信，除了channel还有sync/atomic包实现多线程共享变量，以及 mutex 实现更复杂的多线程之间变量互相访问，这些内容我们下一节再聊。</p>
 
       
     </div>
@@ -460,8 +442,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/11/29/Go系列-三-new和make/" rel="next" title="Go系列(三):new和make">
-                <i class="fa fa-chevron-left"></i> Go系列(三):new和make
+              <a href="/2018/12/04/Go系列-四-函数和方法/" rel="next" title="Go系列(四):函数和方法">
+                <i class="fa fa-chevron-left"></i> Go系列(四):函数和方法
               </a>
             
           </div>
@@ -469,10 +451,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/12/12/Go系列-五-Goroutines/" rel="prev" title="Go系列(五):Goroutines">
-                Go系列(五):Goroutines <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>

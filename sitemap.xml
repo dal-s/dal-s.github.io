@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://dal-s.github.io/2018/12/12/Go%E7%B3%BB%E5%88%97-%E4%BA%94-Goroutines/</loc>
+    
+    <lastmod>2018-12-12T13:24:11.002Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://dal-s.github.io/2018/12/04/Go%E7%B3%BB%E5%88%97-%E5%9B%9B-%E5%87%BD%E6%95%B0%E5%92%8C%E6%96%B9%E6%B3%95/</loc>
     
     <lastmod>2018-12-04T12:54:26.679Z</lastmod>
