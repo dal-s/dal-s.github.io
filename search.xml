@@ -1,8 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[算法漫步之纸牌排序]]></title>
+    <url>%2F2019%2F01%2F08%2F%E7%AE%97%E6%B3%95%E6%BC%AB%E6%AD%A5%E4%B9%8B%E7%BA%B8%E7%89%8C%E6%8E%92%E5%BA%8F%2F</url>
+    <content type="text"><![CDATA[题目为：如何将一副扑克按花色排序，花色顺序是黑桃、红桃、梅花和方片。限制条件是所有牌都是背面朝上排成一列，而你一次只能翻看两张牌或者交换两张牌（保持背面朝上）。 思路一： 只看花色不看数字，数组的值只有四种，假设为 0 1 2 3 分别代表四种花色，然后统计每种花色各多少张，最后在各自的位置上放上对应数量的花色。12345678910111213141516171819202122232425262728293031323334package mainimport ( "fmt")/* 0 黑桃 1 红桃 2 梅花 3 方片*/func poke_sort(array []int) &#123; var kv [4]int for i:=0; i&lt;len(array); i++ &#123; kv[array[i]]++ &#125; fmt.Println(kv) var cn =0 for i :=0 ; i &lt; len(kv) ; i++ &#123; for j:=kv[i]; j&gt;0 ; j-- &#123; array[cn]=i cn++ &#125; &#125; fmt.Println(array)&#125;func main() &#123; var array = []int&#123;0,1,1,0,2,3,2,2,0,1,3,2,3,2,1,0,0,2,1,3,1&#125; poke_sort(array)&#125; 中间用了kv这个临时数组，好像不符合题目要求。]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>算法</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[算法漫步之数组某些元素求和等于目标数字]]></title>
-    <url>%2F2019%2F01%2F03%2F%E7%AE%97%E6%B3%95%E6%BC%AB%E6%AD%A5%E4%B9%8B%E6%95%B0%E7%BB%84%E6%9F%90%E4%BA%9B%E5%85%83%E7%B4%A0%E6%B1%82%E5%92%8C%E7%AD%89%E4%BA%8E%E7%9B%AE%E6%A0%87%E6%95%B0%E5%AD%97%2F</url>
+    <url>%2F2019%2F01%2F03%2F%E7%AE%97%E6%B3%95%E6%BC%AB%E6%AD%A5%E4%B9%8B%E6%95%B0%E7%BB%84%E6%9F%90%E4%BA%9B%E5%85%83%E7%B4%A0%E6%B1%82%E5%92%8C%E7%AD%89%E4%BA%8E%E7%9B%AE%E6%A0%87%E6%95%B0%E5%AD%97%20-%20%E5%89%AF%E6%9C%AC%2F</url>
     <content type="text"><![CDATA[题目为：给定数组元素，求数组中某些元素相加等于某个固定值。 假设数组元素为：{1,2,16,32,64,128,256} 求499 是由哪些元素相加得到的？ 例如：3 是由 1和2相加19 是由1 2 16相加131 是由 1 2 和128 相加 123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384858687888990919293949596979899100101102103104105106107108109package mainimport ( "fmt" "os" "strconv")/* 求入参数字，由数组中那些元素求和可以得到*//* 传入数字和数组以及目标数字，返回由入参和数组各元素相加形成的新数组，如果数组元素与入参相加等于目标数字，则结束递归; 求和后的新数组元素没有目标数字，则用新数组第一个元素与原数组继续求和（原数组元素：原数组长度-新数组长度+1）*/func loopsum( key int, array []int,need int) &#123; l := len(array) if l &lt;1 || end &#123; return &#125; //fmt.Printf("%d+%d\n",key,array) var sum []int for i:=0 ; i&lt; l; i++ &#123; if array[i]+key == need &#123; ret = append(ret,key) ret = append(ret,array[i]) //fmt.Printf("*********key:%d ************\n",ret) end=true &#125; sum = append(sum,array[i]+key) &#125; //fmt.Println(sum) loopsum(sum[0],array[l-len(sum)+1:],need)&#125;/* 查找指定数字在数组中是否存在*/func find (key int,array []int) int &#123; for i:=0;i&lt;len(array);i++ &#123; if key == array[i] &#123; return i &#125; &#125; return -1&#125;var a =[]int&#123;1,2,16,32,64,128,256&#125;var end bool = falsevar ret []int/* 传参为目标数字 1、目标数字为原始数组成员之一，直接返回结果 2、调用loopsum查找到包含目标数字的数组，循环检查数组元素是否为原始数组，如果不是，则该元素继续调用递归函数查找该元素是哪些数字的和 3、直到返回的新数组元素都为原始数组元素成员，则目标数字由这些数字求和而得*/func main() &#123; var i int var need=131 var c=0 var res []int if len(os.Args) &lt; 2 &#123; fmt.Println("error args!") os.Exit(-1) &#125; need,_=strconv.Atoi(os.Args[1]) //要包含到hive的udf中使用，所以没有用flag if find(need,a) != -1 &#123; res=append(res,need) goto end &#125;loopfor: for i=0; i&lt;len(a)-1 ; i++ &#123; //fmt.Printf("need:%d \n",need) loopsum(a[i],a[i+1:],need) //fmt.Printf("ret:%d \n",ret) for j:=0;j&lt;len(ret);j++ &#123; if find(ret[j],a) == -1 &#123; need=ret[j] if i == len(a) -1 &#123; break &#125;else&#123; i=-1 &#125; //fmt.Printf("%d not found\n",ret[j]) &#125;else &#123; c++ //记录返回的新数组中的元素有多少个在原始数组中找到，如果全部找到，结束循环 res=append(res,ret[j]) if c == len(ret) &#123; break loopfor &#125; &#125; &#125; ret=nil end = false c=0 &#125;end: fmt.Println("find:",res)&#125; 以上是最粗暴的逐元素解构，直到所有组成元素都是初始给定的数组元素成员。优化思路，只解构一遍，然后记录解构过程，后续数字先在解构得到的树中查找，如果没有再暴力重新循环。]]></content>
       <categories>
         <category>算法</category>
