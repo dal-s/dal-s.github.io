@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[ARTS]]></title>
+    <url>%2F2019%2F01%2F09%2FARTS%2F</url>
+    <content type="text"><![CDATA[转自左耳听风Algorithm。主要是为了编程训练和学习。每周至少做一个 leetcode 的算法题（先从Easy开始，然后再Medium，最后才Hard）。进行编程训练，如果不训练你看再多的算法书，你依然不会做算法题，看完书后，你需要训练。关于做Leetcode的的优势，你可以看一下我在coolshell上的文章 Leetcode 编程训练 - 酷 壳 - CoolShell。 Review：主要是为了学习英文，如果你的英文不行，你基本上无缘技术高手。所以，需要你阅读并点评至少一篇英文技术文章，我个人最喜欢去的地方是 http://Medium.com 以及各个公司的技术blog，如Netflix的。 Tip：主要是为了总结和归纳你在是常工作中所遇到的知识点。学习至少一个技术技巧。你在工作中遇到的问题，踩过的坑，学习的点滴知识。 Share：主要是为了建立你的影响力，能够输出价值观。分享一篇有观点和思考的技术文章。 转载做备忘录，在coding的道路上坚持下去。]]></content>
+      <categories>
+        <category>ARTS</category>
+      </categories>
+      <tags>
+        <tag>ARTS</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[算法漫步之纸牌排序]]></title>
     <url>%2F2019%2F01%2F08%2F%E7%AE%97%E6%B3%95%E6%BC%AB%E6%AD%A5%E4%B9%8B%E7%BA%B8%E7%89%8C%E6%8E%92%E5%BA%8F%2F</url>
     <content type="text"><![CDATA[题目为：如何将一副扑克按花色排序，花色顺序是黑桃、红桃、梅花和方片。限制条件是所有牌都是背面朝上排成一列，而你一次只能翻看两张牌或者交换两张牌（保持背面朝上）。 思路一： 只看花色不看数字，数组的值只有四种，假设为 0 1 2 3 分别代表四种花色，然后统计每种花色各多少张，最后在各自的位置上放上对应数量的花色。12345678910111213141516171819202122232425262728293031323334package mainimport ( "fmt")/* 0 黑桃 1 红桃 2 梅花 3 方片*/func poke_sort(array []int) &#123; var kv [4]int for i:=0; i&lt;len(array); i++ &#123; kv[array[i]]++ &#125; fmt.Println(kv) var cn =0 for i :=0 ; i &lt; len(kv) ; i++ &#123; for j:=kv[i]; j&gt;0 ; j-- &#123; array[cn]=i cn++ &#125; &#125; fmt.Println(array)&#125;func main() &#123; var array = []int&#123;0,1,1,0,2,3,2,2,0,1,3,2,3,2,1,0,0,2,1,3,1&#125; poke_sort(array)&#125; 中间用了kv这个临时数组，好像不符合题目要求。]]></content>
