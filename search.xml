@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[leetcode之twosum]]></title>
+    <url>%2F2019%2F01%2F09%2Fleetcode%E4%B9%8Btwosum%2F</url>
+    <content type="text"><![CDATA[问题描述： Given an array of integers, return indices of the two numbers such that they add up to a specific target. You may assume that each input would have exactly one solution, and you may not use the same element twice. Example: Given nums = [2, 7, 11, 15], target = 9, Because nums[0] + nums[1] = 2 + 7 = 9,return [0, 1]. 大概意思就是找到目标数字是由那两个数组元素求和得到的，同一个元素不能用两次，也就是说返回值不能是 0,0 或者 1,1 这样的。先上代码，再聊思路。12345678910111213141516171819202122func twoSum(nums []int, target int) []int &#123; i :=0 j :=0 l:=len(nums)loopfor: for i =0;i&lt;l; i++ &#123; firstone := target-nums[i] for j=i+1;j&lt;l;j++ &#123; if firstone == nums[j] &#123; break loopfor &#125; &#125; &#125; if i &gt;=l || j &gt;= l &#123; i = -1 j = -1 &#125; ret := []int&#123;i,j&#125; return ret &#125; 题目好像没讲如果找不到这样的组合返回什么，但是程序中还是要处理一下，就用通用的-1代表没找到吧。 我的思路是这样的，给定目标数字，且由两个不同的数组元素组成，所以用目标数字依次减数组元素，所得结果一定是数组元素，且其下标一定大于被减元素下标。如果循环完，还没找到，那就是没有这样的组合。 需要注意的是 j=i+1 这里，因为题目规定同一元素只能用一次，所以寻找结果要从被减下标的后一位元素开始，而不能从其本身开始。]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>算法</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[ARTS]]></title>
     <url>%2F2019%2F01%2F09%2FARTS%2F</url>
     <content type="text"><![CDATA[转自左耳听风Algorithm。主要是为了编程训练和学习。每周至少做一个 leetcode 的算法题（先从Easy开始，然后再Medium，最后才Hard）。进行编程训练，如果不训练你看再多的算法书，你依然不会做算法题，看完书后，你需要训练。关于做Leetcode的的优势，你可以看一下我在coolshell上的文章 Leetcode 编程训练 - 酷 壳 - CoolShell。 Review：主要是为了学习英文，如果你的英文不行，你基本上无缘技术高手。所以，需要你阅读并点评至少一篇英文技术文章，我个人最喜欢去的地方是 http://Medium.com 以及各个公司的技术blog，如Netflix的。 Tip：主要是为了总结和归纳你在是常工作中所遇到的知识点。学习至少一个技术技巧。你在工作中遇到的问题，踩过的坑，学习的点滴知识。 Share：主要是为了建立你的影响力，能够输出价值观。分享一篇有观点和思考的技术文章。 转载做备忘录，在coding的道路上坚持下去。]]></content>
