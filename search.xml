@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[leetcode之Longest Common Prefix]]></title>
+    <url>%2F2019%2F01%2F15%2Fleetcode%E4%B9%8BLongest%20Common%20Prefix%2F</url>
+    <content type="text"><![CDATA[问题描述： Write a function to find the longest common prefix string amongst an array of strings. If there is no common prefix, return an empty string “”. Example 1: Input: [“flower”,”flow”,”flight”]Output: “fl”Example 2: Input: [“dog”,”racecar”,”car”]Output: “”Explanation: There is no common prefix among the input strings.Note: All given inputs are in lowercase letters a-z 大概意思就是在数组元素中找到最长的共同前缀先上代码，再聊思路。1234567891011121314151617181920212223242526272829303132333435func min(x,y int) int &#123; if x &gt; y &#123; return y &#125; return x&#125;func startWithKey( s string,key string) bool &#123; return key == s[0:len(key)] &#125;func longestCommonPrefix(strs []string) string &#123; var m int var mp = make(map[int] string) if len(strs) &gt; 0 &#123; m = len(strs[0]) mp[len(strs[0])]=strs[0] &#125;else &#123; return "" &#125; for i:=1;i &lt; len(strs); i++ &#123; m = min(len(strs[i]),m) mp[len(strs[i])]=strs[i] &#125; cn := m for i:=0;i&lt;len(strs);i++ &#123; if cn&gt;0 &amp;&amp; !startWithKey(strs[i],mp[m][0:cn]) &#123; cn-- i=-1 //确保i从0开始 &#125; &#125; return mp[m][0:cn]&#125; 先找出元素中最短的字符串同时构造一个map mp 存放数组元素和其对应的长度。然后循环查找各元素是否以最短字符串开头，如果不是，则最短字符串截前N-1位，然后从头再查一遍数组。最好的情况耗时：len(strs)+min(cn,len(strs)) 大家没有共同的前缀或共同前缀就是最短的那个字符串最坏的情况耗时：len(strs)+（N-1)*cn 前N-1个元素的0到cn-1位都相同，最后一个数组元素和大家都不同]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>算法</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[Review之为什么工作]]></title>
     <url>%2F2019%2F01%2F15%2FReview%E4%B9%8B%E4%B8%BA%E4%BB%80%E4%B9%88%E5%B7%A5%E4%BD%9C%2F</url>
     <content type="text"><![CDATA[原文链接在这里，不知道需不需要翻墙。 文章题目是：How A Hacker Helped The Coast Guard Rescue Victims Of Hurricane Harvey，在我的google邮箱中收到了这篇文章的推送，我也是被他的题目吸引进去的，本以为是讲一些酷酷的hacker技术，然而…并不是。 文章的被采访者是一名普通的map开发工程师，像你我一样，普通的程序猿。嗯…也许不一样，他的技术厉害很多。 他干了些什么事呢？其实也没什么，在map上增加一些标识，标记哪里有需要救援的人，哪里可以求助等等，主要就是围绕救援这个主题开发了好多功能。 你看，我们也可以实现的吧。 但是，这个事情让主人公找到了工作的意义，也许这么描述不是很准确。虽然这个工作占用了他很多的时间，但是他还是很愿意做这个事情，因为能帮助到很多人。 触到我的点是，我们常常觉得自己的工作没什么意思，自己学到的那点儿技能也什么都做不了。 其实，这里有两个点，也许我们的技能真的什么都做不了，因为才疏学浅啊，需要继续学些。 另外一个是善于发现，我们大多都是埋头苦干型的，其实我们也许需要抬头看看，发现一些痛点，做一些解决或者服务社会的东西，也许产品很小，小到无法称之为产品，但是那些被帮助的人们，会发自内心的感谢大家。]]></content>
