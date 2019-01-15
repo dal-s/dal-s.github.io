@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[Review之为什么工作]]></title>
+    <url>%2F2019%2F01%2F15%2FReview%E4%B9%8B%E4%B8%BA%E4%BB%80%E4%B9%88%E5%B7%A5%E4%BD%9C%2F</url>
+    <content type="text"><![CDATA[原文链接在这里，不知道需不需要翻墙。 文章题目是：How A Hacker Helped The Coast Guard Rescue Victims Of Hurricane Harvey，在我的google邮箱中收到了这篇文章的推送，我也是被他的题目吸引进去的，本以为是讲一些酷酷的hacker技术，然而…并不是。 文章的被采访者是一名普通的map开发工程师，像你我一样，普通的程序猿。嗯…也许不一样，他的技术厉害很多。 他干了些什么事呢？其实也没什么，在map上增加一些标识，标记哪里有需要救援的人，哪里可以求助等等，主要就是围绕救援这个主题开发了好多功能。 你看，我们也可以实现的吧。 但是，这个事情让主人公找到了工作的意义，也许这么描述不是很准确。虽然这个工作占用了他很多的时间，但是他还是很愿意做这个事情，因为能帮助到很多人。 触到我的点是，我们常常觉得自己的工作没什么意思，自己学到的那点儿技能也什么都做不了。 其实，这里有两个点，也许我们的技能真的什么都做不了，因为才疏学浅啊，需要继续学些。 另外一个是善于发现，我们大多都是埋头苦干型的，其实我们也许需要抬头看看，发现一些痛点，做一些解决或者服务社会的东西，也许产品很小，小到无法称之为产品，但是那些被帮助的人们，会发自内心的感谢大家。]]></content>
+      <categories>
+        <category>ARTS</category>
+      </categories>
+      <tags>
+        <tag>Review</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[leetcode之Roman to Integer]]></title>
     <url>%2F2019%2F01%2F11%2Fleetcode%E4%B9%8BRoman%20to%20Integer%2F</url>
     <content type="text"><![CDATA[问题描述： Roman numerals are represented by seven different symbols: I, V, X, L, C, D and M. Symbol ValueI 1V 5X 10L 50C 100D 500M 1000For example, two is written as II in Roman numeral, just two one’s added together. Twelve is written as, XII, which is simply X + II. The number twenty seven is written as XXVII, which is XX + V + II. Roman numerals are usually written largest to smallest from left to right. However, the numeral for four is not IIII. Instead, the number four is written as IV. Because the one is before the five we subtract it making four. The same principle applies to the number nine, which is written as IX. There are six instances where subtraction is used: I can be placed before V (5) and X (10) to make 4 and 9.X can be placed before L (50) and C (100) to make 40 and 90.C can be placed before D (500) and M (1000) to make 400 and 900.Given a roman numeral, convert it to an integer. Input is guaranteed to be within the range from 1 to 3999.Example 1: Input: “III”Output: 3Example 2: Input: “IV”Output: 4Example 3: Input: “IX”Output: 9Example 4: Input: “LVIII”Output: 58Explanation: L = 50, V= 5, III = 3.Example 5: Input: “MCMXCIV”Output: 1994Explanation: M = 1000, CM = 900, XC = 90 and IV = 4. 将罗马数字映射为中文数字。先上代码，再捋思路。 1234567891011121314151617181920212223242526272829303132func romanToInt(s string) int &#123; roman := map[string] int &#123; "I":1, "V":5, "X":10, "L":50, "C":100, "D":500, "M":1000, "IV":4, "IX":9, "XL":40, "XC":90, "CD":400, "CM":900, &#125; var max,begin,sum int for i :=1 ; i &lt;= len(s) ;&#123; if k,ok :=roman[s[begin:i]];ok &amp;&amp; k &gt; max &#123; max = roman[string(s[begin:i])] i++ &#125; else &#123; begin=i-1 sum += max max =0 &#125; &#125; return sum+max&#125; 将所有罗马字母的基础组合放到map中，其他所有数字均由这些加和而来。然后依次检查给定字符串，如果在map中就记录下来，然后i向前走一步，begin不动，此时被检查字符成为两个字节，map中存在且大于之前的数字，就继续下去，如果不存在，或者不大于之前的数字，begin向前走到i-1的位置，而i不动，被检查字符成为第二组。依次循环直到最后一组。 eg：参数为 MCMXCIV （索引下标从0开始） begin=0 i=1 M 在map中begin=0 i=2 MC 不在map中begin=1 i=2 C 在map中begin=1 i=3 CM 在map中begin=1 i=4 CMX 不在map中begin=3 i=4 X 在map中begin=3 i=5 XC 在map中begin=3 i=6 XCI 不在map中being=5 i=6 I 在map中begin=5 i=7 IV 在map中i&gt;len(s) 结束循环 Tips： 在go中 s[0:1] 表示s的第一个字符，而s[1:1]是空，所以上述代码中，i是字符串的长度且从1开始，begin从0开始，最大为len-1。]]></content>
