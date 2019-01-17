@@ -1,6 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[leetcode之Search Insert Position]]></title>
+    <url>%2F2019%2F01%2F17%2Fleetcode%E4%B9%8BSearch%20Insert%20Position%2F</url>
+    <content type="text"><![CDATA[问题描述： Given a sorted array and a target value, return the index if the target is found. If not, return the index where it would be if it were inserted in order. You may assume no duplicates in the array. Example 1: Input: [1,3,5,6], 5Output: 2Example 2: Input: [1,3,5,6], 2Output: 1Example 3:Input: [1,3,5,6], 7Output: 4Example 4: Input: [1,3,5,6], 0Output: 0 在数组中查找指定数字，如果没有则将数字插入数组，并返回排序后的下标。12345678910111213141516171819202122232425func searchInsert(nums []int, target int) int &#123; end := len(nums)-1 switch &#123; case end &lt; 0 : return 0 case nums[0] &gt;= target : return 0 case nums[end] == target : return end case nums[end] &lt; target : return end+1 &#125; for i:=0;i&lt;end;i++ &#123; if nums[i] == target &#123; return i &#125; if nums[i] &lt; target &amp;&amp; nums[i+1] &gt; target &#123; return i+1 &#125; &#125; return 0 &#125; 我的做法比较傻，先处理边界情况1、数组为空返回02、目标数字小于第一个元素 返回03、目标数字等于数组最后一个元素 返回 数组长度-14、目标数字大于数字最后一个元素 返回 数组长度 以上情况都不符合，说明目标数字一定能插入数组中间，循环查找即可。 这个思路很笨，还有一个更简洁的做法。思路相同，但写法更加简单。]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>算法</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[leetcode之Implement strStr]]></title>
+    <url>%2F2019%2F01%2F17%2Fleetcode%E4%B9%8BImplement%20strStr%2F</url>
+    <content type="text"><![CDATA[问题描述： Implement strStr(). Return the index of the first occurrence of needle in haystack, or -1 if needle is not part of haystack. Example 1: Input: haystack = “hello”, needle = “ll”Output: 2Example 2: Input: haystack = “aaaaa”, needle = “bba”Output: -1Clarification: What should we return when needle is an empty string? This is a great question to ask during an interview. For the purpose of this problem, we will return 0 when needle is an empty string. This is consistent to C’s strstr() and Java’s indexOf(). 在给定的字符串中查找给定字符串，如果找到则返回下标，没找到返回-1，指定字符串为空返回0.1234567891011121314151617181920212223242526272829func strStr(haystack string, needle string) int &#123; l_needle := len(needle) l_haystack := len(haystack) if l_needle == 0 &#123; return 0 &#125; if l_haystack &lt; l_needle &#123; return -1 &#125; startKey :=needle[0] for i :=0;i&lt;l_haystack;i++ &#123; if haystack[i] == startKey &#123; if i+l_needle &gt; l_haystack &#123; return -1 &#125; if haystack[i:i+l_needle] == needle &#123; return i &#125; &#125; &#125; return -1 &#125; 先检查基本条件，空字符串返回0，被查找字符串长度大于给定字符串直接返回-1.然后找被查找的字符串的第一位字母，如果找到，则比较从该位置到needle长度的字符串是否满足。满足返回i，不满足继续查，知道剩余的字符串长度小于被查找字符串，直接返回-1]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>算法</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[leetcode之Remove Duplicates from Sorted Array]]></title>
+    <url>%2F2019%2F01%2F17%2Fleetcode%E4%B9%8BRemove%20Duplicates%20from%20Sorted%20Array%2F</url>
+    <content type="text"><![CDATA[问题描述： Given a sorted array nums, remove the duplicates in-place such that each element appear only once and return the new length. Do not allocate extra space for another array, you must do this by modifying the input array in-place with O(1) extra memory. Example 1: Given nums = [1,1,2], Your function should return length = 2, with the first two elements of nums being 1 and 2 respectively. It doesn’t matter what you leave beyond the returned length.Example 2:Given nums = [0,0,1,1,1,2,2,3,3,4], Your function should return length = 5, with the first five elements of nums being modified to 0, 1, 2, 3, and 4 respectively. It doesn’t matter what values are set beyond the returned length.Clarification: Confused why the returned value is an integer but your answer is an array? Note that the input array is passed in by reference, which means modification to the input array will be known to the caller as well. Internally you can think of this: // nums is passed in by reference. (i.e., without making a copy)int len = removeDuplicates(nums); // any modification to nums in your function would be known by the caller.// using the length returned by your function, it prints the first len elements.for (int i = 0; i &lt; len; i++) { print(nums[i]);} 大概意思就是在给数组去重，但是要求不能开辟新的空间，只能通过原数组实现先上代码，再聊思路。 12345678910111213141516171819202122func removeDuplicates(nums []int) int &#123; nl :=len(nums) if nl == 0 &#123; return nl &#125; cur := 0 for i:=0;i&lt;nl;i++ &#123; if i ==nl-1 &#123; nums[cur]=nums[i] cur++ break &#125; if nums[i] != nums[i+1] &#123; nums[cur]=nums[i] cur++ &#125; &#125; return cur&#125; 通过两个变量移动，实现将数组去重后的元素都赋值到数组的前几位，然后返回不同元素的个数。 附上我看到的比较简洁的代码：12345678910111213func removeDuplicates(nums []int) int &#123; i := 0 for j := 1; j &lt; len(nums); j++ &#123; if nums[j] == nums[i] &#123; continue &#125; i++ nums[i] = nums[j] &#125; return i + 1&#125;]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>算法</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[leetcode之Remove Element]]></title>
+    <url>%2F2019%2F01%2F17%2Fleetcode%E4%B9%8BRemove%20Element%2F</url>
+    <content type="text"><![CDATA[问题描述： Given an array nums and a value val, remove all instances of that value in-place and return the new length. Do not allocate extra space for another array, you must do this by modifying the input array in-place with O(1) extra memory. The order of elements can be changed. It doesn’t matter what you leave beyond the new length. Example 1: Given nums = [3,2,2,3], val = 3, Your function should return length = 2, with the first two elements of nums being 2. It doesn’t matter what you leave beyond the returned length.Example 2:Given nums = [0,1,2,2,3,0,4,2], val = 2, Your function should return length = 5, with the first five elements of nums containing 0, 1, 3, 0, and 4. Note that the order of those five elements can be arbitrary. It doesn’t matter what values are set beyond the returned length.Clarification: Confused why the returned value is an integer but your answer is an array? Note that the input array is passed in by reference, which means modification to the input array will be known to the caller as well. Internally you can think of this: // nums is passed in by reference. (i.e., without making a copy)int len = removeElement(nums, val); // any modification to nums in your function would be known by the caller.// using the length returned by your function, it prints the first len elements.for (int i = 0; i &lt; len; i++) { print(nums[i]);} 移出指定元素后，返回被移除元素后的数组长度12345678910111213func removeElement(nums []int, val int) int &#123; k :=0 for i:=0;i&lt;len(nums);i++ &#123; if nums[i] == val &#123; continue &#125; nums[k]=nums[i] k++ &#125; return k &#125;&#125; 通过两个变量移动，实现将除val后的其他元素放在数组前面。同时返回k的值，也就是移除元素后数组的长度。]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>算法</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[ARTS合集链接]]></title>
     <url>%2F2019%2F01%2F17%2FARTS%E5%90%88%E9%9B%86%E9%93%BE%E6%8E%A5%2F</url>
     <content type="text"><![CDATA[2019年第三周 Algorithm:找出最长的共同前缀shell的四道算法Review:工作的意义Tip:如何维护别人的代码Share:Notes to Myself on Software Engineering]]></content>
