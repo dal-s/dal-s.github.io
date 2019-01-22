@@ -290,7 +290,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://dal-s.github.io/2018/11/29/Go系列-三-new和make/">
+    <link itemprop="mainEntityOfPage" href="https://dal-s.github.io/2019/01/15/leetcode之shell/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="DaLi">
@@ -309,7 +309,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/11/29/Go系列-三-new和make/" itemprop="url">Go系列(三):new和make</a></h1>
+                <a class="post-title-link" href="/2019/01/15/leetcode之shell/" itemprop="url">leetcode之shell</a></h1>
         
 
         <div class="post-meta">
@@ -321,8 +321,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-29T15:29:55+08:00">
-                2018-11-29
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-15T20:40:55+08:00">
+                2019-01-15
               </time>
             
 
@@ -344,8 +344,8 @@
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/golang/" itemprop="url" rel="index">
-                    <span itemprop="name">golang</span>
+                  <a href="/categories/算法/" itemprop="url" rel="index">
+                    <span itemprop="name">算法</span>
                   </a>
                 </span>
 
@@ -362,8 +362,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/11/29/Go系列-三-new和make/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2018/11/29/Go系列-三-new和make/" itemprop="commentCount"></span>
+                <a href="/2019/01/15/leetcode之shell/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/01/15/leetcode之shell/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -371,7 +371,7 @@
 
           
           
-             <span id="/2018/11/29/Go系列-三-new和make/" class="leancloud_visitors" data-flag-title="Go系列(三):new和make">
+             <span id="/2019/01/15/leetcode之shell/" class="leancloud_visitors" data-flag-title="leetcode之shell">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -403,22 +403,26 @@
 
       
         
-          <p>make 和 new 都用作初始化变量，区别有以下几点。</p>
-<p>原型分别如下：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">// The new built-in <span class="keyword">function</span> allocates memory. The first argument is a <span class="built_in">type</span>,</span><br><span class="line">// not a value, and the value returned is a pointer to a newly</span><br><span class="line">// allocated zero value of that <span class="built_in">type</span>.</span><br><span class="line">func new(Type) *Type</span><br><span class="line"></span><br><span class="line">// The make built-in <span class="keyword">function</span> allocates and initializes an object of <span class="built_in">type</span></span><br><span class="line">// slice, map, or chan (only). Like new, the first argument is a <span class="built_in">type</span>, not a</span><br><span class="line">// value. Unlike new, make<span class="string">'s return type is the same as the type of its</span></span><br><span class="line"><span class="string">// argument, not a pointer to it. The specification of the result depends on</span></span><br><span class="line"><span class="string">// the type:</span></span><br><span class="line"><span class="string">//  Slice: The size specifies the length. The capacity of the slice is</span></span><br><span class="line"><span class="string">//  equal to its length. A second integer argument may be provided to</span></span><br><span class="line"><span class="string">//  specify a different capacity; it must be no smaller than the</span></span><br><span class="line"><span class="string">//  length. For example, make([]int, 0, 10) allocates an underlying array</span></span><br><span class="line"><span class="string">//  of size 10 and returns a slice of length 0 and capacity 10 that is</span></span><br><span class="line"><span class="string">//  backed by this underlying array.</span></span><br><span class="line"><span class="string">//  Map: An empty map is allocated with enough space to hold the</span></span><br><span class="line"><span class="string">//  specified number of elements. The size may be omitted, in which case</span></span><br><span class="line"><span class="string">//  a small starting size is allocated.</span></span><br><span class="line"><span class="string">//  Channel: The channel'</span>s buffer is initialized with the specified</span><br><span class="line">//  buffer capacity. If zero, or the size is omitted, the channel is</span><br><span class="line">//  unbuffered.</span><br><span class="line">func make(t Type, size ...IntegerType) Type</span><br></pre></td></tr></table></figure></p>
-<p>主要区别：</p>
-<ul>
-<li>make将变量值初始化为0，而new只是为变量分配了一块内存，返回指向分配地址的指针； </li>
-<li>使用范围不同，make用在slice、channel、map（slice、channel、map 只有在初始化后，才可以使用），new可以给所有类型分配空间
+          <p>leetcode上关于shell的题目一共才4道，估计是大家用的比较少吧。莫名感到为自己感到凄凉，最擅长的玩意儿没什么用。</p>
+<p>一共才4道题目，索性就放在一篇文章写吧。<br>题目一：</p>
+<p>Given a text file file.txt that contains list of phone numbers (one per line), write a one liner bash script to print all valid phone numbers.</p>
+<p>You may assume that a valid phone number must appear in one of the following two formats: (xxx) xxx-xxxx or xxx-xxx-xxxx. (x means a digit)</p>
+<p>You may also assume each line in the text file must not contain leading or trailing white spaces.</p>
+<p>Example:</p>
+<p>Assume that file.txt has the following content:</p>
+<p>987-123-4567<br>123 456 7890<br>(123) 456-7890<br>Your script should output the following valid phone numbers:</p>
+<p>987-123-4567<br>(123) 456-7890</p>
+<p>考察正则，匹配指定格式的字符串，考虑周全一点没什么难度。<br>先上代码，再聊思路。<br>
           <!--noindex-->
           <div class="text-center">
-            <a class="btn btn-link" href="/2018/11/29/Go系列-三-new和make/#more" rel="contents">
+            <a class="btn btn-link" href="/2019/01/15/leetcode之shell/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
           <!--/noindex-->
         
       
-    </li></ul></div>
+    </p></div>
     
     
     
@@ -462,7 +466,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://dal-s.github.io/2018/11/27/Go系列-二-数组 map slice/">
+    <link itemprop="mainEntityOfPage" href="https://dal-s.github.io/2019/01/15/leetcode之Longest Common Prefix/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="DaLi">
@@ -481,7 +485,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/11/27/Go系列-二-数组 map slice/" itemprop="url">Go系列(二):数组 map slice</a></h1>
+                <a class="post-title-link" href="/2019/01/15/leetcode之Longest Common Prefix/" itemprop="url">leetcode之Longest Common Prefix</a></h1>
         
 
         <div class="post-meta">
@@ -493,8 +497,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-27T15:29:55+08:00">
-                2018-11-27
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-15T16:36:55+08:00">
+                2019-01-15
               </time>
             
 
@@ -516,8 +520,8 @@
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/golang/" itemprop="url" rel="index">
-                    <span itemprop="name">golang</span>
+                  <a href="/categories/算法/" itemprop="url" rel="index">
+                    <span itemprop="name">算法</span>
                   </a>
                 </span>
 
@@ -534,8 +538,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/11/27/Go系列-二-数组 map slice/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2018/11/27/Go系列-二-数组 map slice/" itemprop="commentCount"></span>
+                <a href="/2019/01/15/leetcode之Longest Common Prefix/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/01/15/leetcode之Longest Common Prefix/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -543,7 +547,7 @@
 
           
           
-             <span id="/2018/11/27/Go系列-二-数组 map slice/" class="leancloud_visitors" data-flag-title="Go系列(二):数组 map slice">
+             <span id="/2019/01/15/leetcode之Longest Common Prefix/" class="leancloud_visitors" data-flag-title="leetcode之Longest Common Prefix">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -575,26 +579,24 @@
 
       
         
-          <p>golang 中数组、slice、map都属于collection类型，大概就是分出一片空间存储一堆的数据。</p>
-<p>他们的主要区别：</p>
-<ul>
-<li>数组有长度，slice没有，</li>
-<li>map是无序的，数组和slice有序</li>
-<li>数组和slice下标数数字，map的key是任意等值性类型</li>
-</ul>
-<p>数组的三种声明方式:<br><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> i [<span class="number">10</span>]<span class="keyword">int</span></span><br><span class="line">i[<span class="number">0</span>]=<span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> i=[<span class="number">10</span>]<span class="keyword">int</span></span><br><span class="line"></span><br><span class="line">i:=[<span class="number">10</span>]<span class="keyword">int</span></span><br></pre></td></tr></table></figure></p>
-<blockquote>
-<p>数组是值，数组间复制相当于复制了一个数组副本<br>数组作为参数传入函数，函数收到的也是数组的副本，而非指针（地址）<br>数组的大小是类型声明的一部分，不可或缺<br>
+          <p>问题描述：</p>
+<p>Write a function to find the longest common prefix string amongst an array of strings.</p>
+<p>If there is no common prefix, return an empty string “”.</p>
+<p>Example 1:</p>
+<p>Input: [“flower”,”flow”,”flight”]<br>Output: “fl”<br>Example 2:</p>
+<p>Input: [“dog”,”racecar”,”car”]<br>Output: “”<br>Explanation: There is no common prefix among the input strings.<br>Note:</p>
+<p>All given inputs are in lowercase letters a-z</p>
+<p>大概意思就是在数组元素中找到最长的共同前缀<br>先上代码，再聊思路。<br>
           <!--noindex-->
           <div class="text-center">
-            <a class="btn btn-link" href="/2018/11/27/Go系列-二-数组 map slice/#more" rel="contents">
+            <a class="btn btn-link" href="/2019/01/15/leetcode之Longest Common Prefix/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
           <!--/noindex-->
         
       
-    </p></blockquote></div>
+    </p></div>
     
     
     
@@ -638,7 +640,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://dal-s.github.io/2018/11/26/Go系列-一-变量声明/">
+    <link itemprop="mainEntityOfPage" href="https://dal-s.github.io/2019/01/15/Review之为什么工作/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="DaLi">
@@ -657,7 +659,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/11/26/Go系列-一-变量声明/" itemprop="url">Go系列(一):变量声明</a></h1>
+                <a class="post-title-link" href="/2019/01/15/Review之为什么工作/" itemprop="url">Review之为什么工作</a></h1>
         
 
         <div class="post-meta">
@@ -669,8 +671,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-26T15:29:55+08:00">
-                2018-11-26
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-15T09:10:55+08:00">
+                2019-01-15
               </time>
             
 
@@ -692,8 +694,8 @@
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/golang/" itemprop="url" rel="index">
-                    <span itemprop="name">golang</span>
+                  <a href="/categories/ARTS/" itemprop="url" rel="index">
+                    <span itemprop="name">ARTS</span>
                   </a>
                 </span>
 
@@ -710,8 +712,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/11/26/Go系列-一-变量声明/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2018/11/26/Go系列-一-变量声明/" itemprop="commentCount"></span>
+                <a href="/2019/01/15/Review之为什么工作/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/01/15/Review之为什么工作/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -719,7 +721,7 @@
 
           
           
-             <span id="/2018/11/26/Go系列-一-变量声明/" class="leancloud_visitors" data-flag-title="Go系列(一):变量声明">
+             <span id="/2019/01/15/Review之为什么工作/" class="leancloud_visitors" data-flag-title="Review之为什么工作">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -751,18 +753,1036 @@
 
       
         
-          <p>golang 整体看起来像是like c风格，常用变量类型有</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">int string array map slice 等</span><br></pre></td></tr></table></figure>
-<p>变量声明方式有以下三种：</p>
-<ul>
-<li>1、var 变量名 变量类型<br>  (可用作全局变量声明)</li>
-<li>2、var 变量名 = value，自行判定变量类型</li>
-<li>3、省略var  变量名:=value，自行判定变量类型，只能用于函数内部，不可用作全局变量声明</li>
-</ul>
-<p>示例:<br><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> i_int <span class="keyword">int</span> </span><br><span class="line">i_int=<span class="number">3</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> i_int=<span class="number">3</span></span><br><span class="line"></span><br><span class="line">i_int:=<span class="number">3</span></span><br></pre></td></tr></table></figure></p>
+          
+            <p>原文链接在<a href="https://medium.com/fast-company/how-a-hacker-helped-the-coast-guard-rescue-victims-of-hurricane-harvey-fc395280fa12" target="_blank" rel="noopener">这里</a>，不知道需不需要翻墙。</p>
+<p>文章题目是：How A Hacker Helped The Coast Guard Rescue Victims Of Hurricane Harvey，在我的google邮箱中收到了这篇文章的推送，我也是被他的题目吸引进去的，本以为是讲一些酷酷的hacker技术，然而…并不是。</p>
+<p>文章的被采访者是一名普通的map开发工程师，像你我一样，普通的程序猿。嗯…也许不一样，他的技术厉害很多。</p>
+<p>他干了些什么事呢？其实也没什么，在map上增加一些标识，标记哪里有需要救援的人，哪里可以求助等等，主要就是围绕救援这个主题开发了好多功能。</p>
+<p>你看，我们也可以实现的吧。</p>
+<p>但是，这个事情让主人公找到了工作的意义，也许这么描述不是很准确。虽然这个工作占用了他很多的时间，但是他还是很愿意做这个事情，因为能帮助到很多人。</p>
+<p>触到我的点是，我们常常觉得自己的工作没什么意思，自己学到的那点儿技能也什么都做不了。</p>
+<p>其实，这里有两个点，也许我们的技能真的什么都做不了，因为才疏学浅啊，需要继续学些。</p>
+<p>另外一个是善于发现，我们大多都是埋头苦干型的，其实我们也许需要抬头看看，发现一些痛点，做一些解决或者服务社会的东西，也许产品很小，小到无法称之为产品，但是那些被帮助的人们，会发自内心的感谢大家。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://dal-s.github.io/2019/01/11/leetcode之Roman to Integer/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="DaLi">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="dal's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/01/11/leetcode之Roman to Integer/" itemprop="url">leetcode之Roman to Integer</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-11T21:27:55+08:00">
+                2019-01-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/算法/" itemprop="url" rel="index">
+                    <span itemprop="name">算法</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/01/11/leetcode之Roman to Integer/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/01/11/leetcode之Roman to Integer/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2019/01/11/leetcode之Roman to Integer/" class="leancloud_visitors" data-flag-title="leetcode之Roman to Integer">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>问题描述：</p>
+<p>Roman numerals are represented by seven different symbols: I, V, X, L, C, D and M.</p>
+<p>Symbol       Value<br>I             1<br>V             5<br>X             10<br>L             50<br>C             100<br>D             500<br>M             1000<br>For example, two is written as II in Roman numeral, just two one’s added together. Twelve is written as, XII, which is simply X + II. The number twenty seven is written as XXVII, which is XX + V + II.</p>
+<p>Roman numerals are usually written largest to smallest from left to right. However, the numeral for four is not IIII. Instead, the number four is written as IV. Because the one is before the five we subtract it making four. The same principle applies to the number nine, which is written as IX. There are six instances where subtraction is used:</p>
+<p>I can be placed before V (5) and X (10) to make 4 and 9.<br>X can be placed before L (50) and C (100) to make 40 and 90.<br>C can be placed before D (500) and M (1000) to make 400 and 900.<br>Given a roman numeral, convert it to an integer. Input is guaranteed to be within the range from 1 to 3999.<br>
           <!--noindex-->
           <div class="text-center">
-            <a class="btn btn-link" href="/2018/11/26/Go系列-一-变量声明/#more" rel="contents">
+            <a class="btn btn-link" href="/2019/01/11/leetcode之Roman to Integer/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </p></div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://dal-s.github.io/2019/01/10/leetcode之Reverse Integer/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="DaLi">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="dal's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/01/10/leetcode之Reverse Integer/" itemprop="url">leetcode之Reverse Integer</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-10T10:10:55+08:00">
+                2019-01-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/算法/" itemprop="url" rel="index">
+                    <span itemprop="name">算法</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/01/10/leetcode之Reverse Integer/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/01/10/leetcode之Reverse Integer/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2019/01/10/leetcode之Reverse Integer/" class="leancloud_visitors" data-flag-title="leetcode之Reverse Integer">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>问题描述：</p>
+<p>Given a 32-bit signed integer, reverse digits of an integer.</p>
+<p>Example 1:</p>
+<p>Input: 123<br>Output: 321<br>Example 2:</p>
+<p>Input: -123<br>Output: -321<br>Example 3:</p>
+<p>Input: 120<br>Output: 21<br>Note:<br>Assume we are dealing with an environment which could only store integers within the 32-bit signed integer range: [−231,  231 − 1]. For the purpose of this problem, assume that your function returns 0 when the reversed integer overflows.</p>
+<p>将给定数字反转，注意正负号，如果超出int32则返回0.<br>先上代码，再捋思路。<br>
+          <!--noindex-->
+          <div class="text-center">
+            <a class="btn btn-link" href="/2019/01/10/leetcode之Reverse Integer/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </p></div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://dal-s.github.io/2019/01/09/leetcode之twosum/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="DaLi">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="dal's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/01/09/leetcode之twosum/" itemprop="url">leetcode之twosum</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-09T10:40:55+08:00">
+                2019-01-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/算法/" itemprop="url" rel="index">
+                    <span itemprop="name">算法</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/01/09/leetcode之twosum/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/01/09/leetcode之twosum/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2019/01/09/leetcode之twosum/" class="leancloud_visitors" data-flag-title="leetcode之twosum">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>问题描述：</p>
+<p>Given an array of integers, return indices of the two numbers such that they add up to a specific target.</p>
+<p>You may assume that each input would have exactly one solution, and you may not use the same element twice.</p>
+<p>Example:</p>
+<p>Given nums = [2, 7, 11, 15], target = 9,</p>
+<p>Because nums[0] + nums[1] = 2 + 7 = 9,<br>return [0, 1].</p>
+<p>大概意思就是找到目标数字是由那两个数组元素求和得到的，同一个元素不能用两次，也就是说返回值不能是 0,0 或者 1,1 这样的。<br>先上代码，再聊思路。<br>
+          <!--noindex-->
+          <div class="text-center">
+            <a class="btn btn-link" href="/2019/01/09/leetcode之twosum/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </p></div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://dal-s.github.io/2019/01/09/ARTS/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="DaLi">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="dal's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/01/09/ARTS/" itemprop="url">ARTS</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-09T10:06:55+08:00">
+                2019-01-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/ARTS/" itemprop="url" rel="index">
+                    <span itemprop="name">ARTS</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/01/09/ARTS/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/01/09/ARTS/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2019/01/09/ARTS/" class="leancloud_visitors" data-flag-title="ARTS">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>转自<a href="https://www.zhihu.com/question/301150832" target="_blank" rel="noopener">左耳听风</a><br>Algorithm。主要是为了编程训练和学习。每周至少做一个 leetcode 的算法题（先从Easy开始，然后再Medium，最后才Hard）。进行编程训练，如果不训练你看再多的算法书，你依然不会做算法题，看完书后，你需要训练。关于做Leetcode的的优势，你可以看一下我在coolshell上的文章 Leetcode 编程训练 - 酷 壳 - CoolShell。</p>
+<p>Review：主要是为了学习英文，如果你的英文不行，你基本上无缘技术高手。所以，需要你阅读并点评至少一篇英文技术文章，我个人最喜欢去的地方是 <a href="http://Medium.com" target="_blank" rel="noopener">http://Medium.com</a> 以及各个公司的技术blog，如Netflix的。</p>
+<p>Tip：主要是为了总结和归纳你在是常工作中所遇到的知识点。学习至少一个技术技巧。你在工作中遇到的问题，踩过的坑，学习的点滴知识。</p>
+<p>Share：主要是为了建立你的影响力，能够输出价值观。分享一篇有观点和思考的技术文章。</p>
+<p>转载做备忘录，在coding的道路上坚持下去。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://dal-s.github.io/2019/01/08/算法漫步之纸牌排序/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="DaLi">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="dal's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/01/08/算法漫步之纸牌排序/" itemprop="url">算法漫步之纸牌排序</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-08T20:49:55+08:00">
+                2019-01-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/算法/" itemprop="url" rel="index">
+                    <span itemprop="name">算法</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/01/08/算法漫步之纸牌排序/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/01/08/算法漫步之纸牌排序/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2019/01/08/算法漫步之纸牌排序/" class="leancloud_visitors" data-flag-title="算法漫步之纸牌排序">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>题目为：如何将一副扑克按花色排序，花色顺序是黑桃、红桃、梅花和方片。限制条件是所有牌都是背面朝上排成一列，而你一次只能翻看两张牌或者交换两张牌（保持背面朝上）。</p>
+<p>思路一：<br>    只看花色不看数字，数组的值只有四种，假设为 0 1 2 3 分别代表四种花色，然后统计每种花色各多少张，最后在各自的位置上放上对应数量的花色。<br>
+          <!--noindex-->
+          <div class="text-center">
+            <a class="btn btn-link" href="/2019/01/08/算法漫步之纸牌排序/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </p></div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://dal-s.github.io/2019/01/03/算法漫步之数组某些元素求和等于目标数字 - 副本/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="DaLi">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="dal's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/01/03/算法漫步之数组某些元素求和等于目标数字 - 副本/" itemprop="url">算法漫步之数组某些元素求和等于目标数字</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-03T16:09:55+08:00">
+                2019-01-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/算法/" itemprop="url" rel="index">
+                    <span itemprop="name">算法</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/01/03/算法漫步之数组某些元素求和等于目标数字 - 副本/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/01/03/算法漫步之数组某些元素求和等于目标数字 - 副本/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2019/01/03/算法漫步之数组某些元素求和等于目标数字 - 副本/" class="leancloud_visitors" data-flag-title="算法漫步之数组某些元素求和等于目标数字">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>题目为：给定数组元素，求数组中某些元素相加等于某个固定值。</p>
+<p>假设数组元素为：{1,2,16,32,64,128,256}</p>
+<p>求499 是由哪些元素相加得到的？</p>
+<p>例如：<br>3 是由 1和2相加<br>19 是由1 2 16相加<br>131 是由 1 2 和128 相加</p>
+          <!--noindex-->
+          <div class="text-center">
+            <a class="btn btn-link" href="/2019/01/03/算法漫步之数组某些元素求和等于目标数字 - 副本/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -813,7 +1833,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://dal-s.github.io/2018/11/26/hello-world/">
+    <link itemprop="mainEntityOfPage" href="https://dal-s.github.io/2018/12/19/算法漫步-二分法/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="DaLi">
@@ -832,7 +1852,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/11/26/hello-world/" itemprop="url">Hello World</a></h1>
+                <a class="post-title-link" href="/2018/12/19/算法漫步-二分法/" itemprop="url">算法漫步之二分法</a></h1>
         
 
         <div class="post-meta">
@@ -844,157 +1864,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-26T15:22:58+08:00">
-                2018-11-26
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2018/11/26/hello-world/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2018/11/26/hello-world/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-             <span id="/2018/11/26/hello-world/" class="leancloud_visitors" data-flag-title="Hello World">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数&#58;</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://dal-s.github.io/2018/11/26/E大博文链接合集/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="DaLi">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="dal's blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/11/26/E大博文链接合集/" itemprop="url">E大博文链接合集</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-26T00:00:00+08:00">
-                2018-11-26
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-19T11:02:55+08:00">
+                2018-12-19
               </time>
             
 
@@ -1016,8 +1887,8 @@
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/E大博文/" itemprop="url" rel="index">
-                    <span itemprop="name">E大博文</span>
+                  <a href="/categories/算法/" itemprop="url" rel="index">
+                    <span itemprop="name">算法</span>
                   </a>
                 </span>
 
@@ -1034,8 +1905,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/11/26/E大博文链接合集/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2018/11/26/E大博文链接合集/" itemprop="commentCount"></span>
+                <a href="/2018/12/19/算法漫步-二分法/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2018/12/19/算法漫步-二分法/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -1043,7 +1914,7 @@
 
           
           
-             <span id="/2018/11/26/E大博文链接合集/" class="leancloud_visitors" data-flag-title="E大博文链接合集">
+             <span id="/2018/12/19/算法漫步-二分法/" class="leancloud_visitors" data-flag-title="算法漫步之二分法">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -1075,659 +1946,19 @@
 
       
         
-          <p><a href="http://subbloggaoyam32.lofter.com/post/dff5_efcbc007" target="_blank" rel="noopener">2009年北京市职工年平均工资为48444元</a></p>
-<hr>
-<p><a href="http://subbloggaoyam32.lofter.com/post/dff5_efcbc11b" target="_blank" rel="noopener">再谈可转债</a></p>
-<hr>
-<p><a href="http://subbloggaoyam32.lofter.com/post/dff5_efcbc142" target="_blank" rel="noopener">黄金ETF也将是未来ETF计划配置的一份子</a></p>
-<hr>
-<p><a href="http://subbloggaoyam32.lofter.com/post/dff5_efcbbff2" target="_blank" rel="noopener">倒计时：921天</a></p>
-<hr>
-<p><a href="http://subbloggaoyam32.lofter.com/post/dff5_efcbbf3a" target="_blank" rel="noopener">你敢在舒服点的地方睡吗</a></p>
-<hr>
-<p><a href="http://subbloggaoyam32.lofter.com/post/dff5_efcbc08c" target="_blank" rel="noopener">我们一起追火车</a></p>
-<hr>
+          <p>开始磨<a href="https://item.jd.com/11098789.html" target="_blank" rel="noopener">算法</a>这本书，本书使用java作为讲解语言，因此准备对各类算法都使用golang来实现对应的功能。除了后面的搜索图论等算法，前面的算法应该实现起来都问题不大，亦步亦趋看看能做到什么地步吧。</p>
+<p>今天前重现书中的开胃菜-二分法查找。原java代码不在搬到这里，有兴趣的朋友可以去书中提供的网址下载。<a href="https://algs4.cs.princeton.edu/home/" target="_blank" rel="noopener">点击这里</a></p>
+<p>好了，我们开始，先来看看正经的字符串查找算法，如何用golang实现。<br>
           <!--noindex-->
           <div class="text-center">
-            <a class="btn btn-link" href="/2018/11/26/E大博文链接合集/#more" rel="contents">
+            <a class="btn btn-link" href="/2018/12/19/算法漫步-二分法/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
           <!--/noindex-->
         
       
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://dal-s.github.io/2018/11/24/书单备忘录/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="DaLi">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="dal's blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/11/24/书单备忘录/" itemprop="url">书单备忘录</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-24T12:47:09+08:00">
-                2018-11-24
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/书单/" itemprop="url" rel="index">
-                    <span itemprop="name">书单</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2018/11/24/书单备忘录/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2018/11/24/书单备忘录/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-             <span id="/2018/11/24/书单备忘录/" class="leancloud_visitors" data-flag-title="书单备忘录">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数&#58;</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h4 id="已读清单："><a href="#已读清单：" class="headerlink" title="已读清单："></a>已读清单：</h4><blockquote>
-<blockquote>
-</blockquote>
-<p><strong>缠中说禅</strong><br><strong>天才在左，疯子在右：精神病人采访实录</strong><br><strong>浪潮之巅：各大科技公司历史简述</strong><br>大癫狂：群体性狂热与泡沫经济，人性从未改变<br><strong>查理·芒格的智慧：投资的格栅理论（原书第2版）</strong><br>查理·芒格的原则<br>彼得·林奇的成功投资（珍藏版） (华章经典·金融投资)<br><strong>投资者的未来</strong>
-          <!--noindex-->
-          <div class="text-center">
-            <a class="btn btn-link" href="/2018/11/24/书单备忘录/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </p></blockquote></div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://dal-s.github.io/2018/11/21/markdown语法说明/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="DaLi">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="dal's blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/11/21/markdown语法说明/" itemprop="url">markdown语法说明</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-21T10:07:02+08:00">
-                2018-11-21
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/技术/" itemprop="url" rel="index">
-                    <span itemprop="name">技术</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2018/11/21/markdown语法说明/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2018/11/21/markdown语法说明/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-             <span id="/2018/11/21/markdown语法说明/" class="leancloud_visitors" data-flag-title="markdown语法说明">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数&#58;</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p><span id="jump"></span><br>你能看到这篇文章，说明你基本已经知道markdown是什么了，所以我们直奔主题。</p>
-<p>markdown的基本语法非常简单，分为： 标题，段落，区块引用，代码区块，强调，列表，分割线等。</p>
-<h5 id="No1-标题用-和-标记一级和二级标题，效果如下"><a href="#No1-标题用-和-标记一级和二级标题，效果如下" class="headerlink" title="No1.标题用 = 和 - 标记一级和二级标题，效果如下"></a>No1.标题用 = 和 - 标记一级和二级标题，效果如下</h5><h1 id="一级标题（在这串文字下方加-）"><a href="#一级标题（在这串文字下方加-）" class="headerlink" title="一级标题（在这串文字下方加=====）"></a>一级标题（在这串文字下方加=====）</h1><h2 id="二级标题（在这串文字下方加—–）"><a href="#二级标题（在这串文字下方加—–）" class="headerlink" title="二级标题（在这串文字下方加—–）"></a>二级标题（在这串文字下方加—–）</h2>
-          <!--noindex-->
-          <div class="text-center">
-            <a class="btn btn-link" href="/2018/11/21/markdown语法说明/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://dal-s.github.io/2018/11/20/hexo-使用next主题/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="DaLi">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="dal's blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/11/20/hexo-使用next主题/" itemprop="url">hexo 配置next主题</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-20T15:33:48+08:00">
-                2018-11-20
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2018/11/20/hexo-使用next主题/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2018/11/20/hexo-使用next主题/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-             <span id="/2018/11/20/hexo-使用next主题/" class="leancloud_visitors" data-flag-title="hexo 配置next主题">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数&#58;</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h3 id="配置next主题"><a href="#配置next主题" class="headerlink" title="配置next主题"></a>配置next主题</h3><p> 1、进入blog目录<br> 2、首先通过git下载next主题</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/iissnan/hexo-theme-next themes/next</span><br></pre></td></tr></table></figure>
-          <!--noindex-->
-          <div class="text-center">
-            <a class="btn btn-link" href="/2018/11/20/hexo-使用next主题/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://dal-s.github.io/2018/11/20/hello-blog/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="DaLi">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="dal's blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/11/20/hello-blog/" itemprop="url">Hello Blog</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-20T10:59:11+08:00">
-                2018-11-20
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2018/11/20/hello-blog/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2018/11/20/hello-blog/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-             <span id="/2018/11/20/hello-blog/" class="leancloud_visitors" data-flag-title="Hello Blog">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数&#58;</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>Now is the time for all good men to come to the aid fo their country.</p>
-<p>发布文章的步骤：</p>
-<p>1、hexo new 创建文章</p>
-<p>2、Markdown语法编辑文章</p>
-<p>3、部署（所有执行命令都是在blog目录下）</p>
-<p>Tips:<br>hexo clean #清除缓存 网页正常情况下可以忽略此条命令<br>hexo generate #生成<br>hexo server #启动服务预览，非必要，可本地浏览网页<br>hexo deploy #部署发布 </p>
-
-          
-        
-      
-    </div>
+    </p></div>
     
     
     
@@ -1762,7 +1993,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span>
+    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1808,7 +2039,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">29</span>
+                  <span class="site-state-item-count">42</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
