@@ -92,7 +92,7 @@
 <meta property="og:site_name" content="dal&#39;s blog">
 <meta property="og:description" content="原文链接在这里，不知道需不需要翻墙。 文章作者是一个网站的老大，拥有复杂的技术背景，能数的出来的编程语言都有涉猎，经过多年的浸淫，他觉得应该用合适的工具做简单的事情解决复杂的问题。 他写文章的时候，已经用了2年多的golang了。 很幸运了，接下来他就遇到了一些复杂的问题。 他们写了一个网站后端程序，用来接收网络请求，然后调用UploadToS3将请求上传的S3。 呐，我们初学者都知道嘛，go在处">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-01-23T03:12:16.826Z">
+<meta property="og:updated_time" content="2019-01-23T03:18:32.797Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Review每分钟处理1亿个请求">
 <meta name="twitter:description" content="原文链接在这里，不知道需不需要翻墙。 文章作者是一个网站的老大，拥有复杂的技术背景，能数的出来的编程语言都有涉猎，经过多年的浸淫，他觉得应该用合适的工具做简单的事情解决复杂的问题。 他写文章的时候，已经用了2年多的golang了。 很幸运了，接下来他就遇到了一些复杂的问题。 他们写了一个网站后端程序，用来接收网络请求，然后调用UploadToS3将请求上传的S3。 呐，我们初学者都知道嘛，go在处">
@@ -407,6 +407,7 @@
 <p>他们写了一个网站后端程序，用来接收网络请求，然后调用UploadToS3将请求上传的S3。</p>
 <p>呐，我们初学者都知道嘛，go在处理并发请求是有天然的优势的，一个go func 完美解决所有问题。对的，他也是这么干的。</p>
 <figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> _, payload := <span class="keyword">range</span> content.Payloads &#123;</span><br><span class="line">	<span class="keyword">go</span> payload.UploadToS3()   <span class="comment">// &lt;----- DON'T DO THIS</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
 <p>很简单，对不对。嗯，他的注释中也写了，不要这么干，因为请求数量太多，代码中没有控制并发数量，很快他们的程序就崩溃掉了。嗯，简直和我第一次用这个方法的时候一模一样，信心满满的运行，突如其来的崩溃。</p>
 <p>当然了，作为一名成熟的工程师，是不可能被问题打败的嘛，作者继续优化代码，很快就上了version 2。</p>
 <p>这次就很厉害了，这次作者用上了带缓冲的channel，呐，作为初学者，我们也知道，他要控制并发数量了嘛，防止巨量的请求把系统搞垮。<br><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> Queue <span class="keyword">chan</span> Payload</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">init</span><span class="params">()</span></span> &#123;</span><br><span class="line">    Queue = <span class="built_in">make</span>(<span class="keyword">chan</span> Payload, MAX_QUEUE)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">payloadHandler</span><span class="params">(w http.ResponseWriter, r *http.Request)</span></span> &#123;</span><br><span class="line">    ...</span><br><span class="line">    <span class="comment">// Go through each payload and queue items individually to be posted to S3</span></span><br><span class="line">    <span class="keyword">for</span> _, payload := <span class="keyword">range</span> content.Payloads &#123;</span><br><span class="line">        Queue &lt;- payload</span><br><span class="line">    &#125;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">StartProcessor</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="keyword">for</span> &#123;</span><br><span class="line">        <span class="keyword">select</span> &#123;</span><br><span class="line">        <span class="keyword">case</span> job := &lt;-Queue:</span><br><span class="line">            job.payload.UploadToS3()  <span class="comment">// &lt;-- STILL NOT GOOD</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
@@ -455,8 +456,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/01/22/leetcode之 N-Repeated Element in Size 2N Array/" rel="next" title="leetcode之N-Repeated Element in Size 2N Array">
-                <i class="fa fa-chevron-left"></i> leetcode之N-Repeated Element in Size 2N Array
+              <a href="/2019/01/22/leetcode之Robot Return to Origin/" rel="next" title="leetcode之Robot Return to Origin">
+                <i class="fa fa-chevron-left"></i> leetcode之Robot Return to Origin
               </a>
             
           </div>

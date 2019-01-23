@@ -403,199 +403,16 @@
 
       
         
-          
-            <p>原文链接在<a href="https://medium.com/smsjunk/handling-1-million-requests-per-minute-with-golang-f70ac505fcaa" target="_blank" rel="noopener">这里</a>，不知道需不需要翻墙。</p>
+          <p>原文链接在<a href="https://medium.com/smsjunk/handling-1-million-requests-per-minute-with-golang-f70ac505fcaa" target="_blank" rel="noopener">这里</a>，不知道需不需要翻墙。</p>
 <p>文章作者是一个网站的老大，拥有复杂的技术背景，能数的出来的编程语言都有涉猎，经过多年的浸淫，他觉得应该用合适的工具做简单的事情解决复杂的问题。</p>
 <p>他写文章的时候，已经用了2年多的golang了。</p>
 <p>很幸运了，接下来他就遇到了一些复杂的问题。</p>
 <p>他们写了一个网站后端程序，用来接收网络请求，然后调用UploadToS3将请求上传的S3。</p>
 <p>呐，我们初学者都知道嘛，go在处理并发请求是有天然的优势的，一个go func 完美解决所有问题。对的，他也是这么干的。</p>
 <figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> _, payload := <span class="keyword">range</span> content.Payloads &#123;</span><br><span class="line">	<span class="keyword">go</span> payload.UploadToS3()   <span class="comment">// &lt;----- DON'T DO THIS</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>很简单，对不对。嗯，他的注释中也写了，不要这么干，因为请求数量太多，代码中没有控制并发数量，很快他们的程序就崩溃掉了。嗯，简直和我第一次用这个方法的时候一模一样，信心满满的运行，突如其来的崩溃。</p>
-<p>当然了，作为一名成熟的工程师，是不可能被问题打败的嘛，作者继续优化代码，很快就上了version 2。</p>
-<p>这次就很厉害了，这次作者用上了带缓冲的channel，呐，作为初学者，我们也知道，他要控制并发数量了嘛，防止巨量的请求把系统搞垮。<br><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> Queue <span class="keyword">chan</span> Payload</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">init</span><span class="params">()</span></span> &#123;</span><br><span class="line">    Queue = <span class="built_in">make</span>(<span class="keyword">chan</span> Payload, MAX_QUEUE)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">payloadHandler</span><span class="params">(w http.ResponseWriter, r *http.Request)</span></span> &#123;</span><br><span class="line">    ...</span><br><span class="line">    <span class="comment">// Go through each payload and queue items individually to be posted to S3</span></span><br><span class="line">    <span class="keyword">for</span> _, payload := <span class="keyword">range</span> content.Payloads &#123;</span><br><span class="line">        Queue &lt;- payload</span><br><span class="line">    &#125;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">StartProcessor</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="keyword">for</span> &#123;</span><br><span class="line">        <span class="keyword">select</span> &#123;</span><br><span class="line">        <span class="keyword">case</span> job := &lt;-Queue:</span><br><span class="line">            job.payload.UploadToS3()  <span class="comment">// &lt;-- STILL NOT GOOD</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>你看，他写了一个队列，然后结合select读出job，然后调用UploadToS3。嗯，作者注释中也写了，还是不够好，不过应该能够工作了，至少不会被巨量请求搞垮系统了。</p>
-<p>正如你所想，这个代码确实不会一下子崩溃掉了，但是由于巨量的数据请求一下子涌入，很快他们的队列就满了，而且UploadToS3这个方法的出力速度远远小于请求的增长速度，他们的队列始终处于爆满的状态。然后后面的请求就阻塞掉了。虽然系统没有崩溃，但是前段请求都被阻塞了。</p>
-<p>再接再厉，我们继续看看作者大大如何在这个版本的基础上继续优化。</p>
-<p>他们想到了用两个channel，一个控制请求队列，一个控制UploadToS3工作。</p>
-<p>以下是个人理解了，英文水平有限，而且代码没有完全理解。</p>
-<p>先从初始化来看，先调用worker.Start()创建了一定数量的工作池，然后启动dispatch() 从JobQueue读出需要处理的内容，将待处理的job放入jobChannel ，由第一步创建好的工作池读出job，调用UploadToS3处理。payloadHandler 这个函数其实算是业务代码，接收请求，然后把请求放入JobQueue。</p>
-<p>这个设计将接收请求和处理请求分开，并都使用channel并发处理，而且在系统初始化期间，创建好一定数量的线程池，等待处理。</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">payloadHandler</span><span class="params">(w http.ResponseWriter, r *http.Request)</span></span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> r.Method != <span class="string">"POST"</span> &#123;</span><br><span class="line">		w.WriteHeader(http.StatusMethodNotAllowed)</span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Read the body into a string for json decoding</span></span><br><span class="line">	<span class="keyword">var</span> content = &amp;PayloadCollection&#123;&#125;</span><br><span class="line">	err := json.NewDecoder(io.LimitReader(r.Body, MaxLength)).Decode(&amp;content)</span><br><span class="line">    <span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		w.Header().Set(<span class="string">"Content-Type"</span>, <span class="string">"application/json; charset=UTF-8"</span>)</span><br><span class="line">		w.WriteHeader(http.StatusBadRequest)</span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Go through each payload and queue items individually to be posted to S3</span></span><br><span class="line">    <span class="keyword">for</span> _, payload := <span class="keyword">range</span> content.Payloads &#123;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// let's create a job with the payload</span></span><br><span class="line">        work := Job&#123;Payload: payload&#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Push the work onto the queue.</span></span><br><span class="line">        JobQueue &lt;- work</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    w.WriteHeader(http.StatusOK)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>上面的代码是将请求放入jobqueue。</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> Dispatcher <span class="keyword">struct</span> &#123;</span><br><span class="line">	<span class="comment">// A pool of workers channels that are registered with the dispatcher</span></span><br><span class="line">	WorkerPool <span class="keyword">chan</span> <span class="keyword">chan</span> Job</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">NewDispatcher</span><span class="params">(maxWorkers <span class="keyword">int</span>)</span> *<span class="title">Dispatcher</span></span> &#123;</span><br><span class="line">	pool := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="keyword">chan</span> Job, maxWorkers)</span><br><span class="line">	<span class="keyword">return</span> &amp;Dispatcher&#123;WorkerPool: pool&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(d *Dispatcher)</span> <span class="title">Run</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="comment">// starting n number of workers</span></span><br><span class="line">	<span class="keyword">for</span> i := <span class="number">0</span>; i &lt; d.maxWorkers; i++ &#123;</span><br><span class="line">		worker := NewWorker(d.pool)</span><br><span class="line">		worker.Start()</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">go</span> d.dispatch()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(d *Dispatcher)</span> <span class="title">dispatch</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">for</span> &#123;</span><br><span class="line">		<span class="keyword">select</span> &#123;</span><br><span class="line">		<span class="keyword">case</span> job := &lt;-JobQueue:</span><br><span class="line">			<span class="comment">// a job request has been received</span></span><br><span class="line">			<span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">(job Job)</span></span> &#123;</span><br><span class="line">				<span class="comment">// try to obtain a worker job channel that is available.</span></span><br><span class="line">				<span class="comment">// this will block until a worker is idle</span></span><br><span class="line">				jobChannel := &lt;-d.WorkerPool</span><br><span class="line"></span><br><span class="line">				<span class="comment">// dispatch the job to the worker job channel</span></span><br><span class="line">				jobChannel &lt;- job</span><br><span class="line">			&#125;(job)</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>上面的代码为初始化线程池，然后启动dispatch等待处理JobQueue。如果有job过来，先看看WorkerPool是不是空闲，如果是空闲，就把job放到jobChannel中。</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> (</span><br><span class="line">	MaxWorker = os.Getenv(<span class="string">"MAX_WORKERS"</span>)</span><br><span class="line">	MaxQueue  = os.Getenv(<span class="string">"MAX_QUEUE"</span>)</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment">// Job represents the job to be run</span></span><br><span class="line"><span class="keyword">type</span> Job <span class="keyword">struct</span> &#123;</span><br><span class="line">	Payload Payload</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// A buffered channel that we can send work requests on.</span></span><br><span class="line"><span class="keyword">var</span> JobQueue <span class="keyword">chan</span> Job</span><br><span class="line"></span><br><span class="line"><span class="comment">// Worker represents the worker that executes the job</span></span><br><span class="line"><span class="keyword">type</span> Worker <span class="keyword">struct</span> &#123;</span><br><span class="line">	WorkerPool  <span class="keyword">chan</span> <span class="keyword">chan</span> Job</span><br><span class="line">	JobChannel  <span class="keyword">chan</span> Job</span><br><span class="line">	quit    	<span class="keyword">chan</span> <span class="keyword">bool</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">NewWorker</span><span class="params">(workerPool <span class="keyword">chan</span> <span class="keyword">chan</span> Job)</span> <span class="title">Worker</span></span> &#123;</span><br><span class="line">	<span class="keyword">return</span> Worker&#123;</span><br><span class="line">		WorkerPool: workerPool,</span><br><span class="line">		JobChannel: <span class="built_in">make</span>(<span class="keyword">chan</span> Job),</span><br><span class="line">		quit:       <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="keyword">bool</span>)&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Start method starts the run loop for the worker, listening for a quit channel in</span></span><br><span class="line"><span class="comment">// case we need to stop it</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(w Worker)</span> <span class="title">Start</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">		<span class="keyword">for</span> &#123;</span><br><span class="line">			<span class="comment">// register the current worker into the worker queue.</span></span><br><span class="line">			w.WorkerPool &lt;- w.JobChannel</span><br><span class="line"></span><br><span class="line">			<span class="keyword">select</span> &#123;</span><br><span class="line">			<span class="keyword">case</span> job := &lt;-w.JobChannel:</span><br><span class="line">				<span class="comment">// we have received a work request.</span></span><br><span class="line">				<span class="keyword">if</span> err := job.Payload.UploadToS3(); err != <span class="literal">nil</span> &#123;</span><br><span class="line">					log.Errorf(<span class="string">"Error uploading to S3: %s"</span>, err.Error())</span><br><span class="line">				&#125;</span><br><span class="line"></span><br><span class="line">			<span class="keyword">case</span> &lt;-w.quit:</span><br><span class="line">				<span class="comment">// we have received a signal to stop</span></span><br><span class="line">				<span class="keyword">return</span></span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Stop signals the worker to stop listening for work requests.</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(w Worker)</span> <span class="title">Stop</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">		w.quit &lt;- <span class="literal">true</span></span><br><span class="line">	&#125;()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>上面的代码是处理请求，从jobchannel中读出请求，然后调用upload处理。</p>
-<p>从上面的代码中也可以看出，作者将接收请求和处理请求进行了松耦合处理，和流水线作业不同的时，这种方式可以最大限度发挥worker性能，只要worker线程池有一个空闲，就会去jobchannel读数据处理。</p>
-<p>文章读完了，不仅要学习作者的思路，同时也要学习百折不挠越挫越勇的精神呐。</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://dal-s.github.io/2019/01/22/leetcode之 N-Repeated Element in Size 2N Array/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="DaLi">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="dal's blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/01/22/leetcode之 N-Repeated Element in Size 2N Array/" itemprop="url">leetcode之N-Repeated Element in Size 2N Array</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-22T20:27:55+08:00">
-                2019-01-22
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/算法/" itemprop="url" rel="index">
-                    <span itemprop="name">算法</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2019/01/22/leetcode之 N-Repeated Element in Size 2N Array/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2019/01/22/leetcode之 N-Repeated Element in Size 2N Array/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-             <span id="/2019/01/22/leetcode之 N-Repeated Element in Size 2N Array/" class="leancloud_visitors" data-flag-title="leetcode之N-Repeated Element in Size 2N Array">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数&#58;</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>问题描述：</p>
-<p>In a array A of size 2N, there are N+1 unique elements, and exactly one of these elements is repeated N times.</p>
-<p>Return the element repeated N times.</p>
           <!--noindex-->
           <div class="text-center">
-            <a class="btn btn-link" href="/2019/01/22/leetcode之 N-Repeated Element in Size 2N Array/#more" rel="contents">
+            <a class="btn btn-link" href="/2019/01/23/Review之每分钟处理1亿个请求/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -646,7 +463,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://dal-s.github.io/2019/01/22/leetcode之Peak Index in a Mountain Array/">
+    <link itemprop="mainEntityOfPage" href="https://dal-s.github.io/2019/01/22/leetcode之Robot Return to Origin/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="DaLi">
@@ -665,7 +482,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/01/22/leetcode之Peak Index in a Mountain Array/" itemprop="url">leetcode之Peak Index in a Mountain Array</a></h1>
+                <a class="post-title-link" href="/2019/01/22/leetcode之Robot Return to Origin/" itemprop="url">leetcode之Robot Return to Origin</a></h1>
         
 
         <div class="post-meta">
@@ -718,8 +535,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2019/01/22/leetcode之Peak Index in a Mountain Array/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2019/01/22/leetcode之Peak Index in a Mountain Array/" itemprop="commentCount"></span>
+                <a href="/2019/01/22/leetcode之Robot Return to Origin/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/01/22/leetcode之Robot Return to Origin/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -727,7 +544,7 @@
 
           
           
-             <span id="/2019/01/22/leetcode之Peak Index in a Mountain Array/" class="leancloud_visitors" data-flag-title="leetcode之Peak Index in a Mountain Array">
+             <span id="/2019/01/22/leetcode之Robot Return to Origin/" class="leancloud_visitors" data-flag-title="leetcode之Robot Return to Origin">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -760,20 +577,21 @@
       
         
           <p>问题描述：</p>
-<p>Let’s call an array A a mountain if the following properties hold:</p>
-<p>A.length &gt;= 3<br>There exists some 0 &lt; i &lt; A.length - 1 such that A[0] &lt; A[1] &lt; … A[i-1] &lt; A[i] &gt; A[i+1] &gt; … &gt; A[A.length - 1]<br>Given an array that is definitely a mountain, return any i such that A[0] &lt; A[1] &lt; … A[i-1] &lt; A[i] &gt; A[i+1] &gt; … &gt; A[A.length - 1].</p>
+<p>There is a robot starting at position (0, 0), the origin, on a 2D plane. Given a sequence of its moves, judge if this robot ends up at (0, 0) after it completes its moves.</p>
+<p>The move sequence is represented by a string, and the character moves[i] represents its ith move. Valid moves are R (right), L (left), U (up), and D (down). If the robot returns to the origin after it finishes all of its moves, return true. Otherwise, return false.</p>
+<p>Note: The way that the robot is “facing” is irrelevant. “R” will always make the robot move to the right once, “L” will always make it move left, etc. Also, assume that the magnitude of the robot’s movement is the same for each move.</p>
 <p>Example 1:</p>
-<p>Input: [0,1,0]<br>Output: 1<br>
+<p>Input: “UD”<br>Output: true<br>Explanation: The robot moves up once, and then down once. All moves have the same magnitude, so it ended up at the origin where it started. Therefore, we return true.</p>
           <!--noindex-->
           <div class="text-center">
-            <a class="btn btn-link" href="/2019/01/22/leetcode之Peak Index in a Mountain Array/#more" rel="contents">
+            <a class="btn btn-link" href="/2019/01/22/leetcode之Robot Return to Origin/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
           <!--/noindex-->
         
       
-    </p></div>
+    </div>
     
     
     
@@ -991,6 +809,180 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://dal-s.github.io/2019/01/22/leetcode之Squares of a Sorted Array/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="DaLi">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="dal's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/01/22/leetcode之Squares of a Sorted Array/" itemprop="url">leetcode之Squares of a Sorted Array</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-22T20:27:55+08:00">
+                2019-01-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/算法/" itemprop="url" rel="index">
+                    <span itemprop="name">算法</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/01/22/leetcode之Squares of a Sorted Array/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/01/22/leetcode之Squares of a Sorted Array/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2019/01/22/leetcode之Squares of a Sorted Array/" class="leancloud_visitors" data-flag-title="leetcode之Squares of a Sorted Array">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>问题描述：</p>
+<p>Given an array of integers A sorted in non-decreasing order, return an array of the squares of each number, also in sorted non-decreasing order.</p>
+<p>Example 1:</p>
+<p>Input: [-4,-1,0,3,10]<br>Output: [0,1,9,16,100]</p>
+<p>Example 2:</p>
+<p>Input: [-7,-3,2,3,11]<br>Output: [4,9,9,49,121]</p>
+<p>Note:</p>
+<p>1 &lt;= A.length &lt;= 10000<br>-10000 &lt;= A[i] &lt;= 10000<br>A is sorted in non-decreasing order.</p>
+          <!--noindex-->
+          <div class="text-center">
+            <a class="btn btn-link" href="/2019/01/22/leetcode之Squares of a Sorted Array/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://dal-s.github.io/2019/01/22/leetcode之To Lower Case/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -1163,7 +1155,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://dal-s.github.io/2019/01/22/leetcode之Robot Return to Origin/">
+    <link itemprop="mainEntityOfPage" href="https://dal-s.github.io/2019/01/22/leetcode之Sort Array By Parity/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="DaLi">
@@ -1182,7 +1174,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/01/22/leetcode之Robot Return to Origin/" itemprop="url">leetcode之Robot Return to Origin</a></h1>
+                <a class="post-title-link" href="/2019/01/22/leetcode之Sort Array By Parity/" itemprop="url">leetcode之Sort Array By Parity</a></h1>
         
 
         <div class="post-meta">
@@ -1235,8 +1227,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2019/01/22/leetcode之Robot Return to Origin/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2019/01/22/leetcode之Robot Return to Origin/" itemprop="commentCount"></span>
+                <a href="/2019/01/22/leetcode之Sort Array By Parity/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/01/22/leetcode之Sort Array By Parity/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -1244,7 +1236,7 @@
 
           
           
-             <span id="/2019/01/22/leetcode之Robot Return to Origin/" class="leancloud_visitors" data-flag-title="leetcode之Robot Return to Origin">
+             <span id="/2019/01/22/leetcode之Sort Array By Parity/" class="leancloud_visitors" data-flag-title="leetcode之Sort Array By Parity">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -1277,14 +1269,15 @@
       
         
           <p>问题描述：</p>
-<p>There is a robot starting at position (0, 0), the origin, on a 2D plane. Given a sequence of its moves, judge if this robot ends up at (0, 0) after it completes its moves.</p>
-<p>The move sequence is represented by a string, and the character moves[i] represents its ith move. Valid moves are R (right), L (left), U (up), and D (down). If the robot returns to the origin after it finishes all of its moves, return true. Otherwise, return false.</p>
-<p>Note: The way that the robot is “facing” is irrelevant. “R” will always make the robot move to the right once, “L” will always make it move left, etc. Also, assume that the magnitude of the robot’s movement is the same for each move.</p>
+<p>Given an array A of non-negative integers, return an array consisting of all the even elements of A, followed by all the odd elements of A.</p>
+<p>You may return any answer array that satisfies this condition.</p>
 <p>Example 1:</p>
-<p>Input: “UD”<br>Output: true<br>Explanation: The robot moves up once, and then down once. All moves have the same magnitude, so it ended up at the origin where it started. Therefore, we return true.</p>
+<p>Input: [3,1,2,4]<br>Output: [2,4,3,1]<br>The outputs [4,2,3,1], [2,4,1,3], and [4,2,1,3] would also be accepted.</p>
+<p>Note:</p>
+<p>1 &lt;= A.length &lt;= 5000<br>0 &lt;= A[i] &lt;= 5000imes.</p>
           <!--noindex-->
           <div class="text-center">
-            <a class="btn btn-link" href="/2019/01/22/leetcode之Robot Return to Origin/#more" rel="contents">
+            <a class="btn btn-link" href="/2019/01/22/leetcode之Sort Array By Parity/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1335,7 +1328,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://dal-s.github.io/2019/01/22/leetcode之Squares of a Sorted Array/">
+    <link itemprop="mainEntityOfPage" href="https://dal-s.github.io/2019/01/22/leetcode之Self Dividing Numbers/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="DaLi">
@@ -1354,7 +1347,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/01/22/leetcode之Squares of a Sorted Array/" itemprop="url">leetcode之Squares of a Sorted Array</a></h1>
+                <a class="post-title-link" href="/2019/01/22/leetcode之Self Dividing Numbers/" itemprop="url">leetcode之Self Dividing Numbers</a></h1>
         
 
         <div class="post-meta">
@@ -1407,8 +1400,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2019/01/22/leetcode之Squares of a Sorted Array/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2019/01/22/leetcode之Squares of a Sorted Array/" itemprop="commentCount"></span>
+                <a href="/2019/01/22/leetcode之Self Dividing Numbers/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/01/22/leetcode之Self Dividing Numbers/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -1416,7 +1409,7 @@
 
           
           
-             <span id="/2019/01/22/leetcode之Squares of a Sorted Array/" class="leancloud_visitors" data-flag-title="leetcode之Squares of a Sorted Array">
+             <span id="/2019/01/22/leetcode之Self Dividing Numbers/" class="leancloud_visitors" data-flag-title="leetcode之Self Dividing Numbers">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -1449,23 +1442,191 @@
       
         
           <p>问题描述：</p>
-<p>Given an array of integers A sorted in non-decreasing order, return an array of the squares of each number, also in sorted non-decreasing order.</p>
-<p>Example 1:</p>
-<p>Input: [-4,-1,0,3,10]<br>Output: [0,1,9,16,100]</p>
-<p>Example 2:</p>
-<p>Input: [-7,-3,2,3,11]<br>Output: [4,9,9,49,121]</p>
-<p>Note:</p>
-<p>1 &lt;= A.length &lt;= 10000<br>-10000 &lt;= A[i] &lt;= 10000<br>A is sorted in non-decreasing order.</p>
+<p>A self-dividing number is a number that is divisible by every digit it contains.</p>
+<p>For example, 128 is a self-dividing number because 128 % 1 == 0, 128 % 2 == 0, and 128 % 8 == 0.</p>
+<p>Also, a self-dividing number is not allowed to contain the digit zero.</p>
+<p>Given a lower and upper number bound, output a list of every possible self dividing number, including the bounds if possible.<br>
           <!--noindex-->
           <div class="text-center">
-            <a class="btn btn-link" href="/2019/01/22/leetcode之Squares of a Sorted Array/#more" rel="contents">
+            <a class="btn btn-link" href="/2019/01/22/leetcode之Self Dividing Numbers/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
           <!--/noindex-->
         
       
-    </div>
+    </p></div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://dal-s.github.io/2019/01/22/leetcode之Peak Index in a Mountain Array/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="DaLi">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="dal's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/01/22/leetcode之Peak Index in a Mountain Array/" itemprop="url">leetcode之Peak Index in a Mountain Array</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-22T20:27:55+08:00">
+                2019-01-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/算法/" itemprop="url" rel="index">
+                    <span itemprop="name">算法</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/01/22/leetcode之Peak Index in a Mountain Array/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/01/22/leetcode之Peak Index in a Mountain Array/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2019/01/22/leetcode之Peak Index in a Mountain Array/" class="leancloud_visitors" data-flag-title="leetcode之Peak Index in a Mountain Array">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>问题描述：</p>
+<p>Let’s call an array A a mountain if the following properties hold:</p>
+<p>A.length &gt;= 3<br>There exists some 0 &lt; i &lt; A.length - 1 such that A[0] &lt; A[1] &lt; … A[i-1] &lt; A[i] &gt; A[i+1] &gt; … &gt; A[A.length - 1]<br>Given an array that is definitely a mountain, return any i such that A[0] &lt; A[1] &lt; … A[i-1] &lt; A[i] &gt; A[i+1] &gt; … &gt; A[A.length - 1].</p>
+<p>Example 1:</p>
+<p>Input: [0,1,0]<br>Output: 1<br>
+          <!--noindex-->
+          <div class="text-center">
+            <a class="btn btn-link" href="/2019/01/22/leetcode之Peak Index in a Mountain Array/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </p></div>
     
     
     
@@ -1682,7 +1843,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://dal-s.github.io/2019/01/22/leetcode之Flipping an Image/">
+    <link itemprop="mainEntityOfPage" href="https://dal-s.github.io/2019/01/22/leetcode之Delete Columns to Make Sorted/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="DaLi">
@@ -1701,7 +1862,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/01/22/leetcode之Flipping an Image/" itemprop="url">leetcode之Flipping an Image</a></h1>
+                <a class="post-title-link" href="/2019/01/22/leetcode之Delete Columns to Make Sorted/" itemprop="url">leetcode之Delete Columns to Make Sorted</a></h1>
         
 
         <div class="post-meta">
@@ -1754,8 +1915,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2019/01/22/leetcode之Flipping an Image/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2019/01/22/leetcode之Flipping an Image/" itemprop="commentCount"></span>
+                <a href="/2019/01/22/leetcode之Delete Columns to Make Sorted/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/01/22/leetcode之Delete Columns to Make Sorted/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -1763,7 +1924,7 @@
 
           
           
-             <span id="/2019/01/22/leetcode之Flipping an Image/" class="leancloud_visitors" data-flag-title="leetcode之Flipping an Image">
+             <span id="/2019/01/22/leetcode之Delete Columns to Make Sorted/" class="leancloud_visitors" data-flag-title="leetcode之Delete Columns to Make Sorted">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -1796,14 +1957,14 @@
       
         
           <p>问题描述：</p>
-<p>Given a binary matrix A, we want to flip the image horizontally, then invert it, and return the resulting image.</p>
-<p>To flip an image horizontally means that each row of the image is reversed.  For example, flipping [1, 1, 0] horizontally results in [0, 1, 1].</p>
-<p>To invert an image means that each 0 is replaced by 1, and each 1 is replaced by 0. For example, inverting [0, 1, 1] results in [1, 0, 0].</p>
-<p>Example 1:</p>
-<p>Input: [[1,1,0],[1,0,1],[0,0,0]]<br>Output: [[1,0,0],[0,1,0],[1,1,1]]<br>Explanation: First reverse each row: [[0,1,1],[1,0,1],[0,0,0]].<br>Then, invert the image: [[1,0,0],[0,1,0],[1,1,1]]<br>Example 2:</p>
+<p>We are given an array A of N lowercase letter strings, all of the same length.</p>
+<p>Now, we may choose any set of deletion indices, and for each string, we delete all the characters in those indices.</p>
+<p>For example, if we have an array A = [“abcdef”,”uvwxyz”] and deletion indices {0, 2, 3}, then the final array after deletions is [“bef”, “vyz”], and the remaining columns of A are [“b”,”v”], [“e”,”y”], and [“f”,”z”].  (Formally, the c-th column is [A[0][c], A[1][c], …, A[A.length-1][c]].)</p>
+<p>Suppose we chose a set of deletion indices D such that after deletions, each remaining column in A is in non-decreasing sorted order.</p>
+<p>Return the minimum possible value of D.length.</p>
           <!--noindex-->
           <div class="text-center">
-            <a class="btn btn-link" href="/2019/01/22/leetcode之Flipping an Image/#more" rel="contents">
+            <a class="btn btn-link" href="/2019/01/22/leetcode之Delete Columns to Make Sorted/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1811,177 +1972,6 @@
         
       
     </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://dal-s.github.io/2019/01/22/leetcode之Self Dividing Numbers/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="DaLi">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="dal's blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/01/22/leetcode之Self Dividing Numbers/" itemprop="url">leetcode之Self Dividing Numbers</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-22T20:27:55+08:00">
-                2019-01-22
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/算法/" itemprop="url" rel="index">
-                    <span itemprop="name">算法</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2019/01/22/leetcode之Self Dividing Numbers/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2019/01/22/leetcode之Self Dividing Numbers/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-             <span id="/2019/01/22/leetcode之Self Dividing Numbers/" class="leancloud_visitors" data-flag-title="leetcode之Self Dividing Numbers">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数&#58;</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>问题描述：</p>
-<p>A self-dividing number is a number that is divisible by every digit it contains.</p>
-<p>For example, 128 is a self-dividing number because 128 % 1 == 0, 128 % 2 == 0, and 128 % 8 == 0.</p>
-<p>Also, a self-dividing number is not allowed to contain the digit zero.</p>
-<p>Given a lower and upper number bound, output a list of every possible self dividing number, including the bounds if possible.<br>
-          <!--noindex-->
-          <div class="text-center">
-            <a class="btn btn-link" href="/2019/01/22/leetcode之Self Dividing Numbers/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </p></div>
     
     
     
