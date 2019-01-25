@@ -1,6 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[Tips之Try to Code Without If-statements]]></title>
+    <url>%2F2019%2F01%2F25%2FTips%E4%B9%8BTry%20to%20Code%20Without%20If-statements%2F</url>
+    <content type="text"><![CDATA[原文戳这里。 作者提出了一种coding方式，尝试用其他解决方案代替代码中的if语句。与其说作者提出了一种coding方式，不如说是他提出了一种思考方式。一种另类的解决方案。 起初看到题目，我在想不用if，怕是好多判断都没办法实现啊，这位到底是怎么想的。带着疑问我点开了文章，看了文章几个案例，虽然对js不熟悉，但是完全不影响阅读。不得不佩服作者的脑洞真是厉害，感觉打开了一扇新的大门。 当然，就像作者说的那样，这不是一条必须遵守的规则，但是它是一个值得尝试的方法。 下一次，当用到if时，想一想有没有更简洁的方案来代替它。]]></content>
+      <categories>
+        <category>ARTS</category>
+      </categories>
+      <tags>
+        <tag>Tips</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Share之Golang Guide A List of Top Golang Frameworks, IDEs & Tools]]></title>
+    <url>%2F2019%2F01%2F24%2FShare%E4%B9%8BGolang%20Guide%20A%20List%20of%20Top%20Golang%20Frameworks%2C%20IDEs%20%26%20Tools%2F</url>
+    <content type="text"><![CDATA[原文戳这里 俗话说，工欲善其事，必先利其器。这篇文章第一部分介绍了几个web框架，帮我们更快更容易的创建自己的应用。第二部分介绍了一些编辑器。项目型coding，还是需要使用一些趁手的编辑器，帮助我们整理归置代码，像单纯练习就可以选择一些轻量级编辑器，我平时一般都用vim，加了自己一些语法高亮就开工了。]]></content>
+      <categories>
+        <category>ARTS</category>
+      </categories>
+      <tags>
+        <tag>Share</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[Review每分钟处理1亿个请求]]></title>
     <url>%2F2019%2F01%2F23%2FReview%E4%B9%8B%E6%AF%8F%E5%88%86%E9%92%9F%E5%A4%84%E7%90%861%E4%BA%BF%E4%B8%AA%E8%AF%B7%E6%B1%82%2F</url>
     <content type="text"><![CDATA[原文链接在这里，不知道需不需要翻墙。 文章作者是一个网站的老大，拥有复杂的技术背景，能数的出来的编程语言都有涉猎，经过多年的浸淫，他觉得应该用合适的工具做简单的事情解决复杂的问题。 他写文章的时候，已经用了2年多的golang了。 很幸运了，接下来他就遇到了一些复杂的问题。 他们写了一个网站后端程序，用来接收网络请求，然后调用UploadToS3将请求上传的S3。 呐，我们初学者都知道嘛，go在处理并发请求是有天然的优势的，一个go func 完美解决所有问题。对的，他也是这么干的。 123for _, payload := range content.Payloads &#123; go payload.UploadToS3() // &lt;----- DON'T DO THIS&#125; 很简单，对不对。嗯，他的注释中也写了，不要这么干，因为请求数量太多，代码中没有控制并发数量，很快他们的程序就崩溃掉了。嗯，简直和我第一次用这个方法的时候一模一样，信心满满的运行，突如其来的崩溃。 当然了，作为一名成熟的工程师，是不可能被问题打败的嘛，作者继续优化代码，很快就上了version 2。 这次就很厉害了，这次作者用上了带缓冲的channel，呐，作为初学者，我们也知道，他要控制并发数量了嘛，防止巨量的请求把系统搞垮。1234567891011121314151617181920212223var Queue chan Payloadfunc init() &#123; Queue = make(chan Payload, MAX_QUEUE)&#125;func payloadHandler(w http.ResponseWriter, r *http.Request) &#123; ... // Go through each payload and queue items individually to be posted to S3 for _, payload := range content.Payloads &#123; Queue &lt;- payload &#125; ...&#125;func StartProcessor() &#123; for &#123; select &#123; case job := &lt;-Queue: job.payload.UploadToS3() // &lt;-- STILL NOT GOOD &#125; &#125;&#125; 你看，他写了一个队列，然后结合select读出job，然后调用UploadToS3。嗯，作者注释中也写了，还是不够好，不过应该能够工作了，至少不会被巨量请求搞垮系统了。 正如你所想，这个代码确实不会一下子崩溃掉了，但是由于巨量的数据请求一下子涌入，很快他们的队列就满了，而且UploadToS3这个方法的出力速度远远小于请求的增长速度，他们的队列始终处于爆满的状态。然后后面的请求就阻塞掉了。虽然系统没有崩溃，但是前段请求都被阻塞了。 再接再厉，我们继续看看作者大大如何在这个版本的基础上继续优化。 他们想到了用两个channel，一个控制请求队列，一个控制UploadToS3工作。 以下是个人理解了，英文水平有限，而且代码没有完全理解。 先从初始化来看，先调用worker.Start()创建了一定数量的工作池，然后启动dispatch() 从JobQueue读出需要处理的内容，将待处理的job放入jobChannel ，由第一步创建好的工作池读出job，调用UploadToS3处理。payloadHandler 这个函数其实算是业务代码，接收请求，然后把请求放入JobQueue。 这个设计将接收请求和处理请求分开，并都使用channel并发处理，而且在系统初始化期间，创建好一定数量的线程池，等待处理。 12345678910111213141516171819202122232425262728func payloadHandler(w http.ResponseWriter, r *http.Request) &#123; if r.Method != "POST" &#123; w.WriteHeader(http.StatusMethodNotAllowed) return &#125; // Read the body into a string for json decoding var content = &amp;PayloadCollection&#123;&#125; err := json.NewDecoder(io.LimitReader(r.Body, MaxLength)).Decode(&amp;content) if err != nil &#123; w.Header().Set("Content-Type", "application/json; charset=UTF-8") w.WriteHeader(http.StatusBadRequest) return &#125; // Go through each payload and queue items individually to be posted to S3 for _, payload := range content.Payloads &#123; // let's create a job with the payload work := Job&#123;Payload: payload&#125; // Push the work onto the queue. JobQueue &lt;- work &#125; w.WriteHeader(http.StatusOK)&#125; 上面的代码是将请求放入jobqueue。 123456789101112131415161718192021222324252627282930313233343536type Dispatcher struct &#123; // A pool of workers channels that are registered with the dispatcher WorkerPool chan chan Job&#125;func NewDispatcher(maxWorkers int) *Dispatcher &#123; pool := make(chan chan Job, maxWorkers) return &amp;Dispatcher&#123;WorkerPool: pool&#125;&#125;func (d *Dispatcher) Run() &#123; // starting n number of workers for i := 0; i &lt; d.maxWorkers; i++ &#123; worker := NewWorker(d.pool) worker.Start() &#125; go d.dispatch()&#125;func (d *Dispatcher) dispatch() &#123; for &#123; select &#123; case job := &lt;-JobQueue: // a job request has been received go func(job Job) &#123; // try to obtain a worker job channel that is available. // this will block until a worker is idle jobChannel := &lt;-d.WorkerPool // dispatch the job to the worker job channel jobChannel &lt;- job &#125;(job) &#125; &#125;&#125; 上面的代码为初始化线程池，然后启动dispatch等待处理JobQueue。如果有job过来，先看看WorkerPool是不是空闲，如果是空闲，就把job放到jobChannel中。 1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556var ( MaxWorker = os.Getenv("MAX_WORKERS") MaxQueue = os.Getenv("MAX_QUEUE"))// Job represents the job to be runtype Job struct &#123; Payload Payload&#125;// A buffered channel that we can send work requests on.var JobQueue chan Job// Worker represents the worker that executes the jobtype Worker struct &#123; WorkerPool chan chan Job JobChannel chan Job quit chan bool&#125;func NewWorker(workerPool chan chan Job) Worker &#123; return Worker&#123; WorkerPool: workerPool, JobChannel: make(chan Job), quit: make(chan bool)&#125;&#125;// Start method starts the run loop for the worker, listening for a quit channel in// case we need to stop itfunc (w Worker) Start() &#123; go func() &#123; for &#123; // register the current worker into the worker queue. w.WorkerPool &lt;- w.JobChannel select &#123; case job := &lt;-w.JobChannel: // we have received a work request. if err := job.Payload.UploadToS3(); err != nil &#123; log.Errorf("Error uploading to S3: %s", err.Error()) &#125; case &lt;-w.quit: // we have received a signal to stop return &#125; &#125; &#125;()&#125;// Stop signals the worker to stop listening for work requests.func (w Worker) Stop() &#123; go func() &#123; w.quit &lt;- true &#125;()&#125; 上面的代码是处理请求，从jobchannel中读出请求，然后调用upload处理。 从上面的代码中也可以看出，作者将接收请求和处理请求进行了松耦合处理，和流水线作业不同的时，这种方式可以最大限度发挥worker性能，只要worker线程池有一个空闲，就会去jobchannel读数据处理。 文章读完了，不仅要学习作者的思路，同时也要学习百折不挠越挫越勇的精神呐。]]></content>
@@ -12,86 +34,9 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[leetcode之Robot Return to Origin]]></title>
-    <url>%2F2019%2F01%2F22%2Fleetcode%E4%B9%8BRobot%20Return%20to%20Origin%2F</url>
-    <content type="text"><![CDATA[问题描述： There is a robot starting at position (0, 0), the origin, on a 2D plane. Given a sequence of its moves, judge if this robot ends up at (0, 0) after it completes its moves. The move sequence is represented by a string, and the character moves[i] represents its ith move. Valid moves are R (right), L (left), U (up), and D (down). If the robot returns to the origin after it finishes all of its moves, return true. Otherwise, return false. Note: The way that the robot is “facing” is irrelevant. “R” will always make the robot move to the right once, “L” will always make it move left, etc. Also, assume that the magnitude of the robot’s movement is the same for each move. Example 1: Input: “UD”Output: trueExplanation: The robot moves up once, and then down once. All moves have the same magnitude, so it ended up at the origin where it started. Therefore, we return true. Example 2: Input: “LL”Output: falseExplanation: The robot moves left twice. It ends up two “moves” to the left of the origin. We return false because it is not at the origin at the end of its moves. 模拟机器人走路，分别为 UDLR 代表上下左右，经过一顿操作后，是否还能回到原点1234567891011121314151617181920func judgeCircle(moves string) bool &#123; var k,h int if len(moves)%2 != 0 &#123; return false &#125; for i:=0;i&lt;len(moves);i++ &#123; switch &#123; case moves[i] == 'U': k++ case moves[i] == 'D': k-- case moves[i] == 'R': h++ case moves[i] == 'L': h-- &#125; &#125; return k==0&amp;&amp;h==0 &#125; 能回到原点，说明操作次数是偶数，左右，上下，一一对应。定义K和h分别记录操作次数，上和右加1，下和左减1.循环完K和h是0即可。]]></content>
-      <categories>
-        <category>算法</category>
-      </categories>
-      <tags>
-        <tag>算法</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[leetcode之Unique Email Addresses]]></title>
-    <url>%2F2019%2F01%2F22%2Fleetcode%E4%B9%8BUnique%20Email%20Addresses%2F</url>
-    <content type="text"><![CDATA[问题描述： Every email consists of a local name and a domain name, separated by the @ sign. For example, in alice@leetcode.com, alice is the local name, and leetcode.com is the domain name. Besides lowercase letters, these emails may contain ‘.’s or ‘+’s. If you add periods (‘.’) between some characters in the local name part of an email address, mail sent there will be forwarded to the same address without dots in the local name. For example, “alice.z@leetcode.com“ and “alicez@leetcode.com“ forward to the same email address. (Note that this rule does not apply for domain names.) If you add a plus (‘+’) in the local name, everything after the first plus sign will be ignored. This allows certain emails to be filtered, for example m.y+name@email.com will be forwarded to my@email.com. (Again, this rule does not apply for domain names.) It is possible to use both of these rules at the same time. Given a list of emails, we send one email to each address in the list. How many different addresses actually receive mails? Example 1: Input: [“test.email+alex@leetcode.com“,”test.e.mail+bob.cathy@leetcode.com“,”testemail+david@lee.tcode.com“]Output: 2Explanation: “testemail@leetcode.com“ and “testemail@lee.tcode.com“ actually receive mails Note: 1 &lt;= emails[i].length &lt;= 1001 &lt;= emails.length &lt;= 100Each emails[i] contains exactly one ‘@’ character.. 过滤合法的邮箱地址，其中local name中的.为无效字符可直接过滤，+后面的字符都无效不算。domain name只包含一个@而且.和+都是合法的。12345678910111213141516171819202122232425262728293031323334func numUniqueEmails(emails []string) int &#123; mp := make (map[string] int) for i:=0;i&lt;len(emails);i++ &#123; em := []byte(emails[i]) k :=0 findDot := 0 findPlus := false for _,val := range emails[i] &#123; if val == '@' &#123; findPlus =false findDot++ &#125; if val == '.'||findPlus &#123; if findDot == 0 &#123; continue &#125; &#125; if val == '+' &#123; findPlus =true continue &#125; em[k]=byte(val) k++ &#125; if k &gt; 0 &amp;&amp; findDot == 1&#123; mp[string(em)[0:k]]++ &#125; &#125; return len(mp) &#125; 依次迭代邮箱地址，记录@、.、+的符号，然后按照规则处理就可以了。]]></content>
-      <categories>
-        <category>算法</category>
-      </categories>
-      <tags>
-        <tag>算法</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[leetcode之Squares of a Sorted Array]]></title>
-    <url>%2F2019%2F01%2F22%2Fleetcode%E4%B9%8BSquares%20of%20a%20Sorted%20Array%2F</url>
-    <content type="text"><![CDATA[问题描述： Given an array of integers A sorted in non-decreasing order, return an array of the squares of each number, also in sorted non-decreasing order. Example 1: Input: [-4,-1,0,3,10]Output: [0,1,9,16,100] Example 2: Input: [-7,-3,2,3,11]Output: [4,9,9,49,121] Note: 1 &lt;= A.length &lt;= 10000-10000 &lt;= A[i] &lt;= 10000A is sorted in non-decreasing order. 给定一个有序数组，按平方后的数据大小排序1234567891011121314151617181920type bySquare []intfunc (a bySquare) Len() int &#123; return len(a)&#125;func (p bySquare) Less(i,j int) bool &#123; return p[i]*p[i] &lt;p[j]*p[j]&#125;func (p bySquare) Swap (i,j int) &#123; p[i],p[j] = p[j],p[i]&#125;func sortedSquares(A []int) []int &#123; for k,_ := range A &#123; A[k]=A[k]*A[k] &#125; sort.Sort(bySquare(A)) return A&#125; 偷了个懒，利用了go的接口特性，重写了系统的sort函数。一定还有其他思路解决这个问题，因为对于题目中给定的有序数组这个特点没利用上。欢迎有思路的同学留言。]]></content>
-      <categories>
-        <category>算法</category>
-      </categories>
-      <tags>
-        <tag>算法</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[leetcode之To Lower Case]]></title>
-    <url>%2F2019%2F01%2F22%2Fleetcode%E4%B9%8BTo%20Lower%20Case%2F</url>
-    <content type="text"><![CDATA[问题描述： Implement function ToLowerCase() that has a string parameter str, and returns the same string in lowercase. Example 1: Input: “Hello”Output: “hello”Example 2: Input: “here”Output: “here”Example 3: Input: “LOVELY”Output: “lovely” 转换为小写字母123456789func toLowerCase(str string) string &#123; b :=[]byte(str) for i:=0;i&lt;len(str);i++ &#123; if str[i] &gt;=65 &amp;&amp; str[i] &lt;=90 &#123; b[i]=b[i]+32 &#125; &#125; return string(b) &#125; 没什么复杂的。]]></content>
-      <categories>
-        <category>算法</category>
-      </categories>
-      <tags>
-        <tag>算法</tag>
-      </tags>
-  </entry>
-  <entry>
     <title><![CDATA[leetcode之Sort Array By Parity]]></title>
     <url>%2F2019%2F01%2F22%2Fleetcode%E4%B9%8BSort%20Array%20By%20Parity%2F</url>
     <content type="text"><![CDATA[问题描述： Given an array A of non-negative integers, return an array consisting of all the even elements of A, followed by all the odd elements of A. You may return any answer array that satisfies this condition. Example 1: Input: [3,1,2,4]Output: [2,4,3,1]The outputs [4,2,3,1], [2,4,1,3], and [4,2,1,3] would also be accepted. Note: 1 &lt;= A.length &lt;= 50000 &lt;= A[i] &lt;= 5000imes. 将数组按奇偶排序，偶数全部放在前面1234567891011121314151617func sortArrayByParity(A []int) []int &#123; var B [5000]int l := len(A) start := 0 end := l-1 for i:=0; i&lt;l; i++ &#123; if A[i] % 2 ==0 &#123; B[start]=A[i] start++ &#125;else &#123; B[end]=A[i] end-- &#125; &#125; return B[0:l] &#125; 定义一个大数组，然后把偶数从0开始放，奇数从l-1开始放。最后返回B的0-l的元素即可。]]></content>
-      <categories>
-        <category>算法</category>
-      </categories>
-      <tags>
-        <tag>算法</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[leetcode之Self Dividing Numbers]]></title>
-    <url>%2F2019%2F01%2F22%2Fleetcode%E4%B9%8BSelf%20Dividing%20Numbers%2F</url>
-    <content type="text"><![CDATA[问题描述： A self-dividing number is a number that is divisible by every digit it contains. For example, 128 is a self-dividing number because 128 % 1 == 0, 128 % 2 == 0, and 128 % 8 == 0. Also, a self-dividing number is not allowed to contain the digit zero. Given a lower and upper number bound, output a list of every possible self dividing number, including the bounds if possible.Example 1:Input:left = 1, right = 22Output: [1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 15, 22]Note: The boundaries of each input argument are 1 &lt;= left &lt;= right &lt;= 10000. 给定数字开头和结尾，找出他们中间满足条件的数字，条件就是能被自己包含的数字整除，如 8743 要能被 8、7、4、3 都整除才算满足条件。1234567891011121314151617181920func selfDividingNumbers(left int, right int) []int &#123; var array []int for i:=left;i&lt;=right;i++ &#123; k := i isVaild := true for k !=0 &#123; if num := k%10; num == 0 || i % num != 0&#123; isVaild = false break &#125; k = k/10 &#125; if isVaild &#123; array = append(array,i) &#125; &#125; return array&#125; 之前做过一次数字反转的题目，这里的核心代码与它相同，一边找出余数，看看能不能整除，如果能就把剩下的数字继续找余数。注意，数字中任何一位是0都不能算，这个一定要在整除前判断。]]></content>
-      <categories>
-        <category>算法</category>
-      </categories>
-      <tags>
-        <tag>算法</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[leetcode之Peak Index in a Mountain Array]]></title>
-    <url>%2F2019%2F01%2F22%2Fleetcode%E4%B9%8BPeak%20Index%20in%20a%20Mountain%20Array%2F</url>
-    <content type="text"><![CDATA[问题描述： Let’s call an array A a mountain if the following properties hold: A.length &gt;= 3There exists some 0 &lt; i &lt; A.length - 1 such that A[0] &lt; A[1] &lt; … A[i-1] &lt; A[i] &gt; A[i+1] &gt; … &gt; A[A.length - 1]Given an array that is definitely a mountain, return any i such that A[0] &lt; A[1] &lt; … A[i-1] &lt; A[i] &gt; A[i+1] &gt; … &gt; A[A.length - 1]. Example 1: Input: [0,1,0]Output: 1Example 2: Input: [0,2,1,0]Output: 1Note: 3 &lt;= A.length &lt;= 100000 &lt;= A[i] &lt;= 10^6A is a mountain, as defined above.Return the minimum possible value of D.length. 英文翻译很简单，我就直接说思路了。给定的数组一定是a mountain 的数组，所以要找满足条件的i，相当于找数组中最大的元素嘛，而且最大的元素为分界，两边都是有序的。123456789func peakIndexInMountainArray(A []int) int &#123; for k,_ := range A &#123; if A[k+1] &lt; A[k] &#123; return k &#125; &#125; return 0 &#125; 代码如上。]]></content>
-      <categories>
-        <category>算法</category>
-      </categories>
-      <tags>
-        <tag>算法</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[leetcode之To Lower Case]]></title>
-    <url>%2F2019%2F01%2F22%2Fleetcode%E4%B9%8BJewels%20and%20Stones%2F</url>
-    <content type="text"><![CDATA[问题描述： You’re given strings J representing the types of stones that are jewels, and S representing the stones you have. Each character in S is a type of stone you have. You want to know how many of the stones you have are also jewels. The letters in J are guaranteed distinct, and all characters in J and S are letters. Letters are case sensitive, so “a” is considered a different type of stone from “A”. Example 1: Input: J = “aA”, S = “aAAbbbb”Output: 3Example 2: Input: J = “z”, S = “ZZ”Output: 0Note: S and J will consist of letters and have length at most 50.The characters in J are distinct. 我把这道题翻译为：在石头中找宝石，返回宝石的数量。12345678910111213141516func numJewelsInStones(J string, S string) int &#123; mp :=make(map[byte] int) cn :=0 for i:=0;i&lt;len(J);i++ &#123; mp[J[i]]=i &#125; for i:=0;i&lt;len(S);i++ &#123; if _,ok :=mp[S[i]];ok &#123; cn++ &#125; &#125; return cn &#125; 将宝石放在map中，然后依次迭代数组查找就可以了。]]></content>
       <categories>
         <category>算法</category>
       </categories>
@@ -111,9 +56,20 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[leetcode之Flipping an Image]]></title>
-    <url>%2F2019%2F01%2F22%2Fleetcode%E4%B9%8BFlipping%20an%20Image%2F</url>
-    <content type="text"><![CDATA[问题描述： Given a binary matrix A, we want to flip the image horizontally, then invert it, and return the resulting image. To flip an image horizontally means that each row of the image is reversed. For example, flipping [1, 1, 0] horizontally results in [0, 1, 1]. To invert an image means that each 0 is replaced by 1, and each 1 is replaced by 0. For example, inverting [0, 1, 1] results in [1, 0, 0]. Example 1: Input: [[1,1,0],[1,0,1],[0,0,0]]Output: [[1,0,0],[0,1,0],[1,1,1]]Explanation: First reverse each row: [[0,1,1],[1,0,1],[0,0,0]].Then, invert the image: [[1,0,0],[0,1,0],[1,1,1]]Example 2: Input: [[1,1,0,0],[1,0,0,1],[0,1,1,1],[1,0,1,0]]Output: [[1,1,0,0],[0,1,1,0],[0,0,0,1],[1,0,1,0]]Explanation: First reverse each row: [[0,0,1,1],[1,0,0,1],[1,1,1,0],[0,1,0,1]].Then invert the image: [[1,1,0,0],[0,1,1,0],[0,0,0,1],[1,0,1,0]]Notes: 1 &lt;= A.length = A[0].length &lt;= 200 &lt;= A[i][j] &lt;= 1 这是一个二维数组，将每个一位数组反转，然后0置为1 1置为012345678910111213141516171819202122232425func invertArray( a []int) []int &#123; for i:=0;i&lt;len(a);i++ &#123; a[i]=a[i]^1 &#125; return a&#125;func reverseArray( a []int) []int &#123; l := len(a) for i:=0;i&lt;l/2;i++&#123; tmp := a[i] a[i]=a[l-i-1] a[l-i-1]=tmp &#125; return a&#125;func flipAndInvertImage(A [][]int) [][]int &#123; for i:=0;i&lt;len(A);i++ &#123; reverseArray(A[i]) invertArray(A[i]) &#125; return A&#125; 如题，先反转数组，然后数组中1 0 互换。]]></content>
+    <title><![CDATA[leetcode之Unique Email Addresses]]></title>
+    <url>%2F2019%2F01%2F22%2Fleetcode%E4%B9%8BUnique%20Email%20Addresses%2F</url>
+    <content type="text"><![CDATA[问题描述： Every email consists of a local name and a domain name, separated by the @ sign. For example, in alice@leetcode.com, alice is the local name, and leetcode.com is the domain name. Besides lowercase letters, these emails may contain ‘.’s or ‘+’s. If you add periods (‘.’) between some characters in the local name part of an email address, mail sent there will be forwarded to the same address without dots in the local name. For example, “alice.z@leetcode.com“ and “alicez@leetcode.com“ forward to the same email address. (Note that this rule does not apply for domain names.) If you add a plus (‘+’) in the local name, everything after the first plus sign will be ignored. This allows certain emails to be filtered, for example m.y+name@email.com will be forwarded to my@email.com. (Again, this rule does not apply for domain names.) It is possible to use both of these rules at the same time. Given a list of emails, we send one email to each address in the list. How many different addresses actually receive mails? Example 1: Input: [“test.email+alex@leetcode.com“,”test.e.mail+bob.cathy@leetcode.com“,”testemail+david@lee.tcode.com“]Output: 2Explanation: “testemail@leetcode.com“ and “testemail@lee.tcode.com“ actually receive mails Note: 1 &lt;= emails[i].length &lt;= 1001 &lt;= emails.length &lt;= 100Each emails[i] contains exactly one ‘@’ character.. 过滤合法的邮箱地址，其中local name中的.为无效字符可直接过滤，+后面的字符都无效不算。domain name只包含一个@而且.和+都是合法的。12345678910111213141516171819202122232425262728293031323334func numUniqueEmails(emails []string) int &#123; mp := make (map[string] int) for i:=0;i&lt;len(emails);i++ &#123; em := []byte(emails[i]) k :=0 findDot := 0 findPlus := false for _,val := range emails[i] &#123; if val == '@' &#123; findPlus =false findDot++ &#125; if val == '.'||findPlus &#123; if findDot == 0 &#123; continue &#125; &#125; if val == '+' &#123; findPlus =true continue &#125; em[k]=byte(val) k++ &#125; if k &gt; 0 &amp;&amp; findDot == 1&#123; mp[string(em)[0:k]]++ &#125; &#125; return len(mp) &#125; 依次迭代邮箱地址，记录@、.、+的符号，然后按照规则处理就可以了。]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>算法</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[leetcode之To Lower Case]]></title>
+    <url>%2F2019%2F01%2F22%2Fleetcode%E4%B9%8BJewels%20and%20Stones%2F</url>
+    <content type="text"><![CDATA[问题描述： You’re given strings J representing the types of stones that are jewels, and S representing the stones you have. Each character in S is a type of stone you have. You want to know how many of the stones you have are also jewels. The letters in J are guaranteed distinct, and all characters in J and S are letters. Letters are case sensitive, so “a” is considered a different type of stone from “A”. Example 1: Input: J = “aA”, S = “aAAbbbb”Output: 3Example 2: Input: J = “z”, S = “ZZ”Output: 0Note: S and J will consist of letters and have length at most 50.The characters in J are distinct. 我把这道题翻译为：在石头中找宝石，返回宝石的数量。12345678910111213141516func numJewelsInStones(J string, S string) int &#123; mp :=make(map[byte] int) cn :=0 for i:=0;i&lt;len(J);i++ &#123; mp[J[i]]=i &#125; for i:=0;i&lt;len(S);i++ &#123; if _,ok :=mp[S[i]];ok &#123; cn++ &#125; &#125; return cn &#125; 将宝石放在map中，然后依次迭代数组查找就可以了。]]></content>
       <categories>
         <category>算法</category>
       </categories>
@@ -144,9 +100,75 @@
       </tags>
   </entry>
   <entry>
+    <title><![CDATA[leetcode之Self Dividing Numbers]]></title>
+    <url>%2F2019%2F01%2F22%2Fleetcode%E4%B9%8BSelf%20Dividing%20Numbers%2F</url>
+    <content type="text"><![CDATA[问题描述： A self-dividing number is a number that is divisible by every digit it contains. For example, 128 is a self-dividing number because 128 % 1 == 0, 128 % 2 == 0, and 128 % 8 == 0. Also, a self-dividing number is not allowed to contain the digit zero. Given a lower and upper number bound, output a list of every possible self dividing number, including the bounds if possible.Example 1:Input:left = 1, right = 22Output: [1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 15, 22]Note: The boundaries of each input argument are 1 &lt;= left &lt;= right &lt;= 10000. 给定数字开头和结尾，找出他们中间满足条件的数字，条件就是能被自己包含的数字整除，如 8743 要能被 8、7、4、3 都整除才算满足条件。1234567891011121314151617181920func selfDividingNumbers(left int, right int) []int &#123; var array []int for i:=left;i&lt;=right;i++ &#123; k := i isVaild := true for k !=0 &#123; if num := k%10; num == 0 || i % num != 0&#123; isVaild = false break &#125; k = k/10 &#125; if isVaild &#123; array = append(array,i) &#125; &#125; return array&#125; 之前做过一次数字反转的题目，这里的核心代码与它相同，一边找出余数，看看能不能整除，如果能就把剩下的数字继续找余数。注意，数字中任何一位是0都不能算，这个一定要在整除前判断。]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>算法</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[leetcode之Unique Morse Code Words]]></title>
     <url>%2F2019%2F01%2F22%2Fleetcode%E4%B9%8B%20Unique%20Morse%20Code%20Words%2F</url>
     <content type="text"><![CDATA[问题描述： International Morse Code defines a standard encoding where each letter is mapped to a series of dots and dashes, as follows: “a” maps to “.-“, “b” maps to “-…”, “c” maps to “-.-.”, and so on. For convenience, the full table for the 26 letters of the English alphabet is given below: [“.-“,”-…”,”-.-.”,”-..”,”.”,”..-.”,”–.”,”….”,”..”,”.—“,”-.-“,”.-..”,”–”,”-.”,”—“,”.–.”,”–.-“,”.-.”,”…”,”-“,”..-“,”…-“,”.–”,”-..-“,”-.–”,”–..”]Now, given a list of words, each word can be written as a concatenation of the Morse code of each letter. For example, “cba” can be written as “-.-..–…”, (which is the concatenation “-.-.” + “-…” + “.-“). We’ll call such a concatenation, the transformation of a word. Return the number of different transformations among all words we have. Example:Input: words = [“gin”, “zen”, “gig”, “msg”]Output: 2Explanation:The transformation of each word is:“gin” -&gt; “–…-.”“zen” -&gt; “–…-.”“gig” -&gt; “–…–.”“msg” -&gt; “–…–.” There are 2 different transformations, “–…-.” and “–…–.”.Note:The length of words will be at most 100.Each words[i] will have length in range [1, 12].words[i] will only consist of lowercase letters. 将字母翻译为摩斯码，返回去重后的摩斯码数量12345678910111213func uniqueMorseRepresentations(words []string) int &#123; M := []string&#123;".-","-...","-.-.","-..",".","..-.","--.","....","..",".---","-.-",".-..","--","-.","---",".--.","--.-",".-.","...","-","..-","...-",".--","-..-","-.--","--.."&#125; morse_mp := make(map[string] int) for i:=0; i &lt; len(words); i++ &#123; morse :="" for _,v := range words[i] &#123; morse = morse+M[v-'a'] &#125; morse_mp[morse]++ &#125; return len(morse_mp)&#125; 将每个字母映射为摩斯码，然后放在map中去重，返回map的长度即可。]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>算法</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[leetcode之Squares of a Sorted Array]]></title>
+    <url>%2F2019%2F01%2F22%2Fleetcode%E4%B9%8BSquares%20of%20a%20Sorted%20Array%2F</url>
+    <content type="text"><![CDATA[问题描述： Given an array of integers A sorted in non-decreasing order, return an array of the squares of each number, also in sorted non-decreasing order. Example 1: Input: [-4,-1,0,3,10]Output: [0,1,9,16,100] Example 2: Input: [-7,-3,2,3,11]Output: [4,9,9,49,121] Note: 1 &lt;= A.length &lt;= 10000-10000 &lt;= A[i] &lt;= 10000A is sorted in non-decreasing order. 给定一个有序数组，按平方后的数据大小排序1234567891011121314151617181920type bySquare []intfunc (a bySquare) Len() int &#123; return len(a)&#125;func (p bySquare) Less(i,j int) bool &#123; return p[i]*p[i] &lt;p[j]*p[j]&#125;func (p bySquare) Swap (i,j int) &#123; p[i],p[j] = p[j],p[i]&#125;func sortedSquares(A []int) []int &#123; for k,_ := range A &#123; A[k]=A[k]*A[k] &#125; sort.Sort(bySquare(A)) return A&#125; 偷了个懒，利用了go的接口特性，重写了系统的sort函数。一定还有其他思路解决这个问题，因为对于题目中给定的有序数组这个特点没利用上。欢迎有思路的同学留言。]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>算法</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[leetcode之Flipping an Image]]></title>
+    <url>%2F2019%2F01%2F22%2Fleetcode%E4%B9%8BFlipping%20an%20Image%2F</url>
+    <content type="text"><![CDATA[问题描述： Given a binary matrix A, we want to flip the image horizontally, then invert it, and return the resulting image. To flip an image horizontally means that each row of the image is reversed. For example, flipping [1, 1, 0] horizontally results in [0, 1, 1]. To invert an image means that each 0 is replaced by 1, and each 1 is replaced by 0. For example, inverting [0, 1, 1] results in [1, 0, 0]. Example 1: Input: [[1,1,0],[1,0,1],[0,0,0]]Output: [[1,0,0],[0,1,0],[1,1,1]]Explanation: First reverse each row: [[0,1,1],[1,0,1],[0,0,0]].Then, invert the image: [[1,0,0],[0,1,0],[1,1,1]]Example 2: Input: [[1,1,0,0],[1,0,0,1],[0,1,1,1],[1,0,1,0]]Output: [[1,1,0,0],[0,1,1,0],[0,0,0,1],[1,0,1,0]]Explanation: First reverse each row: [[0,0,1,1],[1,0,0,1],[1,1,1,0],[0,1,0,1]].Then invert the image: [[1,1,0,0],[0,1,1,0],[0,0,0,1],[1,0,1,0]]Notes: 1 &lt;= A.length = A[0].length &lt;= 200 &lt;= A[i][j] &lt;= 1 这是一个二维数组，将每个一位数组反转，然后0置为1 1置为012345678910111213141516171819202122232425func invertArray( a []int) []int &#123; for i:=0;i&lt;len(a);i++ &#123; a[i]=a[i]^1 &#125; return a&#125;func reverseArray( a []int) []int &#123; l := len(a) for i:=0;i&lt;l/2;i++&#123; tmp := a[i] a[i]=a[l-i-1] a[l-i-1]=tmp &#125; return a&#125;func flipAndInvertImage(A [][]int) [][]int &#123; for i:=0;i&lt;len(A);i++ &#123; reverseArray(A[i]) invertArray(A[i]) &#125; return A&#125; 如题，先反转数组，然后数组中1 0 互换。]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>算法</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[leetcode之To Lower Case]]></title>
+    <url>%2F2019%2F01%2F22%2Fleetcode%E4%B9%8BTo%20Lower%20Case%2F</url>
+    <content type="text"><![CDATA[问题描述： Implement function ToLowerCase() that has a string parameter str, and returns the same string in lowercase. Example 1: Input: “Hello”Output: “hello”Example 2: Input: “here”Output: “here”Example 3: Input: “LOVELY”Output: “lovely” 转换为小写字母123456789func toLowerCase(str string) string &#123; b :=[]byte(str) for i:=0;i&lt;len(str);i++ &#123; if str[i] &gt;=65 &amp;&amp; str[i] &lt;=90 &#123; b[i]=b[i]+32 &#125; &#125; return string(b) &#125; 没什么复杂的。]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>算法</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[leetcode之Peak Index in a Mountain Array]]></title>
+    <url>%2F2019%2F01%2F22%2Fleetcode%E4%B9%8BPeak%20Index%20in%20a%20Mountain%20Array%2F</url>
+    <content type="text"><![CDATA[问题描述： Let’s call an array A a mountain if the following properties hold: A.length &gt;= 3There exists some 0 &lt; i &lt; A.length - 1 such that A[0] &lt; A[1] &lt; … A[i-1] &lt; A[i] &gt; A[i+1] &gt; … &gt; A[A.length - 1]Given an array that is definitely a mountain, return any i such that A[0] &lt; A[1] &lt; … A[i-1] &lt; A[i] &gt; A[i+1] &gt; … &gt; A[A.length - 1]. Example 1: Input: [0,1,0]Output: 1Example 2: Input: [0,2,1,0]Output: 1Note: 3 &lt;= A.length &lt;= 100000 &lt;= A[i] &lt;= 10^6A is a mountain, as defined above.Return the minimum possible value of D.length. 英文翻译很简单，我就直接说思路了。给定的数组一定是a mountain 的数组，所以要找满足条件的i，相当于找数组中最大的元素嘛，而且最大的元素为分界，两边都是有序的。123456789func peakIndexInMountainArray(A []int) int &#123; for k,_ := range A &#123; if A[k+1] &lt; A[k] &#123; return k &#125; &#125; return 0 &#125; 代码如上。]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>算法</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[leetcode之Robot Return to Origin]]></title>
+    <url>%2F2019%2F01%2F22%2Fleetcode%E4%B9%8BRobot%20Return%20to%20Origin%2F</url>
+    <content type="text"><![CDATA[问题描述： There is a robot starting at position (0, 0), the origin, on a 2D plane. Given a sequence of its moves, judge if this robot ends up at (0, 0) after it completes its moves. The move sequence is represented by a string, and the character moves[i] represents its ith move. Valid moves are R (right), L (left), U (up), and D (down). If the robot returns to the origin after it finishes all of its moves, return true. Otherwise, return false. Note: The way that the robot is “facing” is irrelevant. “R” will always make the robot move to the right once, “L” will always make it move left, etc. Also, assume that the magnitude of the robot’s movement is the same for each move. Example 1: Input: “UD”Output: trueExplanation: The robot moves up once, and then down once. All moves have the same magnitude, so it ended up at the origin where it started. Therefore, we return true. Example 2: Input: “LL”Output: falseExplanation: The robot moves left twice. It ends up two “moves” to the left of the origin. We return false because it is not at the origin at the end of its moves. 模拟机器人走路，分别为 UDLR 代表上下左右，经过一顿操作后，是否还能回到原点1234567891011121314151617181920func judgeCircle(moves string) bool &#123; var k,h int if len(moves)%2 != 0 &#123; return false &#125; for i:=0;i&lt;len(moves);i++ &#123; switch &#123; case moves[i] == 'U': k++ case moves[i] == 'D': k-- case moves[i] == 'R': h++ case moves[i] == 'L': h-- &#125; &#125; return k==0&amp;&amp;h==0 &#125; 能回到原点，说明操作次数是偶数，左右，上下，一一对应。定义K和h分别记录操作次数，上和右加1，下和左减1.循环完K和h是0即可。]]></content>
       <categories>
         <category>算法</category>
       </categories>
@@ -177,9 +199,9 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[leetcode之Remove Element]]></title>
-    <url>%2F2019%2F01%2F17%2Fleetcode%E4%B9%8BRemove%20Element%2F</url>
-    <content type="text"><![CDATA[问题描述： Given an array nums and a value val, remove all instances of that value in-place and return the new length. Do not allocate extra space for another array, you must do this by modifying the input array in-place with O(1) extra memory. The order of elements can be changed. It doesn’t matter what you leave beyond the new length. Example 1: Given nums = [3,2,2,3], val = 3, Your function should return length = 2, with the first two elements of nums being 2. It doesn’t matter what you leave beyond the returned length.Example 2:Given nums = [0,1,2,2,3,0,4,2], val = 2, Your function should return length = 5, with the first five elements of nums containing 0, 1, 3, 0, and 4. Note that the order of those five elements can be arbitrary. It doesn’t matter what values are set beyond the returned length.Clarification: Confused why the returned value is an integer but your answer is an array? Note that the input array is passed in by reference, which means modification to the input array will be known to the caller as well. Internally you can think of this: // nums is passed in by reference. (i.e., without making a copy)int len = removeElement(nums, val); // any modification to nums in your function would be known by the caller.// using the length returned by your function, it prints the first len elements.for (int i = 0; i &lt; len; i++) { print(nums[i]);} 移出指定元素后，返回被移除元素后的数组长度12345678910111213func removeElement(nums []int, val int) int &#123; k :=0 for i:=0;i&lt;len(nums);i++ &#123; if nums[i] == val &#123; continue &#125; nums[k]=nums[i] k++ &#125; return k &#125;&#125; 通过两个变量移动，实现将除val后的其他元素放在数组前面。同时返回k的值，也就是移除元素后数组的长度。]]></content>
+    <title><![CDATA[leetcode之Remove Duplicates from Sorted Array]]></title>
+    <url>%2F2019%2F01%2F17%2Fleetcode%E4%B9%8BRemove%20Duplicates%20from%20Sorted%20Array%2F</url>
+    <content type="text"><![CDATA[问题描述： Given a sorted array nums, remove the duplicates in-place such that each element appear only once and return the new length. Do not allocate extra space for another array, you must do this by modifying the input array in-place with O(1) extra memory. Example 1: Given nums = [1,1,2], Your function should return length = 2, with the first two elements of nums being 1 and 2 respectively. It doesn’t matter what you leave beyond the returned length.Example 2:Given nums = [0,0,1,1,1,2,2,3,3,4], Your function should return length = 5, with the first five elements of nums being modified to 0, 1, 2, 3, and 4 respectively. It doesn’t matter what values are set beyond the returned length.Clarification: Confused why the returned value is an integer but your answer is an array? Note that the input array is passed in by reference, which means modification to the input array will be known to the caller as well. Internally you can think of this: // nums is passed in by reference. (i.e., without making a copy)int len = removeDuplicates(nums); // any modification to nums in your function would be known by the caller.// using the length returned by your function, it prints the first len elements.for (int i = 0; i &lt; len; i++) { print(nums[i]);} 大概意思就是在给数组去重，但是要求不能开辟新的空间，只能通过原数组实现先上代码，再聊思路。 12345678910111213141516171819202122func removeDuplicates(nums []int) int &#123; nl :=len(nums) if nl == 0 &#123; return nl &#125; cur := 0 for i:=0;i&lt;nl;i++ &#123; if i ==nl-1 &#123; nums[cur]=nums[i] cur++ break &#125; if nums[i] != nums[i+1] &#123; nums[cur]=nums[i] cur++ &#125; &#125; return cur&#125; 通过两个变量移动，实现将数组去重后的元素都赋值到数组的前几位，然后返回不同元素的个数。 附上我看到的比较简洁的代码：12345678910111213func removeDuplicates(nums []int) int &#123; i := 0 for j := 1; j &lt; len(nums); j++ &#123; if nums[j] == nums[i] &#123; continue &#125; i++ nums[i] = nums[j] &#125; return i + 1&#125;]]></content>
       <categories>
         <category>算法</category>
       </categories>
@@ -188,9 +210,9 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[leetcode之Remove Duplicates from Sorted Array]]></title>
-    <url>%2F2019%2F01%2F17%2Fleetcode%E4%B9%8BRemove%20Duplicates%20from%20Sorted%20Array%2F</url>
-    <content type="text"><![CDATA[问题描述： Given a sorted array nums, remove the duplicates in-place such that each element appear only once and return the new length. Do not allocate extra space for another array, you must do this by modifying the input array in-place with O(1) extra memory. Example 1: Given nums = [1,1,2], Your function should return length = 2, with the first two elements of nums being 1 and 2 respectively. It doesn’t matter what you leave beyond the returned length.Example 2:Given nums = [0,0,1,1,1,2,2,3,3,4], Your function should return length = 5, with the first five elements of nums being modified to 0, 1, 2, 3, and 4 respectively. It doesn’t matter what values are set beyond the returned length.Clarification: Confused why the returned value is an integer but your answer is an array? Note that the input array is passed in by reference, which means modification to the input array will be known to the caller as well. Internally you can think of this: // nums is passed in by reference. (i.e., without making a copy)int len = removeDuplicates(nums); // any modification to nums in your function would be known by the caller.// using the length returned by your function, it prints the first len elements.for (int i = 0; i &lt; len; i++) { print(nums[i]);} 大概意思就是在给数组去重，但是要求不能开辟新的空间，只能通过原数组实现先上代码，再聊思路。 12345678910111213141516171819202122func removeDuplicates(nums []int) int &#123; nl :=len(nums) if nl == 0 &#123; return nl &#125; cur := 0 for i:=0;i&lt;nl;i++ &#123; if i ==nl-1 &#123; nums[cur]=nums[i] cur++ break &#125; if nums[i] != nums[i+1] &#123; nums[cur]=nums[i] cur++ &#125; &#125; return cur&#125; 通过两个变量移动，实现将数组去重后的元素都赋值到数组的前几位，然后返回不同元素的个数。 附上我看到的比较简洁的代码：12345678910111213func removeDuplicates(nums []int) int &#123; i := 0 for j := 1; j &lt; len(nums); j++ &#123; if nums[j] == nums[i] &#123; continue &#125; i++ nums[i] = nums[j] &#125; return i + 1&#125;]]></content>
+    <title><![CDATA[leetcode之Remove Element]]></title>
+    <url>%2F2019%2F01%2F17%2Fleetcode%E4%B9%8BRemove%20Element%2F</url>
+    <content type="text"><![CDATA[问题描述： Given an array nums and a value val, remove all instances of that value in-place and return the new length. Do not allocate extra space for another array, you must do this by modifying the input array in-place with O(1) extra memory. The order of elements can be changed. It doesn’t matter what you leave beyond the new length. Example 1: Given nums = [3,2,2,3], val = 3, Your function should return length = 2, with the first two elements of nums being 2. It doesn’t matter what you leave beyond the returned length.Example 2:Given nums = [0,1,2,2,3,0,4,2], val = 2, Your function should return length = 5, with the first five elements of nums containing 0, 1, 3, 0, and 4. Note that the order of those five elements can be arbitrary. It doesn’t matter what values are set beyond the returned length.Clarification: Confused why the returned value is an integer but your answer is an array? Note that the input array is passed in by reference, which means modification to the input array will be known to the caller as well. Internally you can think of this: // nums is passed in by reference. (i.e., without making a copy)int len = removeElement(nums, val); // any modification to nums in your function would be known by the caller.// using the length returned by your function, it prints the first len elements.for (int i = 0; i &lt; len; i++) { print(nums[i]);} 移出指定元素后，返回被移除元素后的数组长度12345678910111213func removeElement(nums []int, val int) int &#123; k :=0 for i:=0;i&lt;len(nums);i++ &#123; if nums[i] == val &#123; continue &#125; nums[k]=nums[i] k++ &#125; return k &#125;&#125; 通过两个变量移动，实现将除val后的其他元素放在数组前面。同时返回k的值，也就是移除元素后数组的长度。]]></content>
       <categories>
         <category>算法</category>
       </categories>
@@ -217,7 +239,7 @@
         <category>ARTS</category>
       </categories>
       <tags>
-        <tag>Tips</tag>
+        <tag>Share</tag>
       </tags>
   </entry>
   <entry>
