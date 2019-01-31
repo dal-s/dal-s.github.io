@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://dal-s.github.io/2019/01/31/Review%E4%B9%8BUnderstanding%20Compilers%E2%80%8A%E2%80%94%E2%80%8AFor%20Humans/</loc>
+    <lastmod>2019-01-31T02:07:28.932Z</lastmod>
+  </url>  <url>
+    <loc>https://dal-s.github.io/2019/01/30/Share%E4%B9%8BRegex%20tutorial%E2%80%8A%E2%80%94%E2%80%8AA%20quick%20cheatsheet%20by%20examples/</loc>
+    <lastmod>2019-01-30T02:22:33.576Z</lastmod>
+  </url>  <url>
+    <loc>https://dal-s.github.io/2019/01/23/Review%E4%B9%8B%E6%AF%8F%E5%88%86%E9%92%9F%E5%A4%84%E7%90%861%E4%BA%BF%E4%B8%AA%E8%AF%B7%E6%B1%82/</loc>
+    <lastmod>2019-01-30T02:15:54.367Z</lastmod>
+  </url>  <url>
     <loc>https://dal-s.github.io/2019/01/17/ARTS%E5%90%88%E9%9B%86%E9%93%BE%E6%8E%A5/</loc>
     <lastmod>2019-01-25T01:58:53.828Z</lastmod>
   </url>  <url>
@@ -12,9 +21,6 @@
   </url>  <url>
     <loc>https://dal-s.github.io/2019/01/24/Share%E4%B9%8BGolang%20Guide%20A%20List%20of%20Top%20Golang%20Frameworks,%20IDEs%20&%20Tools/</loc>
     <lastmod>2019-01-24T01:03:17.306Z</lastmod>
-  </url>  <url>
-    <loc>https://dal-s.github.io/2019/01/23/Review%E4%B9%8B%E6%AF%8F%E5%88%86%E9%92%9F%E5%A4%84%E7%90%861%E4%BA%BF%E4%B8%AA%E8%AF%B7%E6%B1%82/</loc>
-    <lastmod>2019-01-23T03:18:32.797Z</lastmod>
   </url>  <url>
     <loc>https://dal-s.github.io/2019/01/22/leetcode%E4%B9%8BArray%20Partition%20I/</loc>
     <lastmod>2019-01-22T13:08:29.333Z</lastmod>
