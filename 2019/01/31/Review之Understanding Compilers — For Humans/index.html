@@ -84,19 +84,19 @@
 
 
 
-<meta name="description" content="原文链接在这里，不知道需不需要翻墙。 这篇文章介绍了从代码到二进制文件的编译过程，作者每一步都介绍的比较详细，还顺手推荐了几个非常实用的网站。 这里先切个图过来，整体了解一下编译的整个过程。 从源代码到二进制，一共分为：1、词法分析2、语法解析3、依据AST生成的语法树，输出二进制代码 词法分析阶段，并不关心执行结果，只把各个字符串、操作符、标识符等区分出来，这个阶段的任务就结束了。 编译的第二阶">
+<meta name="description" content="原文链接在这里，不知道需不需要翻墙。 这篇文章介绍了从代码到二进制文件的编译过程，作者每一步都介绍的比较详细，还顺手推荐了几个非常实用的网站。 这里先切个图过来，整体了解一下编译的整个过程。">
 <meta name="keywords" content="Review">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Review之Understanding Compilers — For Humans">
 <meta property="og:url" content="https://dal-s.github.io/2019/01/31/Review之Understanding Compilers — For Humans/index.html">
 <meta property="og:site_name" content="dal&#39;s blog">
-<meta property="og:description" content="原文链接在这里，不知道需不需要翻墙。 这篇文章介绍了从代码到二进制文件的编译过程，作者每一步都介绍的比较详细，还顺手推荐了几个非常实用的网站。 这里先切个图过来，整体了解一下编译的整个过程。 从源代码到二进制，一共分为：1、词法分析2、语法解析3、依据AST生成的语法树，输出二进制代码 词法分析阶段，并不关心执行结果，只把各个字符串、操作符、标识符等区分出来，这个阶段的任务就结束了。 编译的第二阶">
+<meta property="og:description" content="原文链接在这里，不知道需不需要翻墙。 这篇文章介绍了从代码到二进制文件的编译过程，作者每一步都介绍的比较详细，还顺手推荐了几个非常实用的网站。 这里先切个图过来，整体了解一下编译的整个过程。">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://cdn-images-1.medium.com/max/1000/1*ttOYPPL-XJIf4zVZQUBzsQ.jpeg">
-<meta property="og:updated_time" content="2019-01-31T02:07:28.932Z">
+<meta property="og:updated_time" content="2019-01-31T03:14:03.850Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Review之Understanding Compilers — For Humans">
-<meta name="twitter:description" content="原文链接在这里，不知道需不需要翻墙。 这篇文章介绍了从代码到二进制文件的编译过程，作者每一步都介绍的比较详细，还顺手推荐了几个非常实用的网站。 这里先切个图过来，整体了解一下编译的整个过程。 从源代码到二进制，一共分为：1、词法分析2、语法解析3、依据AST生成的语法树，输出二进制代码 词法分析阶段，并不关心执行结果，只把各个字符串、操作符、标识符等区分出来，这个阶段的任务就结束了。 编译的第二阶">
+<meta name="twitter:description" content="原文链接在这里，不知道需不需要翻墙。 这篇文章介绍了从代码到二进制文件的编译过程，作者每一步都介绍的比较详细，还顺手推荐了几个非常实用的网站。 这里先切个图过来，整体了解一下编译的整个过程。">
 <meta name="twitter:image" content="https://cdn-images-1.medium.com/max/1000/1*ttOYPPL-XJIf4zVZQUBzsQ.jpeg">
 
 
@@ -404,7 +404,7 @@
       
         <p>原文链接在<a href="https://towardsdatascience.com/understanding-compilers-for-humans-version-2-157f0edb02dd" target="_blank" rel="noopener">这里</a>，不知道需不需要翻墙。</p>
 <p>这篇文章介绍了从代码到二进制文件的编译过程，作者每一步都介绍的比较详细，还顺手推荐了几个非常实用的网站。</p>
-<p>这里先切个图过来，整体了解一下编译的整个过程。<br><img src="https://cdn-images-1.medium.com/max/1000/1*ttOYPPL-XJIf4zVZQUBzsQ.jpeg" alt="编译过程" title="编译过程"></p>
+<p>这里先切个图过来，整体了解一下编译的整个过程。<br><a id="more"></a><br><img src="https://cdn-images-1.medium.com/max/1000/1*ttOYPPL-XJIf4zVZQUBzsQ.jpeg" alt="编译过程" title="编译过程"></p>
 <p>从源代码到二进制，一共分为：<br>1、词法分析<br>2、语法解析<br>3、依据AST生成的语法树，输出二进制代码</p>
 <p>词法分析阶段，并不关心执行结果，只把各个字符串、操作符、标识符等区分出来，这个阶段的任务就结束了。</p>
 <p>编译的第二阶段是语法解析，语法解析要依据语法定义语句，解析代码中各语句的语法关系，并生成类似语法树的东西，这个过程也叫做AST：abstract syntax tree。</p>
@@ -450,6 +450,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/02/01/Tips之mysterious/" rel="prev" title="Tips之mysterious">
+                Tips之mysterious <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -520,7 +524,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">47</span>
+                  <span class="site-state-item-count">48</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>

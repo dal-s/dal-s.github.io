@@ -290,6 +290,182 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://dal-s.github.io/2018/11/27/Go系列-二-数组 map slice/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="DaLi">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="dal's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/11/27/Go系列-二-数组 map slice/" itemprop="url">Go系列(二):数组 map slice</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-27T15:29:55+08:00">
+                2018-11-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/golang/" itemprop="url" rel="index">
+                    <span itemprop="name">golang</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/11/27/Go系列-二-数组 map slice/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2018/11/27/Go系列-二-数组 map slice/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2018/11/27/Go系列-二-数组 map slice/" class="leancloud_visitors" data-flag-title="Go系列(二):数组 map slice">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>golang 中数组、slice、map都属于collection类型，大概就是分出一片空间存储一堆的数据。</p>
+<p>他们的主要区别：</p>
+<ul>
+<li>数组有长度，slice没有，</li>
+<li>map是无序的，数组和slice有序</li>
+<li>数组和slice下标数数字，map的key是任意等值性类型</li>
+</ul>
+<p>数组的三种声明方式:<br><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> i [<span class="number">10</span>]<span class="keyword">int</span></span><br><span class="line">i[<span class="number">0</span>]=<span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> i=[<span class="number">10</span>]<span class="keyword">int</span></span><br><span class="line"></span><br><span class="line">i:=[<span class="number">10</span>]<span class="keyword">int</span></span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>数组是值，数组间复制相当于复制了一个数组副本<br>数组作为参数传入函数，函数收到的也是数组的副本，而非指针（地址）<br>数组的大小是类型声明的一部分，不可或缺<br>
+          <!--noindex-->
+          <div class="text-center">
+            <a class="btn btn-link" href="/2018/11/27/Go系列-二-数组 map slice/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </p></blockquote></div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://dal-s.github.io/2018/11/26/Go系列-一-变量声明/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -1460,7 +1636,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">47</span>
+                  <span class="site-state-item-count">48</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
