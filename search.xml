@@ -1,6 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[leetcode之Move Zeroes]]></title>
+    <url>%2F2019%2F02%2F28%2Fleetcode%E4%B9%8BMove%20Zeroes%2F</url>
+    <content type="text"><![CDATA[问题描述：Given an array nums, write a function to move all 0’s to the end of it while maintaining the relative order of the non-zero elements. Example: Input: [0,1,0,3,12]Output: [1,3,12,0,0]Note: You must do this in-place without making a copy of the array.Minimize the total number of operations. 题目要求把所有的0都放在数组后面，同时原成员顺序不变，要求不能开辟其他存储空间。123456789101112func moveZeroes(nums []int) &#123; idx := -1 for i:=0; i&lt;len(nums)-1; i++ &#123; if idx == -1 &amp;&amp; nums[i] == 0 &#123; idx = i &#125; if nums[i+1] != 0 &amp;&amp; nums[i] == 0 &#123; nums[i+1],nums[idx] = nums[idx],nums[i+1] idx = idx + 1 &#125; &#125; &#125; 我的思路比较简单，记录0的索引位置，然后与接下来非0的元素交换位置，同时索引+1。idx==-1&amp;&amp;nums[i] == 0 作用是寻找首个0的位置。相当于初始化idx的值。]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>算法</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Review之Linked Lists in Go]]></title>
+    <url>%2F2019%2F02%2F28%2FReview%E4%B9%8BLinked%20Lists%20in%20Go%2F</url>
+    <content type="text"><![CDATA[原文链接在这里，不知道需不需要翻墙。 上周分享了用golang实现树型数据结构，本周分享一个golang实现链表的文章。 文章的优点还是作图非常用心，很直观。跟着作者的思路基本可以完成这个小训练。点进来也没有啦！最近状态不好。]]></content>
+      <categories>
+        <category>ARTS</category>
+      </categories>
+      <tags>
+        <tag>Review</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[leetcode之Nim Game]]></title>
     <url>%2F2019%2F02%2F22%2Fleetcode%E4%B9%8BNim%20Game%2F</url>
     <content type="text"><![CDATA[问题描述：You are playing the following Nim Game with your friend: There is a heap of stones on the table, each time one of you take turns to remove 1 to 3 stones. The one who removes the last stone will be the winner. You will take the first turn to remove the stones. Both of you are very clever and have optimal strategies for the game. Write a function to determine whether you can win the game given the number of stones in the heap. Input: 4Output: falseExplanation: If there are 4 stones in the heap, then you will never win the game; No matter 1, 2, or 3 stones you remove, the last stone will always be removed by your friend. 相当于实现抽木块，谁抽倒谁输，区别是，题目要求可以一次抽1、2、3块。123func canWinNim(n int) bool &#123; return (n-1) % 4 ==0||(n-2) % 4 ==0||(n-3) % 4 ==0&#125; 在小本本上画一遍抽取的路径，只要是保证他抽完以后，我抽1、2、3任意数字，都能给它留下4就行了，因为题目已经暗示了，只要是4，谁先抽谁输。转换成代码，就是上面的样子了。]]></content>
@@ -89,9 +111,9 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[leetcode之Reverse Words in a String III]]></title>
-    <url>%2F2019%2F02%2F01%2Fleetcode%E4%B9%8BReverse%20Words%20in%20a%20String%20III%2F</url>
-    <content type="text"><![CDATA[问题描述： Given a string, you need to reverse the order of characters in each word within a sentence while still preserving whitespace and initial word order. Example 1:Input: “Let’s take LeetCode contest”Output: “s’teL ekat edoCteeL tsetnoc”Note: In the string, each word is separated by single space and there will not be any extra space in the string. 题目很好理解，就是单词反转。123456789101112131415161718192021/*revers strings*/func reverseString(s string) string &#123; runes := []rune(s) for from, to := 0, len(runes)-1; from &lt; to; from, to = from+1, to-1 &#123; runes[from], runes[to] = runes[to], runes[from] &#125; return string(runes)&#125;/* reverse words in a string*/func reverseWords(s string) string &#123; words := strings.Split(s," ") var ans string for _,v := range words &#123; ans = ans + " " + reverseString(v) &#125; return ans[1:]&#125; 思路也很简单，切割分组，然后对单个单词分别反转，再拼接回去。]]></content>
+    <title><![CDATA[leetcode之Number of Recent Calls]]></title>
+    <url>%2F2019%2F02%2F01%2Fleetcode%E4%B9%8BNumber%20of%20Recent%20Calls%2F</url>
+    <content type="text"><![CDATA[问题描述： Write a class RecentCounter to count recent requests. It has only one method: ping(int t), where t represents some time in milliseconds. Return the number of pings that have been made from 3000 milliseconds ago until now. Any ping with time in [t - 3000, t] will count, including the current ping. It is guaranteed that every call to ping uses a strictly larger value of t than before. Example 1: Input: inputs = [“RecentCounter”,”ping”,”ping”,”ping”,”ping”], inputs = [[],[1],[100],[3001],[3002]]Output: [null,1,2,3,3] Note: Each test case will have at most 10000 calls to ping.Each test case will call ping with strictly increasing values of t.Each call to ping will have 1 &lt;= t &lt;= 10^9. 统计每个人调用ping函数的次数，t在[t - 3000, t] 这个区间统计一次。12345678910111213141516171819202122232425262728293031323334353637type RecentCounter struct &#123; curName string beforeName []string beforeTm []int cn int point int&#125;func Constructor() RecentCounter &#123; return RecentCounter&#123;&#125;&#125;const K int = 3000func findKey( this *RecentCounter,t int) int &#123; for i:=this.point;i&lt;len(this.beforeTm);i++ &#123; if this.beforeTm[i]+K &gt;= t &#123; this.point = i return len(this.beforeTm)-i+1 &#125; &#125; return 1&#125;func (this *RecentCounter) Ping(t int) int &#123; this.cn=1 for _,v := range this.beforeName &#123; if this.curName == v &#123; this.cn = findKey(this,t) break &#125; &#125; this.beforeName=append(this.beforeName,this.curName) this.beforeTm=append(this.beforeTm,t) return this.cn&#125; 本身没有java和c++的背景，不太熟悉这种面向对象的写法，写的比较丑陋，速度也一般。 代码题干不表了，注意看notes中第二条，调用者的time是递增的，也就是说，同一个调用者依次出现10次，第11次出现时，我们检查之前的t是否满足条件，如果第五次调用满足了 t in [t-3000,t] 这个区间函数，表示前四次一定是小于t-3000的。 因此就有了findKey总return的len(this.beforeTm)-i+1 。也是因为这个思路，所以我们会在每一个调用者调用函数时都append到我们的列表中。哦，对了，还有一个point，这个是记录我们上次检查到什么位置的，下一次从point开始就可以了，因为之前的time肯定是小于t-3000的。]]></content>
       <categories>
         <category>算法</category>
       </categories>
@@ -100,9 +122,9 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[leetcode之Number of Recent Calls]]></title>
-    <url>%2F2019%2F02%2F01%2Fleetcode%E4%B9%8BNumber%20of%20Recent%20Calls%2F</url>
-    <content type="text"><![CDATA[问题描述： Write a class RecentCounter to count recent requests. It has only one method: ping(int t), where t represents some time in milliseconds. Return the number of pings that have been made from 3000 milliseconds ago until now. Any ping with time in [t - 3000, t] will count, including the current ping. It is guaranteed that every call to ping uses a strictly larger value of t than before. Example 1: Input: inputs = [“RecentCounter”,”ping”,”ping”,”ping”,”ping”], inputs = [[],[1],[100],[3001],[3002]]Output: [null,1,2,3,3] Note: Each test case will have at most 10000 calls to ping.Each test case will call ping with strictly increasing values of t.Each call to ping will have 1 &lt;= t &lt;= 10^9. 统计每个人调用ping函数的次数，t在[t - 3000, t] 这个区间统计一次。12345678910111213141516171819202122232425262728293031323334353637type RecentCounter struct &#123; curName string beforeName []string beforeTm []int cn int point int&#125;func Constructor() RecentCounter &#123; return RecentCounter&#123;&#125;&#125;const K int = 3000func findKey( this *RecentCounter,t int) int &#123; for i:=this.point;i&lt;len(this.beforeTm);i++ &#123; if this.beforeTm[i]+K &gt;= t &#123; this.point = i return len(this.beforeTm)-i+1 &#125; &#125; return 1&#125;func (this *RecentCounter) Ping(t int) int &#123; this.cn=1 for _,v := range this.beforeName &#123; if this.curName == v &#123; this.cn = findKey(this,t) break &#125; &#125; this.beforeName=append(this.beforeName,this.curName) this.beforeTm=append(this.beforeTm,t) return this.cn&#125; 本身没有java和c++的背景，不太熟悉这种面向对象的写法，写的比较丑陋，速度也一般。 代码题干不表了，注意看notes中第二条，调用者的time是递增的，也就是说，同一个调用者依次出现10次，第11次出现时，我们检查之前的t是否满足条件，如果第五次调用满足了 t in [t-3000,t] 这个区间函数，表示前四次一定是小于t-3000的。 因此就有了findKey总return的len(this.beforeTm)-i+1 。也是因为这个思路，所以我们会在每一个调用者调用函数时都append到我们的列表中。哦，对了，还有一个point，这个是记录我们上次检查到什么位置的，下一次从point开始就可以了，因为之前的time肯定是小于t-3000的。]]></content>
+    <title><![CDATA[leetcode之Reverse Words in a String III]]></title>
+    <url>%2F2019%2F02%2F01%2Fleetcode%E4%B9%8BReverse%20Words%20in%20a%20String%20III%2F</url>
+    <content type="text"><![CDATA[问题描述： Given a string, you need to reverse the order of characters in each word within a sentence while still preserving whitespace and initial word order. Example 1:Input: “Let’s take LeetCode contest”Output: “s’teL ekat edoCteeL tsetnoc”Note: In the string, each word is separated by single space and there will not be any extra space in the string. 题目很好理解，就是单词反转。123456789101112131415161718192021/*revers strings*/func reverseString(s string) string &#123; runes := []rune(s) for from, to := 0, len(runes)-1; from &lt; to; from, to = from+1, to-1 &#123; runes[from], runes[to] = runes[to], runes[from] &#125; return string(runes)&#125;/* reverse words in a string*/func reverseWords(s string) string &#123; words := strings.Split(s," ") var ans string for _,v := range words &#123; ans = ans + " " + reverseString(v) &#125; return ans[1:]&#125; 思路也很简单，切割分组，然后对单个单词分别反转，再拼接回去。]]></content>
       <categories>
         <category>算法</category>
       </categories>
@@ -177,20 +199,9 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[leetcode之N-Repeated Element in Size 2N Array]]></title>
-    <url>%2F2019%2F01%2F22%2Fleetcode%E4%B9%8B%20N-Repeated%20Element%20in%20Size%202N%20Array%2F</url>
-    <content type="text"><![CDATA[问题描述： In a array A of size 2N, there are N+1 unique elements, and exactly one of these elements is repeated N times. Return the element repeated N times. Example 1: Input: [1,2,3,3]Output: 3Example 2: Input: [2,1,2,5,3,2]Output: 2Example 3: Input: [5,1,5,2,5,3,5,4]Output: 5 在2N个元素中有N+1个是唯一的，只有一个元素重复了N次，返回这个重复的元素1234567891011func repeatedNTimes(A []int) int &#123; var mp [10000]int l := len(A) for i:=0;i &lt; l; i++ &#123; mp[A[i]]++ if mp[A[i]] &gt; 1 &#123; return A[i] &#125; &#125; return 0 &#125; 使用数组元素值作下标，当某个元素重复出现时，就是我们要找的元素。]]></content>
-      <categories>
-        <category>算法</category>
-      </categories>
-      <tags>
-        <tag>算法</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[leetcode之Squares of a Sorted Array]]></title>
-    <url>%2F2019%2F01%2F22%2Fleetcode%E4%B9%8BSquares%20of%20a%20Sorted%20Array%2F</url>
-    <content type="text"><![CDATA[问题描述： Given an array of integers A sorted in non-decreasing order, return an array of the squares of each number, also in sorted non-decreasing order. Example 1: Input: [-4,-1,0,3,10]Output: [0,1,9,16,100] Example 2: Input: [-7,-3,2,3,11]Output: [4,9,9,49,121] Note: 1 &lt;= A.length &lt;= 10000-10000 &lt;= A[i] &lt;= 10000A is sorted in non-decreasing order. 给定一个有序数组，按平方后的数据大小排序1234567891011121314151617181920type bySquare []intfunc (a bySquare) Len() int &#123; return len(a)&#125;func (p bySquare) Less(i,j int) bool &#123; return p[i]*p[i] &lt;p[j]*p[j]&#125;func (p bySquare) Swap (i,j int) &#123; p[i],p[j] = p[j],p[i]&#125;func sortedSquares(A []int) []int &#123; for k,_ := range A &#123; A[k]=A[k]*A[k] &#125; sort.Sort(bySquare(A)) return A&#125; 偷了个懒，利用了go的接口特性，重写了系统的sort函数。一定还有其他思路解决这个问题，因为对于题目中给定的有序数组这个特点没利用上。欢迎有思路的同学留言。]]></content>
+    <title><![CDATA[leetcode之To Lower Case]]></title>
+    <url>%2F2019%2F01%2F22%2Fleetcode%E4%B9%8BTo%20Lower%20Case%2F</url>
+    <content type="text"><![CDATA[问题描述： Implement function ToLowerCase() that has a string parameter str, and returns the same string in lowercase. Example 1: Input: “Hello”Output: “hello”Example 2: Input: “here”Output: “here”Example 3: Input: “LOVELY”Output: “lovely” 转换为小写字母123456789func toLowerCase(str string) string &#123; b :=[]byte(str) for i:=0;i&lt;len(str);i++ &#123; if str[i] &gt;=65 &amp;&amp; str[i] &lt;=90 &#123; b[i]=b[i]+32 &#125; &#125; return string(b) &#125; 没什么复杂的。]]></content>
       <categories>
         <category>算法</category>
       </categories>
@@ -210,9 +221,9 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[leetcode之Peak Index in a Mountain Array]]></title>
-    <url>%2F2019%2F01%2F22%2Fleetcode%E4%B9%8BPeak%20Index%20in%20a%20Mountain%20Array%2F</url>
-    <content type="text"><![CDATA[问题描述： Let’s call an array A a mountain if the following properties hold: A.length &gt;= 3There exists some 0 &lt; i &lt; A.length - 1 such that A[0] &lt; A[1] &lt; … A[i-1] &lt; A[i] &gt; A[i+1] &gt; … &gt; A[A.length - 1]Given an array that is definitely a mountain, return any i such that A[0] &lt; A[1] &lt; … A[i-1] &lt; A[i] &gt; A[i+1] &gt; … &gt; A[A.length - 1]. Example 1: Input: [0,1,0]Output: 1Example 2: Input: [0,2,1,0]Output: 1Note: 3 &lt;= A.length &lt;= 100000 &lt;= A[i] &lt;= 10^6A is a mountain, as defined above.Return the minimum possible value of D.length. 英文翻译很简单，我就直接说思路了。给定的数组一定是a mountain 的数组，所以要找满足条件的i，相当于找数组中最大的元素嘛，而且最大的元素为分界，两边都是有序的。123456789func peakIndexInMountainArray(A []int) int &#123; for k,_ := range A &#123; if A[k+1] &lt; A[k] &#123; return k &#125; &#125; return 0 &#125; 代码如上。]]></content>
+    <title><![CDATA[leetcode之Self Dividing Numbers]]></title>
+    <url>%2F2019%2F01%2F22%2Fleetcode%E4%B9%8BSelf%20Dividing%20Numbers%2F</url>
+    <content type="text"><![CDATA[问题描述： A self-dividing number is a number that is divisible by every digit it contains. For example, 128 is a self-dividing number because 128 % 1 == 0, 128 % 2 == 0, and 128 % 8 == 0. Also, a self-dividing number is not allowed to contain the digit zero. Given a lower and upper number bound, output a list of every possible self dividing number, including the bounds if possible.Example 1:Input:left = 1, right = 22Output: [1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 15, 22]Note: The boundaries of each input argument are 1 &lt;= left &lt;= right &lt;= 10000. 给定数字开头和结尾，找出他们中间满足条件的数字，条件就是能被自己包含的数字整除，如 8743 要能被 8、7、4、3 都整除才算满足条件。1234567891011121314151617181920func selfDividingNumbers(left int, right int) []int &#123; var array []int for i:=left;i&lt;=right;i++ &#123; k := i isVaild := true for k !=0 &#123; if num := k%10; num == 0 || i % num != 0&#123; isVaild = false break &#125; k = k/10 &#125; if isVaild &#123; array = append(array,i) &#125; &#125; return array&#125; 之前做过一次数字反转的题目，这里的核心代码与它相同，一边找出余数，看看能不能整除，如果能就把剩下的数字继续找余数。注意，数字中任何一位是0都不能算，这个一定要在整除前判断。]]></content>
       <categories>
         <category>算法</category>
       </categories>
@@ -232,17 +243,6 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[leetcode之Unique Morse Code Words]]></title>
-    <url>%2F2019%2F01%2F22%2Fleetcode%E4%B9%8B%20Unique%20Morse%20Code%20Words%2F</url>
-    <content type="text"><![CDATA[问题描述： International Morse Code defines a standard encoding where each letter is mapped to a series of dots and dashes, as follows: “a” maps to “.-“, “b” maps to “-…”, “c” maps to “-.-.”, and so on. For convenience, the full table for the 26 letters of the English alphabet is given below: [“.-“,”-…”,”-.-.”,”-..”,”.”,”..-.”,”–.”,”….”,”..”,”.—“,”-.-“,”.-..”,”–”,”-.”,”—“,”.–.”,”–.-“,”.-.”,”…”,”-“,”..-“,”…-“,”.–”,”-..-“,”-.–”,”–..”]Now, given a list of words, each word can be written as a concatenation of the Morse code of each letter. For example, “cba” can be written as “-.-..–…”, (which is the concatenation “-.-.” + “-…” + “.-“). We’ll call such a concatenation, the transformation of a word. Return the number of different transformations among all words we have. Example:Input: words = [“gin”, “zen”, “gig”, “msg”]Output: 2Explanation:The transformation of each word is:“gin” -&gt; “–…-.”“zen” -&gt; “–…-.”“gig” -&gt; “–…–.”“msg” -&gt; “–…–.” There are 2 different transformations, “–…-.” and “–…–.”.Note:The length of words will be at most 100.Each words[i] will have length in range [1, 12].words[i] will only consist of lowercase letters. 将字母翻译为摩斯码，返回去重后的摩斯码数量12345678910111213func uniqueMorseRepresentations(words []string) int &#123; M := []string&#123;".-","-...","-.-.","-..",".","..-.","--.","....","..",".---","-.-",".-..","--","-.","---",".--.","--.-",".-.","...","-","..-","...-",".--","-..-","-.--","--.."&#125; morse_mp := make(map[string] int) for i:=0; i &lt; len(words); i++ &#123; morse :="" for _,v := range words[i] &#123; morse = morse+M[v-'a'] &#125; morse_mp[morse]++ &#125; return len(morse_mp)&#125; 将每个字母映射为摩斯码，然后放在map中去重，返回map的长度即可。]]></content>
-      <categories>
-        <category>算法</category>
-      </categories>
-      <tags>
-        <tag>算法</tag>
-      </tags>
-  </entry>
-  <entry>
     <title><![CDATA[leetcode之Array Partition I]]></title>
     <url>%2F2019%2F01%2F22%2Fleetcode%E4%B9%8BArray%20Partition%20I%2F</url>
     <content type="text"><![CDATA[问题描述： Given an array of 2n integers, your task is to group these integers into n pairs of integer, say (a1, b1), (a2, b2), …, (an, bn) which makes sum of min(ai, bi) for all i from 1 to n as large as possible. Example 1:Input: [1,4,3,2] Output: 4Explanation: n is 2, and the maximum sum of pairs is 4 = min(1, 2) + min(3, 4).Note:n is a positive integer, which is in the range of [1, 10000].All the integers in the array will be in the range of [-10000, 10000]. 给定长度为2N的数组，然后分成N个小组，拿每组中最小的数字出来求和，得出结果，如何是的求和的结果是所有分组中最大的。12345678910111213141516171819202122type byNum []intfunc (a byNum) Len() int &#123; return len(a)&#125;func (p byNum) Less(i,j int) bool &#123; return p[i]&lt;p[j]&#125;func (p byNum) Swap (i,j int) &#123; p[i],p[j] = p[j],p[i]&#125;func arrayPairSum(A []int) int &#123; sort.Sort(byNum(A)) sm := 0 for i:=0; i &lt; len(A); i+=2 &#123; sm +=A[i] &#125; return sm&#125; 理解下题目，拿分组中较小的元素出来求和，也就是说最小的不能祸害最大的，再进一步，最小的最好和次小的放在一起，这样伤害最小。因此得出思路，将整个数组排序，然后计算奇数位置的数字和就可以了。但是这个代码用了84ms，只比32%的人快。是排序问题还是思路问题，有不同见解的同学欢迎留言。]]></content>
@@ -254,9 +254,9 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[leetcode之Self Dividing Numbers]]></title>
-    <url>%2F2019%2F01%2F22%2Fleetcode%E4%B9%8BSelf%20Dividing%20Numbers%2F</url>
-    <content type="text"><![CDATA[问题描述： A self-dividing number is a number that is divisible by every digit it contains. For example, 128 is a self-dividing number because 128 % 1 == 0, 128 % 2 == 0, and 128 % 8 == 0. Also, a self-dividing number is not allowed to contain the digit zero. Given a lower and upper number bound, output a list of every possible self dividing number, including the bounds if possible.Example 1:Input:left = 1, right = 22Output: [1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 15, 22]Note: The boundaries of each input argument are 1 &lt;= left &lt;= right &lt;= 10000. 给定数字开头和结尾，找出他们中间满足条件的数字，条件就是能被自己包含的数字整除，如 8743 要能被 8、7、4、3 都整除才算满足条件。1234567891011121314151617181920func selfDividingNumbers(left int, right int) []int &#123; var array []int for i:=left;i&lt;=right;i++ &#123; k := i isVaild := true for k !=0 &#123; if num := k%10; num == 0 || i % num != 0&#123; isVaild = false break &#125; k = k/10 &#125; if isVaild &#123; array = append(array,i) &#125; &#125; return array&#125; 之前做过一次数字反转的题目，这里的核心代码与它相同，一边找出余数，看看能不能整除，如果能就把剩下的数字继续找余数。注意，数字中任何一位是0都不能算，这个一定要在整除前判断。]]></content>
+    <title><![CDATA[leetcode之Unique Morse Code Words]]></title>
+    <url>%2F2019%2F01%2F22%2Fleetcode%E4%B9%8B%20Unique%20Morse%20Code%20Words%2F</url>
+    <content type="text"><![CDATA[问题描述： International Morse Code defines a standard encoding where each letter is mapped to a series of dots and dashes, as follows: “a” maps to “.-“, “b” maps to “-…”, “c” maps to “-.-.”, and so on. For convenience, the full table for the 26 letters of the English alphabet is given below: [“.-“,”-…”,”-.-.”,”-..”,”.”,”..-.”,”–.”,”….”,”..”,”.—“,”-.-“,”.-..”,”–”,”-.”,”—“,”.–.”,”–.-“,”.-.”,”…”,”-“,”..-“,”…-“,”.–”,”-..-“,”-.–”,”–..”]Now, given a list of words, each word can be written as a concatenation of the Morse code of each letter. For example, “cba” can be written as “-.-..–…”, (which is the concatenation “-.-.” + “-…” + “.-“). We’ll call such a concatenation, the transformation of a word. Return the number of different transformations among all words we have. Example:Input: words = [“gin”, “zen”, “gig”, “msg”]Output: 2Explanation:The transformation of each word is:“gin” -&gt; “–…-.”“zen” -&gt; “–…-.”“gig” -&gt; “–…–.”“msg” -&gt; “–…–.” There are 2 different transformations, “–…-.” and “–…–.”.Note:The length of words will be at most 100.Each words[i] will have length in range [1, 12].words[i] will only consist of lowercase letters. 将字母翻译为摩斯码，返回去重后的摩斯码数量12345678910111213func uniqueMorseRepresentations(words []string) int &#123; M := []string&#123;".-","-...","-.-.","-..",".","..-.","--.","....","..",".---","-.-",".-..","--","-.","---",".--.","--.-",".-.","...","-","..-","...-",".--","-..-","-.--","--.."&#125; morse_mp := make(map[string] int) for i:=0; i &lt; len(words); i++ &#123; morse :="" for _,v := range words[i] &#123; morse = morse+M[v-'a'] &#125; morse_mp[morse]++ &#125; return len(morse_mp)&#125; 将每个字母映射为摩斯码，然后放在map中去重，返回map的长度即可。]]></content>
       <categories>
         <category>算法</category>
       </categories>
@@ -288,8 +288,8 @@
   </entry>
   <entry>
     <title><![CDATA[leetcode之To Lower Case]]></title>
-    <url>%2F2019%2F01%2F22%2Fleetcode%E4%B9%8BTo%20Lower%20Case%2F</url>
-    <content type="text"><![CDATA[问题描述： Implement function ToLowerCase() that has a string parameter str, and returns the same string in lowercase. Example 1: Input: “Hello”Output: “hello”Example 2: Input: “here”Output: “here”Example 3: Input: “LOVELY”Output: “lovely” 转换为小写字母123456789func toLowerCase(str string) string &#123; b :=[]byte(str) for i:=0;i&lt;len(str);i++ &#123; if str[i] &gt;=65 &amp;&amp; str[i] &lt;=90 &#123; b[i]=b[i]+32 &#125; &#125; return string(b) &#125; 没什么复杂的。]]></content>
+    <url>%2F2019%2F01%2F22%2Fleetcode%E4%B9%8BJewels%20and%20Stones%2F</url>
+    <content type="text"><![CDATA[问题描述： You’re given strings J representing the types of stones that are jewels, and S representing the stones you have. Each character in S is a type of stone you have. You want to know how many of the stones you have are also jewels. The letters in J are guaranteed distinct, and all characters in J and S are letters. Letters are case sensitive, so “a” is considered a different type of stone from “A”. Example 1: Input: J = “aA”, S = “aAAbbbb”Output: 3Example 2: Input: J = “z”, S = “ZZ”Output: 0Note: S and J will consist of letters and have length at most 50.The characters in J are distinct. 我把这道题翻译为：在石头中找宝石，返回宝石的数量。12345678910111213141516func numJewelsInStones(J string, S string) int &#123; mp :=make(map[byte] int) cn :=0 for i:=0;i&lt;len(J);i++ &#123; mp[J[i]]=i &#125; for i:=0;i&lt;len(S);i++ &#123; if _,ok :=mp[S[i]];ok &#123; cn++ &#125; &#125; return cn &#125; 将宝石放在map中，然后依次迭代数组查找就可以了。]]></content>
       <categories>
         <category>算法</category>
       </categories>
@@ -298,9 +298,9 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[leetcode之To Lower Case]]></title>
-    <url>%2F2019%2F01%2F22%2Fleetcode%E4%B9%8BJewels%20and%20Stones%2F</url>
-    <content type="text"><![CDATA[问题描述： You’re given strings J representing the types of stones that are jewels, and S representing the stones you have. Each character in S is a type of stone you have. You want to know how many of the stones you have are also jewels. The letters in J are guaranteed distinct, and all characters in J and S are letters. Letters are case sensitive, so “a” is considered a different type of stone from “A”. Example 1: Input: J = “aA”, S = “aAAbbbb”Output: 3Example 2: Input: J = “z”, S = “ZZ”Output: 0Note: S and J will consist of letters and have length at most 50.The characters in J are distinct. 我把这道题翻译为：在石头中找宝石，返回宝石的数量。12345678910111213141516func numJewelsInStones(J string, S string) int &#123; mp :=make(map[byte] int) cn :=0 for i:=0;i&lt;len(J);i++ &#123; mp[J[i]]=i &#125; for i:=0;i&lt;len(S);i++ &#123; if _,ok :=mp[S[i]];ok &#123; cn++ &#125; &#125; return cn &#125; 将宝石放在map中，然后依次迭代数组查找就可以了。]]></content>
+    <title><![CDATA[leetcode之Peak Index in a Mountain Array]]></title>
+    <url>%2F2019%2F01%2F22%2Fleetcode%E4%B9%8BPeak%20Index%20in%20a%20Mountain%20Array%2F</url>
+    <content type="text"><![CDATA[问题描述： Let’s call an array A a mountain if the following properties hold: A.length &gt;= 3There exists some 0 &lt; i &lt; A.length - 1 such that A[0] &lt; A[1] &lt; … A[i-1] &lt; A[i] &gt; A[i+1] &gt; … &gt; A[A.length - 1]Given an array that is definitely a mountain, return any i such that A[0] &lt; A[1] &lt; … A[i-1] &lt; A[i] &gt; A[i+1] &gt; … &gt; A[A.length - 1]. Example 1: Input: [0,1,0]Output: 1Example 2: Input: [0,2,1,0]Output: 1Note: 3 &lt;= A.length &lt;= 100000 &lt;= A[i] &lt;= 10^6A is a mountain, as defined above.Return the minimum possible value of D.length. 英文翻译很简单，我就直接说思路了。给定的数组一定是a mountain 的数组，所以要找满足条件的i，相当于找数组中最大的元素嘛，而且最大的元素为分界，两边都是有序的。123456789func peakIndexInMountainArray(A []int) int &#123; for k,_ := range A &#123; if A[k+1] &lt; A[k] &#123; return k &#125; &#125; return 0 &#125; 代码如上。]]></content>
       <categories>
         <category>算法</category>
       </categories>
@@ -312,6 +312,28 @@
     <title><![CDATA[leetcode之Unique Email Addresses]]></title>
     <url>%2F2019%2F01%2F22%2Fleetcode%E4%B9%8BUnique%20Email%20Addresses%2F</url>
     <content type="text"><![CDATA[问题描述： Every email consists of a local name and a domain name, separated by the @ sign. For example, in alice@leetcode.com, alice is the local name, and leetcode.com is the domain name. Besides lowercase letters, these emails may contain ‘.’s or ‘+’s. If you add periods (‘.’) between some characters in the local name part of an email address, mail sent there will be forwarded to the same address without dots in the local name. For example, “alice.z@leetcode.com“ and “alicez@leetcode.com“ forward to the same email address. (Note that this rule does not apply for domain names.) If you add a plus (‘+’) in the local name, everything after the first plus sign will be ignored. This allows certain emails to be filtered, for example m.y+name@email.com will be forwarded to my@email.com. (Again, this rule does not apply for domain names.) It is possible to use both of these rules at the same time. Given a list of emails, we send one email to each address in the list. How many different addresses actually receive mails? Example 1: Input: [“test.email+alex@leetcode.com“,”test.e.mail+bob.cathy@leetcode.com“,”testemail+david@lee.tcode.com“]Output: 2Explanation: “testemail@leetcode.com“ and “testemail@lee.tcode.com“ actually receive mails Note: 1 &lt;= emails[i].length &lt;= 1001 &lt;= emails.length &lt;= 100Each emails[i] contains exactly one ‘@’ character.. 过滤合法的邮箱地址，其中local name中的.为无效字符可直接过滤，+后面的字符都无效不算。domain name只包含一个@而且.和+都是合法的。12345678910111213141516171819202122232425262728293031323334func numUniqueEmails(emails []string) int &#123; mp := make (map[string] int) for i:=0;i&lt;len(emails);i++ &#123; em := []byte(emails[i]) k :=0 findDot := 0 findPlus := false for _,val := range emails[i] &#123; if val == '@' &#123; findPlus =false findDot++ &#125; if val == '.'||findPlus &#123; if findDot == 0 &#123; continue &#125; &#125; if val == '+' &#123; findPlus =true continue &#125; em[k]=byte(val) k++ &#125; if k &gt; 0 &amp;&amp; findDot == 1&#123; mp[string(em)[0:k]]++ &#125; &#125; return len(mp) &#125; 依次迭代邮箱地址，记录@、.、+的符号，然后按照规则处理就可以了。]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>算法</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[leetcode之Squares of a Sorted Array]]></title>
+    <url>%2F2019%2F01%2F22%2Fleetcode%E4%B9%8BSquares%20of%20a%20Sorted%20Array%2F</url>
+    <content type="text"><![CDATA[问题描述： Given an array of integers A sorted in non-decreasing order, return an array of the squares of each number, also in sorted non-decreasing order. Example 1: Input: [-4,-1,0,3,10]Output: [0,1,9,16,100] Example 2: Input: [-7,-3,2,3,11]Output: [4,9,9,49,121] Note: 1 &lt;= A.length &lt;= 10000-10000 &lt;= A[i] &lt;= 10000A is sorted in non-decreasing order. 给定一个有序数组，按平方后的数据大小排序1234567891011121314151617181920type bySquare []intfunc (a bySquare) Len() int &#123; return len(a)&#125;func (p bySquare) Less(i,j int) bool &#123; return p[i]*p[i] &lt;p[j]*p[j]&#125;func (p bySquare) Swap (i,j int) &#123; p[i],p[j] = p[j],p[i]&#125;func sortedSquares(A []int) []int &#123; for k,_ := range A &#123; A[k]=A[k]*A[k] &#125; sort.Sort(bySquare(A)) return A&#125; 偷了个懒，利用了go的接口特性，重写了系统的sort函数。一定还有其他思路解决这个问题，因为对于题目中给定的有序数组这个特点没利用上。欢迎有思路的同学留言。]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>算法</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[leetcode之N-Repeated Element in Size 2N Array]]></title>
+    <url>%2F2019%2F01%2F22%2Fleetcode%E4%B9%8B%20N-Repeated%20Element%20in%20Size%202N%20Array%2F</url>
+    <content type="text"><![CDATA[问题描述： In a array A of size 2N, there are N+1 unique elements, and exactly one of these elements is repeated N times. Return the element repeated N times. Example 1: Input: [1,2,3,3]Output: 3Example 2: Input: [2,1,2,5,3,2]Output: 2Example 3: Input: [5,1,5,2,5,3,5,4]Output: 5 在2N个元素中有N+1个是唯一的，只有一个元素重复了N次，返回这个重复的元素1234567891011func repeatedNTimes(A []int) int &#123; var mp [10000]int l := len(A) for i:=0;i &lt; l; i++ &#123; mp[A[i]]++ if mp[A[i]] &gt; 1 &#123; return A[i] &#125; &#125; return 0 &#125; 使用数组元素值作下标，当某个元素重复出现时，就是我们要找的元素。]]></content>
       <categories>
         <category>算法</category>
       </categories>
