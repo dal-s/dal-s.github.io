@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://dal-s.github.io/2019/03/01/Share%E4%B9%8BPractical%20Go%20Real%20world%20advice%20for%20writing%20maintainable%20Go%20programs/</loc>
+    <lastmod>2019-03-01T07:48:22.589Z</lastmod>
+  </url>  <url>
     <loc>https://dal-s.github.io/2019/02/28/leetcode%E4%B9%8BMove%20Zeroes/</loc>
     <lastmod>2019-02-28T12:35:35.696Z</lastmod>
   </url>  <url>
