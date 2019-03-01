@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://dal-s.github.io/2019/03/01/ARTS%E5%90%88%E9%9B%86%E9%93%BE%E6%8E%A5/</loc>
+    
+    <lastmod>2019-03-01T07:55:24.912Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://dal-s.github.io/2019/03/01/Share%E4%B9%8BPractical%20Go%20Real%20world%20advice%20for%20writing%20maintainable%20Go%20programs/</loc>
     
     <lastmod>2019-03-01T07:48:22.589Z</lastmod>
@@ -19,13 +26,6 @@
     <loc>https://dal-s.github.io/2019/02/28/Review%E4%B9%8BLinked%20Lists%20in%20Go/</loc>
     
     <lastmod>2019-02-28T12:29:23.138Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://dal-s.github.io/2019/02/22/ARTS%E5%90%88%E9%9B%86%E9%93%BE%E6%8E%A5/</loc>
-    
-    <lastmod>2019-02-22T06:11:50.361Z</lastmod>
     
   </url>
   
