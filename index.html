@@ -290,6 +290,181 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://dal-s.github.io/2019/06/24/golang中的面向对象/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="DaLi">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="dal's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/06/24/golang中的面向对象/" itemprop="url">golang中的面向对象</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-24T22:26:55+08:00">
+                2019-06-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/ARTS/" itemprop="url" rel="index">
+                    <span itemprop="name">ARTS</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/06/24/golang中的面向对象/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/06/24/golang中的面向对象/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2019/06/24/golang中的面向对象/" class="leancloud_visitors" data-flag-title="golang中的面向对象">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>golang 中本身没有面向对象的说法，但是可以通过匿名字段来实现类似的功能。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">type</span> speak struct &#123;</span><br><span class="line">    speak string</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">type</span> cat struct &#123;</span><br><span class="line">    speak</span><br><span class="line">    name string</span><br><span class="line">    age int</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如上代码段，实现类cat继承了speak的所有字段/方法。</p>
+<p>如果cat中有字段与父类字段中相同是，默认 cat.name 会优先使用字段中的字段，也就是自己有的用自己，没有的才去继承老爸的。</p>
+<p>类似的，子类也继承了父类的所有方法，父类拥有的方法，子类全部可以调用，父爱就是如此厚重。</p>
+<p>同样，如果子类拥有与父类相同的方法名，会优先调用子类的方法，这就是著名的方法重写！</p>
+<p>来，我们继续。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">type</span> smallCat struct &#123;</span><br><span class="line">    cat </span><br><span class="line">    sex int</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如上代码段，实现了多重继承，即拥有cat的所有属性，也拥有speak的属性，和我们现在六个钱包买房一样，爷爷奶奶也是要奉献的。</p>
+<p>最后匿名字段的使用，和自己的属性一样，直接cat.属性名称就可以赋值调用。</p>
+<p>但是，如果你想在某个方法中修改对象的值，那么方法定义是要使用指针的，使用传地址的方式。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">func (s *speak) <span class="function"><span class="title">Upshow</span></span>()&#123;</span><br><span class="line">	s.speak=<span class="string">"i im yeye"</span></span><br><span class="line">    fmt.Println(<span class="string">"i im speak"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如上代码段，允许cat 和 smallCat 调用，且调用之后，他们的speak属性会被修改为方法中的字符串。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://dal-s.github.io/2019/06/21/常见算法及适用场景/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -808,6 +983,172 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://dal-s.github.io/2019/03/29/Share之go实现幂运算/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="DaLi">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="dal's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/03/29/Share之go实现幂运算/" itemprop="url">Share之go实现幂运算</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-29T10:26:55+08:00">
+                2019-03-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/ARTS/" itemprop="url" rel="index">
+                    <span itemprop="name">ARTS</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/03/29/Share之go实现幂运算/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/03/29/Share之go实现幂运算/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2019/03/29/Share之go实现幂运算/" class="leancloud_visitors" data-flag-title="Share之go实现幂运算">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>前两天刷题，偶然想到的。</p>
+<p>如何不调用系统接口实现幂运算，代码如下</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">func <span class="function"><span class="title">pow</span></span>() &#123;</span><br><span class="line"></span><br><span class="line">    n := 0.1</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> i := 10;i&gt;=0;i-- &#123;</span><br><span class="line">        n = n*10.0</span><br><span class="line">        fmt.Println(n)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>应用场景：字符串转数字、字符串各数字位求和 等等题目</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://dal-s.github.io/2019/03/29/Tips之关于面试/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -931,172 +1272,6 @@
             </a>
           </div>
           <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://dal-s.github.io/2019/03/29/Share之go实现幂运算/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="DaLi">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="dal's blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/03/29/Share之go实现幂运算/" itemprop="url">Share之go实现幂运算</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-29T10:26:55+08:00">
-                2019-03-29
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/ARTS/" itemprop="url" rel="index">
-                    <span itemprop="name">ARTS</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2019/03/29/Share之go实现幂运算/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2019/03/29/Share之go实现幂运算/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-             <span id="/2019/03/29/Share之go实现幂运算/" class="leancloud_visitors" data-flag-title="Share之go实现幂运算">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数&#58;</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>前两天刷题，偶然想到的。</p>
-<p>如何不调用系统接口实现幂运算，代码如下</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">func <span class="function"><span class="title">pow</span></span>() &#123;</span><br><span class="line"></span><br><span class="line">    n := 0.1</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> i := 10;i&gt;=0;i-- &#123;</span><br><span class="line">        n = n*10.0</span><br><span class="line">        fmt.Println(n)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>应用场景：字符串转数字、字符串各数字位求和 等等题目</p>
-
-          
         
       
     </div>
@@ -1479,172 +1654,6 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://dal-s.github.io/2019/03/15/Share之How a Googler solves coding problems/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="DaLi">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="dal's blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/03/15/Share之How a Googler solves coding problems/" itemprop="url">Share之How a Googler solves coding problems</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-15T10:26:55+08:00">
-                2019-03-15
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/ARTS/" itemprop="url" rel="index">
-                    <span itemprop="name">ARTS</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2019/03/15/Share之How a Googler solves coding problems/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2019/03/15/Share之How a Googler solves coding problems/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-             <span id="/2019/03/15/Share之How a Googler solves coding problems/" class="leancloud_visitors" data-flag-title="Share之How a Googler solves coding problems">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数&#58;</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>原文链接在<a href="https://blog.usejournal.com/how-a-googler-solves-coding-problems-ec5d59e73ec5" target="_blank" rel="noopener">这里</a>，不知道需不需要翻墙。</p>
-<p>文章详细介绍了如何解决问题，虽然不知道是不是一位googler，但是作者的思路和做法很值得我们学习模仿。</p>
-<p>做一点简单的翻译：<br>1、不要直接写代码，先把问题写下来<br>2、将思路用英文写下来，大概是为了后面给函数、变量起名的时候可以直接应用吧<br>3、写伪代码<br>4、将伪代码翻译成可执行代码<br>5、最后就是跑起来测试了</p>
-<p>详细内容还请移步原文。</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://dal-s.github.io/2019/03/15/Tips之关于加班/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -1815,7 +1824,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://dal-s.github.io/2019/03/08/leetcode之Intersection of Two Arrays/">
+    <link itemprop="mainEntityOfPage" href="https://dal-s.github.io/2019/03/15/Share之How a Googler solves coding problems/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="DaLi">
@@ -1834,7 +1843,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/03/08/leetcode之Intersection of Two Arrays/" itemprop="url">leetcode之Intersection of Two Arrays</a></h1>
+                <a class="post-title-link" href="/2019/03/15/Share之How a Googler solves coding problems/" itemprop="url">Share之How a Googler solves coding problems</a></h1>
         
 
         <div class="post-meta">
@@ -1846,8 +1855,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-08T20:27:55+08:00">
-                2019-03-08
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-15T10:26:55+08:00">
+                2019-03-15
               </time>
             
 
@@ -1869,8 +1878,8 @@
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/算法/" itemprop="url" rel="index">
-                    <span itemprop="name">算法</span>
+                  <a href="/categories/ARTS/" itemprop="url" rel="index">
+                    <span itemprop="name">ARTS</span>
                   </a>
                 </span>
 
@@ -1887,8 +1896,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2019/03/08/leetcode之Intersection of Two Arrays/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2019/03/08/leetcode之Intersection of Two Arrays/" itemprop="commentCount"></span>
+                <a href="/2019/03/15/Share之How a Googler solves coding problems/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/03/15/Share之How a Googler solves coding problems/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -1896,7 +1905,7 @@
 
           
           
-             <span id="/2019/03/08/leetcode之Intersection of Two Arrays/" class="leancloud_visitors" data-flag-title="leetcode之Intersection of Two Arrays">
+             <span id="/2019/03/15/Share之How a Googler solves coding problems/" class="leancloud_visitors" data-flag-title="Share之How a Googler solves coding problems">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -1928,14 +1937,13 @@
 
       
         
-          <p>问题描述：<br>Given two arrays, write a function to compute their intersection.</p>
-          <!--noindex-->
-          <div class="text-center">
-            <a class="btn btn-link" href="/2019/03/08/leetcode之Intersection of Two Arrays/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
+          
+            <p>原文链接在<a href="https://blog.usejournal.com/how-a-googler-solves-coding-problems-ec5d59e73ec5" target="_blank" rel="noopener">这里</a>，不知道需不需要翻墙。</p>
+<p>文章详细介绍了如何解决问题，虽然不知道是不是一位googler，但是作者的思路和做法很值得我们学习模仿。</p>
+<p>做一点简单的翻译：<br>1、不要直接写代码，先把问题写下来<br>2、将思路用英文写下来，大概是为了后面给函数、变量起名的时候可以直接应用吧<br>3、写伪代码<br>4、将伪代码翻译成可执行代码<br>5、最后就是跑起来测试了</p>
+<p>详细内容还请移步原文。</p>
+
+          
         
       
     </div>
@@ -2019,7 +2027,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">73</span>
+                  <span class="site-state-item-count">74</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
