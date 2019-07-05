@@ -290,6 +290,185 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://dal-s.github.io/2019/07/05/golang实现单链表/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="DaLi">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="dal's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/07/05/golang实现单链表/" itemprop="url">golang实现单链表</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-05T22:26:55+08:00">
+                2019-07-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/ARTS/" itemprop="url" rel="index">
+                    <span itemprop="name">ARTS</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/07/05/golang实现单链表/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/07/05/golang实现单链表/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2019/07/05/golang实现单链表/" class="leancloud_visitors" data-flag-title="golang实现单链表">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>golang实现单链表，和把大象关进冰箱分几步一样。</p>
+<p>首先定义一个能存储链表的结构体</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#可以存储任何类型的数据</span></span><br><span class="line"><span class="built_in">type</span> Data interface &#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">#每个节点的存储方式，存储自己的数据和下一个节点的地址</span></span><br><span class="line"><span class="built_in">type</span> linkNode struct &#123;</span><br><span class="line">    data Data</span><br><span class="line">    next  *linkNode</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">#链表结构，存储头节点、尾节点、链表长度等信息</span></span><br><span class="line"><span class="built_in">type</span> link struct&#123;</span><br><span class="line">    head *linkNode</span><br><span class="line">    tail *linkNode</span><br><span class="line">    size int</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>linkNode是储存链表中单个节点的，而link是存储整个链表信息的。通过遍历链表信息，我们可以实现链表的增、删、改、查等操作。</p>
+<p>第一步，先向链表中增加节点<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">func (l *link)insert(s Data)&#123;</span><br><span class="line"></span><br><span class="line">	<span class="comment">#将数据初始化为链表节点的存储方式</span></span><br><span class="line">    node := &amp;linkNode &#123;</span><br><span class="line">        data :s,</span><br><span class="line">        next :nil,</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">#如果当前链表是空的，则把首尾节点均赋值成node</span></span><br><span class="line">    <span class="keyword">if</span> l.head == nil &amp;&amp; l.tail == nil &#123;</span><br><span class="line">        l.head = node</span><br><span class="line">        l.tail = node</span><br><span class="line">        l.size = 1</span><br><span class="line">        <span class="built_in">return</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">#如果链表不为空，从头开始遍历，直到最后一个节点，把最后一个节点的next地址赋值为我们需要增加的数据的地址</span></span><br><span class="line">    q := l.head</span><br><span class="line">    <span class="keyword">for</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> q.next == nil &#123;</span><br><span class="line">            q.next = node</span><br><span class="line">            l.tail = node</span><br><span class="line">            <span class="built_in">break</span></span><br><span class="line">        &#125;</span><br><span class="line">        q = q.next</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    </span><br><span class="line">    l.size ++</span><br><span class="line">    <span class="built_in">return</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#写完上面的注释，突然觉得有点蠢，既然我们有链表的尾地址，直接加不就行了,下面去掉循环，直接插入链表</span></span><br><span class="line"></span><br><span class="line">q := l.tail</span><br><span class="line"></span><br><span class="line"><span class="comment">#将当前最后一个节点的next指向node</span></span><br><span class="line">q.next = node</span><br><span class="line"></span><br><span class="line"><span class="comment">#将链表最后一个节点赋值成node</span></span><br><span class="line">l.tail = node</span><br><span class="line">l.size ++</span><br></pre></td></tr></table></figure>
+<p>理清了上面的思路，我来把最新出炉的代码贴上来<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">func (l *link)insert(s Data)&#123;</span><br><span class="line">    node := &amp;linkNode &#123;</span><br><span class="line">        data :s,</span><br><span class="line">        next :nil,</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> l.head == nil &amp;&amp; l.tail == nil &#123;</span><br><span class="line">        l.head = node</span><br><span class="line">        l.tail = node</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        q := l.tail</span><br><span class="line"></span><br><span class="line">        q.next = node</span><br><span class="line">        l.tail = node</span><br><span class="line">    &#125;</span><br><span class="line">    l.size ++</span><br><span class="line">    <span class="built_in">return</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>增加节点写完了，下面开始写删除，我们来实现把指定值的节点从链表中删除。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">func (l *link)delete(s Data)&#123;</span><br><span class="line">    q := l.head </span><br><span class="line">    before := &amp;linkNode &#123;</span><br><span class="line">        data:nil,</span><br><span class="line">        next:l.head,</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> q.data == s &#123;</span><br><span class="line">            <span class="keyword">if</span> q.next == nil &#123;</span><br><span class="line">                l.tail = before</span><br><span class="line">            &#125;</span><br><span class="line">            fmt.Println(<span class="string">"Beego!!"</span>)</span><br><span class="line">            before.next = q.next</span><br><span class="line">            l.size --</span><br><span class="line">            <span class="built_in">break</span></span><br><span class="line">        &#125;</span><br><span class="line">        q = q.next</span><br><span class="line">        before = before.next</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>思路主要有：<br>1、我们来申明两个变量，一个指向首节点，另外一个指向当前节点的前一个节点<br>2、遍历链表，查找存储指定值的节点<br>3、找到以后，将目标节点的前一个节点的next指向目标节点的next，这样就把目标节点从链表中删除了<br>4、假如目标节点正好是最后一个节点，把当前的尾节点赋值为目标节点的前一个节点</p>
+<p>上面基本实现了删除节点的功能，下面继续深入，来写一个查找指定节点，然后返回该节点的地址。之后，如果是双向链表的删除，可以直接用这个函数，然后把前后节点链接起来就可以了，不用遍历一遍链表。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">func (l *link)find(s Data) *linkNode &#123;</span><br><span class="line">    q := l.head</span><br><span class="line">    var target *linkNode </span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> q.data == s &#123;</span><br><span class="line">            target = q</span><br><span class="line">            <span class="built_in">break</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> q.next == nil &#123;</span><br><span class="line">            <span class="built_in">break</span></span><br><span class="line">        &#125;</span><br><span class="line">        q = q.next</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">return</span> target</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>遍历很简单，循环查找就可以，然后把地址返回。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fmt.Println((*l.find(<span class="number">123</span>)).data)</span><br></pre></td></tr></table></figure>
+<p>这是打印上面返回的地址中存储的值。</p>
+<p>最后，来实现一个打印链表，和一个测试函数吧。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">func (l *link) <span class="function"><span class="title">prt</span></span>()&#123;</span><br><span class="line"></span><br><span class="line">    q := l.head</span><br><span class="line">    <span class="keyword">for</span> q != nil&#123;</span><br><span class="line">        fmt.Println(q.data)</span><br><span class="line">        q = q.next</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func <span class="function"><span class="title">main</span></span>()&#123;</span><br><span class="line">    var l link</span><br><span class="line"></span><br><span class="line">    l.insert(<span class="string">"first"</span>)</span><br><span class="line">    l.insert(<span class="string">"hello world"</span>)</span><br><span class="line">    l.insert(123)</span><br><span class="line">    l.delete(123)</span><br><span class="line">    l.prt()</span><br><span class="line">    fmt.Println((*l.find(<span class="string">"first"</span>)).data)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>以上，基本单链表的操作都实现了。下面研究一下双向链表的写法。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://dal-s.github.io/2019/06/24/golang中的面向对象/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -983,172 +1162,6 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://dal-s.github.io/2019/03/29/Share之go实现幂运算/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="DaLi">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="dal's blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/03/29/Share之go实现幂运算/" itemprop="url">Share之go实现幂运算</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-29T10:26:55+08:00">
-                2019-03-29
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/ARTS/" itemprop="url" rel="index">
-                    <span itemprop="name">ARTS</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2019/03/29/Share之go实现幂运算/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2019/03/29/Share之go实现幂运算/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-             <span id="/2019/03/29/Share之go实现幂运算/" class="leancloud_visitors" data-flag-title="Share之go实现幂运算">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数&#58;</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>前两天刷题，偶然想到的。</p>
-<p>如何不调用系统接口实现幂运算，代码如下</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">func <span class="function"><span class="title">pow</span></span>() &#123;</span><br><span class="line"></span><br><span class="line">    n := 0.1</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> i := 10;i&gt;=0;i-- &#123;</span><br><span class="line">        n = n*10.0</span><br><span class="line">        fmt.Println(n)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>应用场景：字符串转数字、字符串各数字位求和 等等题目</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://dal-s.github.io/2019/03/29/Tips之关于面试/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -1272,6 +1285,172 @@
             </a>
           </div>
           <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://dal-s.github.io/2019/03/29/Share之go实现幂运算/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="DaLi">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="dal's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/03/29/Share之go实现幂运算/" itemprop="url">Share之go实现幂运算</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-29T10:26:55+08:00">
+                2019-03-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/ARTS/" itemprop="url" rel="index">
+                    <span itemprop="name">ARTS</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/03/29/Share之go实现幂运算/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/03/29/Share之go实现幂运算/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2019/03/29/Share之go实现幂运算/" class="leancloud_visitors" data-flag-title="Share之go实现幂运算">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>前两天刷题，偶然想到的。</p>
+<p>如何不调用系统接口实现幂运算，代码如下</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">func <span class="function"><span class="title">pow</span></span>() &#123;</span><br><span class="line"></span><br><span class="line">    n := 0.1</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> i := 10;i&gt;=0;i-- &#123;</span><br><span class="line">        n = n*10.0</span><br><span class="line">        fmt.Println(n)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>应用场景：字符串转数字、字符串各数字位求和 等等题目</p>
+
+          
         
       
     </div>
@@ -1654,176 +1833,6 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://dal-s.github.io/2019/03/15/Tips之关于加班/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="DaLi">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="dal's blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/03/15/Tips之关于加班/" itemprop="url">Tips之关于加班</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-15T10:26:55+08:00">
-                2019-03-15
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/ARTS/" itemprop="url" rel="index">
-                    <span itemprop="name">ARTS</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2019/03/15/Tips之关于加班/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2019/03/15/Tips之关于加班/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-             <span id="/2019/03/15/Tips之关于加班/" class="leancloud_visitors" data-flag-title="Tips之关于加班">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数&#58;</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>互联网公司，加班现象似乎非常普遍，不加班才是不正常的现象。</p>
-<p>我想说这种现象本身就是一种扭曲。</p>
-<p>但是，我们没有能力去改变整个生态环境。</p>
-<p>所以，我的观点是，接受它。</p>
-          <!--noindex-->
-          <div class="text-center">
-            <a class="btn btn-link" href="/2019/03/15/Tips之关于加班/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://dal-s.github.io/2019/03/15/Share之How a Googler solves coding problems/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -2027,7 +2036,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">74</span>
+                  <span class="site-state-item-count">75</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
