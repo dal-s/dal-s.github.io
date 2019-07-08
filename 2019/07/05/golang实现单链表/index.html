@@ -92,7 +92,7 @@
 <meta property="og:site_name" content="dal&#39;s blog">
 <meta property="og:description" content="golang实现单链表，和把大象关进冰箱分几步一样。 首先定义一个能存储链表的结构体 123456789101112131415#可以存储任何类型的数据type Data interface &amp;#123;&amp;#125;#每个节点的存储方式，存储自己的数据和下一个节点的地址type linkNode struct &amp;#123;    data Data    next  *linkNode&amp;#125;">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-07-05T06:57:58.956Z">
+<meta property="og:updated_time" content="2019-07-08T06:26:24.335Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="golang实现单链表">
 <meta name="twitter:description" content="golang实现单链表，和把大象关进冰箱分几步一样。 首先定义一个能存储链表的结构体 123456789101112131415#可以存储任何类型的数据type Data interface &amp;#123;&amp;#125;#每个节点的存储方式，存储自己的数据和下一个节点的地址type linkNode struct &amp;#123;    data Data    next  *linkNode&amp;#125;">
@@ -403,6 +403,7 @@
         <p>golang实现单链表，和把大象关进冰箱分几步一样。</p>
 <p>首先定义一个能存储链表的结构体</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#可以存储任何类型的数据</span></span><br><span class="line"><span class="built_in">type</span> Data interface &#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">#每个节点的存储方式，存储自己的数据和下一个节点的地址</span></span><br><span class="line"><span class="built_in">type</span> linkNode struct &#123;</span><br><span class="line">    data Data</span><br><span class="line">    next  *linkNode</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">#链表结构，存储头节点、尾节点、链表长度等信息</span></span><br><span class="line"><span class="built_in">type</span> link struct&#123;</span><br><span class="line">    head *linkNode</span><br><span class="line">    tail *linkNode</span><br><span class="line">    size int</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
 <p>linkNode是储存链表中单个节点的，而link是存储整个链表信息的。通过遍历链表信息，我们可以实现链表的增、删、改、查等操作。</p>
 <p>第一步，先向链表中增加节点<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">func (l *link)insert(s Data)&#123;</span><br><span class="line"></span><br><span class="line">	<span class="comment">#将数据初始化为链表节点的存储方式</span></span><br><span class="line">    node := &amp;linkNode &#123;</span><br><span class="line">        data :s,</span><br><span class="line">        next :nil,</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">#如果当前链表是空的，则把首尾节点均赋值成node</span></span><br><span class="line">    <span class="keyword">if</span> l.head == nil &amp;&amp; l.tail == nil &#123;</span><br><span class="line">        l.head = node</span><br><span class="line">        l.tail = node</span><br><span class="line">        l.size = 1</span><br><span class="line">        <span class="built_in">return</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">#如果链表不为空，从头开始遍历，直到最后一个节点，把最后一个节点的next地址赋值为我们需要增加的数据的地址</span></span><br><span class="line">    q := l.head</span><br><span class="line">    <span class="keyword">for</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> q.next == nil &#123;</span><br><span class="line">            q.next = node</span><br><span class="line">            l.tail = node</span><br><span class="line">            <span class="built_in">break</span></span><br><span class="line">        &#125;</span><br><span class="line">        q = q.next</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    </span><br><span class="line">    l.size ++</span><br><span class="line">    <span class="built_in">return</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#写完上面的注释，突然觉得有点蠢，既然我们有链表的尾地址，直接加不就行了,下面去掉循环，直接插入链表</span></span><br><span class="line"></span><br><span class="line">q := l.tail</span><br><span class="line"></span><br><span class="line"><span class="comment">#将当前最后一个节点的next指向node</span></span><br><span class="line">q.next = node</span><br><span class="line"></span><br><span class="line"><span class="comment">#将链表最后一个节点赋值成node</span></span><br><span class="line">l.tail = node</span><br><span class="line">l.size ++</span><br></pre></td></tr></table></figure>
@@ -456,6 +457,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/07/08/golang实现栈/" rel="prev" title="golang实现栈">
+                golang实现栈 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -526,7 +531,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">75</span>
+                  <span class="site-state-item-count">77</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>

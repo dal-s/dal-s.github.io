@@ -1,6 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[golang实现双向表]]></title>
+    <url>%2F2019%2F07%2F08%2Fgolang%E5%AE%9E%E7%8E%B0%E5%8F%8C%E5%90%91%E9%93%BE%E8%A1%A8%2F</url>
+    <content type="text"><![CDATA[首先先聊一下什么是双向链表，双向链表就是一个节点中，除了存储本身数据和下一个节点的地址外，还存储了前一个节点的地址。 这样从其中任何一个节点都能访问他前后的所有元素，在单链表中，我们只能从表头开始轮训，双链表的话，我们从表尾也可以遍历到所有节点。 类似这样的结构： [prev|data|next] 所以，如果单链表理解了，双链表很简单，就是多了一个指向前一节点的地址而已。 来，我们看实现代码。首先定义一个能存储链表的结构体 1234567891011121314type Data interface &#123;&#125;#这里多了forward的元素，来存储前一节点的信息type linkNode struct &#123; data Data forward *linkNode next *linkNode&#125;type link struct&#123; head *linkNode tail *linkNode size int&#125; 同样，我们先看如何增加节点。主要增加节点要同时维护两个地址信息。第一步，先向链表中增加节点123456789101112131415161718func (l *link)insert(s Data)&#123; node := &amp;linkNode &#123; data :s, forward :nil, next :nil, &#125; if l.head == nil &amp;&amp; l.tail == nil &#123; l.head = node l.tail = node &#125;else&#123; node.forward = l.tail #把新节点的前一节点地址赋值为原链表的尾节点，这样就连接到了一起 l.tail.next = node #原来尾节点的next是指向空的，这里把它指向新节点的地址 l.tail = node #维护尾节点信息，现在的尾节点就是刚刚新加进来的那个节点了 &#125; l.size ++ return&#125; 增加节点写完了，下面开始写删除，我们来实现把指定值的节点从链表中删除。这里的删除有三种情况： 1、删除是首节点2、删除是尾节点3、删除其他位置的节点 1234567891011121314151617181920212223242526272829303132333435func (l *link)delete(s Data)&#123; q := l.find(s) if q == nil &#123; return &#125; if q.next == nil &#123; l.tail = q.forward q.forward.next=nil &#125;else if q.forward == nil &#123; l.head = q.next q.next.forward = nil &#125;else &#123; q.forward.next = q.next #被删除节点的前一节点的next信息维护成为被删除节点的next q.next.forward = q.forward #被删除节点的后一节点的forward信息维护成被删除节点的forward l.size -- &#125;&#125;func (l *link)find(s Data) *linkNode &#123; q := l.head var target *linkNode for &#123; if q.data == s &#123; target = q break &#125; if q.next == nil &#123; break &#125; q = q.next &#125; return target&#125; 参考上面的三种情况，我们使用了find函数，在链表中查找有没有要删除的元素，然后分情况处理即可。 需要注意的是，删除也需要维护两个地址，把被删除的节点摘出来，然后把原来的首尾节点分别连接到一起。 12345678910111213141516171819func (l *link) prt()&#123; q := l.head for q != nil&#123; fmt.Println(q.data) q = q.next &#125;&#125;func main()&#123; var l link l.insert("first") l.insert("hello world") l.insert(123) l.delete(123) l.prt() fmt.Println((*l.find("first")).data)&#125; 最后，来一段循环打印，这里还是从head开始遍历，其实从tail遍历也可以，那样就要访问每个节点的forward。]]></content>
+      <categories>
+        <category>ARTS</category>
+      </categories>
+      <tags>
+        <tag>Share</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[golang实现栈]]></title>
+    <url>%2F2019%2F07%2F08%2Fgolang%E5%AE%9E%E7%8E%B0%E6%A0%88%2F</url>
+    <content type="text"><![CDATA[栈，是一种后进先出的存储结构，在很多算法中都有广泛的应用，比如BFS中，就需要维护一个栈，或者你非要要用数组也可以啦。 栈的基本操作有，push、pop、clear、size等。 golang实现栈，可以使用切片，也可以使用数组，两种结构都是ok的。需要注意的是，数组需要提前声明大小，也就是维护一个大小固定的栈，这在提前知晓栈的存储数量和数据类型的情况下非常好用。 数组和切片操作都类似，下面我们用切片来实现一个栈的存储结构。首先我们定义自己的存储结构，由于操作者向栈中存储什么类型是未知的，所以我们依然使用空接口类型。12345type Data interface &#123;&#125;type stack struct &#123; data []Data&#125; 好了，定义完成了，Data是我们声明的存储数据的接口类型，stack是我们的栈。下面我们来实现栈的几种基本操作。123456789101112131415func (s *stack)push(data Data)&#123; s.data = append(s.data,data)&#125;func (s *stack)pop ()&#123; s.data = s.data[0:len(s.data)-1]&#125;func (s *stack)clear()&#123; s.data = s.data[0:0]&#125;func (s *stack)size() int &#123; return len(s.data)&#125; 非常简单，全部使用切片的方法就可以了。但是这种方式有个缺点：我即使不调用这几个方法，依然可以改变栈中的值。 上面的方法少了一些错误检查语句，比如pop的时候首先需要检查是不是空栈。来让我们加上检查和top函数（返回栈顶）123func (s *stack)is_empty() bool &#123; return len(s.data)==0&#125; 现在，我们的pop代码就变成了下面这个样子12345func (s *stack)pop ()&#123; if !s.is_empty() &#123; s.data = s.data[0:len(s.data)-1] &#125;&#125; 算了，top函数不写了，实现非常简单。 下面是调用测试函数。123456789101112131415func main()&#123; var st stack st.push("123") st.push(990) st.pop() st.push([]int&#123;1,4,5,6,7,8&#125;) st.push("abcd") #st.data[1]="aksdskdja" 这里注释掉了，这种方式是可以直接改变栈的值的......... fmt.Println(st) fmt.Println(st.size())&#125;输出:&#123;[123 [1 4 5 6 7 8] abcd]&#125;3 下午琢磨一下如何用栈实现计算器的功能。]]></content>
+      <categories>
+        <category>ARTS</category>
+      </categories>
+      <tags>
+        <tag>Share</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[golang实现单链表]]></title>
     <url>%2F2019%2F07%2F05%2Fgolang%E5%AE%9E%E7%8E%B0%E5%8D%95%E9%93%BE%E8%A1%A8%2F</url>
     <content type="text"><![CDATA[golang实现单链表，和把大象关进冰箱分几步一样。 首先定义一个能存储链表的结构体 123456789101112131415#可以存储任何类型的数据type Data interface &#123;&#125;#每个节点的存储方式，存储自己的数据和下一个节点的地址type linkNode struct &#123; data Data next *linkNode&#125;#链表结构，存储头节点、尾节点、链表长度等信息type link struct&#123; head *linkNode tail *linkNode size int&#125; linkNode是储存链表中单个节点的，而link是存储整个链表信息的。通过遍历链表信息，我们可以实现链表的增、删、改、查等操作。 第一步，先向链表中增加节点12345678910111213141516171819202122232425262728293031func (l *link)insert(s Data)&#123; #将数据初始化为链表节点的存储方式 node := &amp;linkNode &#123; data :s, next :nil, &#125; #如果当前链表是空的，则把首尾节点均赋值成node if l.head == nil &amp;&amp; l.tail == nil &#123; l.head = node l.tail = node l.size = 1 return &#125; #如果链表不为空，从头开始遍历，直到最后一个节点，把最后一个节点的next地址赋值为我们需要增加的数据的地址 q := l.head for &#123; if q.next == nil &#123; q.next = node l.tail = node break &#125; q = q.next &#125; l.size ++ return&#125; 12345678910#写完上面的注释，突然觉得有点蠢，既然我们有链表的尾地址，直接加不就行了,下面去掉循环，直接插入链表q := l.tail#将当前最后一个节点的next指向nodeq.next = node#将链表最后一个节点赋值成nodel.tail = nodel.size ++ 理清了上面的思路，我来把最新出炉的代码贴上来123456789101112131415161718func (l *link)insert(s Data)&#123; node := &amp;linkNode &#123; data :s, next :nil, &#125; if l.head == nil &amp;&amp; l.tail == nil &#123; l.head = node l.tail = node &#125;else&#123; q := l.tail q.next = node l.tail = node &#125; l.size ++ return&#125; 增加节点写完了，下面开始写删除，我们来实现把指定值的节点从链表中删除。 12345678910111213141516171819202122func (l *link)delete(s Data)&#123; q := l.head before := &amp;linkNode &#123; data:nil, next:l.head, &#125; for &#123; if q.data == s &#123; if q.next == nil &#123; l.tail = before &#125; fmt.Println("Beego!!") before.next = q.next l.size -- break &#125; q = q.next before = before.next &#125;&#125; 思路主要有：1、我们来申明两个变量，一个指向首节点，另外一个指向当前节点的前一个节点2、遍历链表，查找存储指定值的节点3、找到以后，将目标节点的前一个节点的next指向目标节点的next，这样就把目标节点从链表中删除了4、假如目标节点正好是最后一个节点，把当前的尾节点赋值为目标节点的前一个节点 上面基本实现了删除节点的功能，下面继续深入，来写一个查找指定节点，然后返回该节点的地址。之后，如果是双向链表的删除，可以直接用这个函数，然后把前后节点链接起来就可以了，不用遍历一遍链表。 12345678910111213141516func (l *link)find(s Data) *linkNode &#123; q := l.head var target *linkNode for &#123; if q.data == s &#123; target = q break &#125; if q.next == nil &#123; break &#125; q = q.next &#125; return target&#125; 遍历很简单，循环查找就可以，然后把地址返回。 1fmt.Println((*l.find(123)).data) 这是打印上面返回的地址中存储的值。 最后，来实现一个打印链表，和一个测试函数吧。12345678910111213141516171819func (l *link) prt()&#123; q := l.head for q != nil&#123; fmt.Println(q.data) q = q.next &#125;&#125;func main()&#123; var l link l.insert("first") l.insert("hello world") l.insert(123) l.delete(123) l.prt() fmt.Println((*l.find("first")).data)&#125; 以上，基本单链表的操作都实现了。下面研究一下双向链表的写法。]]></content>
@@ -14,7 +36,7 @@
   <entry>
     <title><![CDATA[golang中的面向对象]]></title>
     <url>%2F2019%2F06%2F24%2Fgolang%E4%B8%AD%E7%9A%84%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%2F</url>
-    <content type="text"><![CDATA[golang 中本身没有面向对象的说法，但是可以通过匿名字段来实现类似的功能。 12345678type speak struct &#123; speak string&#125;type cat struct &#123; speak name string age int&#125; 如上代码段，实现类cat继承了speak的所有字段/方法。 如果cat中有字段与父类字段中相同是，默认 cat.name 会优先使用字段中的字段，也就是自己有的用自己，没有的才去继承老爸的。 类似的，子类也继承了父类的所有方法，父类拥有的方法，子类全部可以调用，父爱就是如此厚重。 同样，如果子类拥有与父类相同的方法名，会优先调用子类的方法，这就是著名的方法重写！ 来，我们继续。 1234type smallCat struct &#123; cat sex int&#125; 如上代码段，实现了多重继承，即拥有cat的所有属性，也拥有speak的属性，和我们现在六个钱包买房一样，爷爷奶奶也是要奉献的。 最后匿名字段的使用，和自己的属性一样，直接cat.属性名称就可以赋值调用。 但是，如果你想在某个方法中修改对象的值，那么方法定义是要使用指针的，使用传地址的方式。 1234func (s *speak) Upshow()&#123; s.speak="i im yeye" fmt.Println("i im speak")&#125; 如上代码段，允许cat 和 smallCat 调用，且调用之后，他们的speak属性会被修改为方法中的字符串。]]></content>
+    <content type="text"><![CDATA[golang 中本身没有面向对象的说法，但是可以通过匿名字段来实现类似的功能。 12345678type speak struct &#123; speak string&#125;type cat struct &#123; speak name string age int&#125; 如上代码段，实现类cat继承了speak的所有字段/方法。 如果cat中有字段与父类字段中相同是，默认 cat.name 会优先使用字段中的字段，也就是自己有的用自己，没有的才去继承老爸的。 类似的，子类也继承了父类的所有方法，父类拥有的方法，子类全部可以调用，父爱就是如此厚重。 同样，如果子类拥有与父类相同的方法名，会优先调用子类的方法，这就是著名的方法重写！ 来，我们继续。1234type smallCat struct &#123; cat sex int&#125; 如上代码段，实现了多重继承，即拥有cat的所有属性，也拥有speak的属性，和我们现在六个钱包买房一样，爷爷奶奶也是要奉献的。 最后匿名字段的使用，和自己的属性一样，直接cat.属性名称就可以赋值调用。 但是，如果你想在某个方法中修改对象的值，那么方法定义是要使用指针的，使用传地址的方式。 1234func (s *speak) Upshow()&#123; s.speak="i im yeye" fmt.Println("i im speak")&#125; 如上代码段，允许cat 和 smallCat 调用，且调用之后，他们的speak属性会被修改为方法中的字符串。]]></content>
       <categories>
         <category>ARTS</category>
       </categories>
@@ -25,7 +47,7 @@
   <entry>
     <title><![CDATA[常见算法及适用场景]]></title>
     <url>%2F2019%2F06%2F21%2F%E5%B8%B8%E8%A7%81%E7%AE%97%E6%B3%95%E5%8F%8A%E9%80%82%E7%94%A8%E5%9C%BA%E6%99%AF%2F</url>
-    <content type="text"><![CDATA[（一） 广度优先搜索 广度优先搜索（BFS)常用于找出最短距离。 学习BFS前，先了解一下图，图分为有向图和无向图。图由节点和边构成，没了。 如：国际象棋，最少走多少步可以获胜、两个单词之间互相转换最少需要编辑几次、根据人际关系网络找出关系最近的医生等。 BFS解决两类问题：1、从节点A出发，有前往节点B的路径吗？2、从节点A出发，前往节点B的哪条路径最短？ 栗子： 在我的人际关系网中找关系最近的一位医生。 步骤： 1、查找我的朋友是不是医生 1.1 是 get 1.2 不是，把朋友的朋友加入待检查列表 2、回去执行1.1，直到找到医生或者查找完所有人际关系列表 （key：一度人际关系要比二度人际关系近，因此需要一种数据结构，来完成后进的朋友后检查；队列就是这样的数据结构。） 小结： 1、面临类似于寻找最短路径的问题时，可以尝试使用图来建立模型，再使用BFS解决 2、队列是先进先出，栈是后进先出 3、必须按加入顺序检查搜索列表，否则找到的就不是最短路径 4、对于检查过的人不能再检查，否则可能陷入死循环 （二）狄克斯特拉算法 这种算法是BFS的升级，BFS解决了有向图无向图的查找，这个算法解决加权图的最短路径问题，例如：A到B不同的路耗时不同，并非距离最短就一定最快，每条路耗时相当与边的加权值。 注意，只能用于权重为正的图。 （三） 贪婪算法 NP完全问题，近似算法 （四） 动态规划 背包问题，最长公共子串，最长公共子序列 1、需要在给定约束条件下优化某种指标2、每种动态规划解决方案都涉及网格3、单元格中的值通常就是要优化的值4、每个单元格都是一个子问题，需要考虑如何将问题分解为子问题]]></content>
+    <content type="text"><![CDATA[（一） 广度优先搜索 广度优先搜索（BFS)常用于找出最短距离。 学习BFS前，先了解一下图，图分为有向图和无向图。图由节点和边构成，没了。 如：国际象棋，最少走多少步可以获胜、两个单词之间互相转换最少需要编辑几次、根据人际关系网络找出关系最近的医生等。 BFS解决两类问题：1、从节点A出发，有前往节点B的路径吗？2、从节点A出发，前往节点B的哪条路径最短？栗子： 在我的人际关系网中找关系最近的一位医生。 步骤： 1、查找我的朋友是不是医生 1.1 是 get 1.2 不是，把朋友的朋友加入待检查列表 2、回去执行1.1，直到找到医生或者查找完所有人际关系列表 （key：一度人际关系要比二度人际关系近，因此需要一种数据结构，来完成后进的朋友后检查；队列就是这样的数据结构。） 小结： 1、面临类似于寻找最短路径的问题时，可以尝试使用图来建立模型，再使用BFS解决 2、队列是先进先出，栈是后进先出 3、必须按加入顺序检查搜索列表，否则找到的就不是最短路径 4、对于检查过的人不能再检查，否则可能陷入死循环 （二）狄克斯特拉算法 这种算法是BFS的升级，BFS解决了有向图无向图的查找，这个算法解决加权图的最短路径问题，例如：A到B不同的路耗时不同，并非距离最短就一定最快，每条路耗时相当与边的加权值。 注意，只能用于权重为正的图。 （三） 贪婪算法 NP完全问题，近似算法 （四） 动态规划 背包问题，最长公共子串，最长公共子序列 1、需要在给定约束条件下优化某种指标2、每种动态规划解决方案都涉及网格3、单元格中的值通常就是要优化的值4、每个单元格都是一个子问题，需要考虑如何将问题分解为子问题]]></content>
       <categories>
         <category>ARTS</category>
       </categories>
@@ -144,17 +166,6 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[Tips之打造个人品牌]]></title>
-    <url>%2F2019%2F03%2F07%2FTips%E4%B9%8B%E6%89%93%E9%80%A0%E4%B8%AA%E4%BA%BA%E5%93%81%E7%89%8C%2F</url>
-    <content type="text"><![CDATA[原文链接在这里，不知道需不需要翻墙。 呐，上面的链接是打不开的，因为这篇文章是我自己对自己说的一些话。 我们在职场中，个人是乙方，单位是甲方。单位提供平台、资源、环境，我们拿钱干活，为公司输出自己的价值。所以，不存在弱势、强势的问题。就是一个议价问题嘛，和处对象一样，处的来就一直处下去，性格不合就好聚好散嘛。 所以，无论在哪家公司，为谁服务，我们都需要在工作中、在生活中注意提升自己，把自己当做品牌来经营。呐，什么样的品牌值得信赖呢？有能力当然是很重要的，但是我认为靠谱更重要。 一个靠谱的人是什么样的，就是领导将事情交给你很放心，不是说一定相信你的能力能摆平，而是说你会认认真真的对待，就算搞不定，也会想出一些方案应对。 大家在职场行走，无论是同事也好，还是领导也好，在同一家公司，大多数会融洽的相处，如果脱离公司这个平台呢，你有多少能力或者资源活下去？ 当然了，如果你能力很强，现在的社会一定不会缺少机会的，但是如果你能力很强，你当然不会失业，但是请你对自己要求再高一点，我们不是说有个工作就会去做。我们还是要去做一些自己感兴趣，对社会有意义的事情。当然了，这只是个人的一些看法，也许会有些偏颇。 在工作中，我努力的目标就是上面说的靠谱，当别人有事的时候能够第一个想到你。 认认真真做事，不只是为了对得起公司付给我们的薪水，也是一份职责和担当，但是更多的是对自己这个品牌的负责。 一个人的技能可以提高，性格也可以刻意培养，靠谱这种能力也可以。 经营好我们自己这个品牌，无论在职场还是在生活中，相信会会更舒服或者自由一些。 写的比较乱，个人文笔功底也是差到爆，各位看官多担待，这个博客希望是我文笔提升的一个见证。]]></content>
-      <categories>
-        <category>ARTS</category>
-      </categories>
-      <tags>
-        <tag>Tips</tag>
-      </tags>
-  </entry>
-  <entry>
     <title><![CDATA[Share之How to Merge K Sorted Arrays]]></title>
     <url>%2F2019%2F03%2F07%2FShare%E4%B9%8BHow%20to%20Merge%20K%20Sorted%20Arrays%2F</url>
     <content type="text"><![CDATA[原文链接在这里，不知道需不需要翻墙。 这篇文章介绍了几种merge 排序后数组的方案，还没看太懂。分享出来做个备忘。 详细内容还请移步原文。]]></content>
@@ -163,6 +174,17 @@
       </categories>
       <tags>
         <tag>Share</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Tips之打造个人品牌]]></title>
+    <url>%2F2019%2F03%2F07%2FTips%E4%B9%8B%E6%89%93%E9%80%A0%E4%B8%AA%E4%BA%BA%E5%93%81%E7%89%8C%2F</url>
+    <content type="text"><![CDATA[原文链接在这里，不知道需不需要翻墙。 呐，上面的链接是打不开的，因为这篇文章是我自己对自己说的一些话。 我们在职场中，个人是乙方，单位是甲方。单位提供平台、资源、环境，我们拿钱干活，为公司输出自己的价值。所以，不存在弱势、强势的问题。就是一个议价问题嘛，和处对象一样，处的来就一直处下去，性格不合就好聚好散嘛。 所以，无论在哪家公司，为谁服务，我们都需要在工作中、在生活中注意提升自己，把自己当做品牌来经营。呐，什么样的品牌值得信赖呢？有能力当然是很重要的，但是我认为靠谱更重要。 一个靠谱的人是什么样的，就是领导将事情交给你很放心，不是说一定相信你的能力能摆平，而是说你会认认真真的对待，就算搞不定，也会想出一些方案应对。 大家在职场行走，无论是同事也好，还是领导也好，在同一家公司，大多数会融洽的相处，如果脱离公司这个平台呢，你有多少能力或者资源活下去？ 当然了，如果你能力很强，现在的社会一定不会缺少机会的，但是如果你能力很强，你当然不会失业，但是请你对自己要求再高一点，我们不是说有个工作就会去做。我们还是要去做一些自己感兴趣，对社会有意义的事情。当然了，这只是个人的一些看法，也许会有些偏颇。 在工作中，我努力的目标就是上面说的靠谱，当别人有事的时候能够第一个想到你。 认认真真做事，不只是为了对得起公司付给我们的薪水，也是一份职责和担当，但是更多的是对自己这个品牌的负责。 一个人的技能可以提高，性格也可以刻意培养，靠谱这种能力也可以。 经营好我们自己这个品牌，无论在职场还是在生活中，相信会会更舒服或者自由一些。 写的比较乱，个人文笔功底也是差到爆，各位看官多担待，这个博客希望是我文笔提升的一个见证。]]></content>
+      <categories>
+        <category>ARTS</category>
+      </categories>
+      <tags>
+        <tag>Tips</tag>
       </tags>
   </entry>
   <entry>
@@ -254,9 +276,9 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[leetcode之Number of Recent Calls]]></title>
-    <url>%2F2019%2F02%2F01%2Fleetcode%E4%B9%8BNumber%20of%20Recent%20Calls%2F</url>
-    <content type="text"><![CDATA[问题描述： Write a class RecentCounter to count recent requests. It has only one method: ping(int t), where t represents some time in milliseconds. Return the number of pings that have been made from 3000 milliseconds ago until now. Any ping with time in [t - 3000, t] will count, including the current ping. It is guaranteed that every call to ping uses a strictly larger value of t than before. Example 1: Input: inputs = [“RecentCounter”,”ping”,”ping”,”ping”,”ping”], inputs = [[],[1],[100],[3001],[3002]]Output: [null,1,2,3,3] Note: Each test case will have at most 10000 calls to ping.Each test case will call ping with strictly increasing values of t.Each call to ping will have 1 &lt;= t &lt;= 10^9. 统计每个人调用ping函数的次数，t在[t - 3000, t] 这个区间统计一次。12345678910111213141516171819202122232425262728293031323334353637type RecentCounter struct &#123; curName string beforeName []string beforeTm []int cn int point int&#125;func Constructor() RecentCounter &#123; return RecentCounter&#123;&#125;&#125;const K int = 3000func findKey( this *RecentCounter,t int) int &#123; for i:=this.point;i&lt;len(this.beforeTm);i++ &#123; if this.beforeTm[i]+K &gt;= t &#123; this.point = i return len(this.beforeTm)-i+1 &#125; &#125; return 1&#125;func (this *RecentCounter) Ping(t int) int &#123; this.cn=1 for _,v := range this.beforeName &#123; if this.curName == v &#123; this.cn = findKey(this,t) break &#125; &#125; this.beforeName=append(this.beforeName,this.curName) this.beforeTm=append(this.beforeTm,t) return this.cn&#125; 本身没有java和c++的背景，不太熟悉这种面向对象的写法，写的比较丑陋，速度也一般。 代码题干不表了，注意看notes中第二条，调用者的time是递增的，也就是说，同一个调用者依次出现10次，第11次出现时，我们检查之前的t是否满足条件，如果第五次调用满足了 t in [t-3000,t] 这个区间函数，表示前四次一定是小于t-3000的。 因此就有了findKey总return的len(this.beforeTm)-i+1 。也是因为这个思路，所以我们会在每一个调用者调用函数时都append到我们的列表中。哦，对了，还有一个point，这个是记录我们上次检查到什么位置的，下一次从point开始就可以了，因为之前的time肯定是小于t-3000的。]]></content>
+    <title><![CDATA[leetcode之Fibonacci Number]]></title>
+    <url>%2F2019%2F02%2F01%2Fleetcode%E4%B9%8BFibonacci%20Number%2F</url>
+    <content type="text"><![CDATA[问题描述： The Fibonacci numbers, commonly denoted F(n) form a sequence, called the Fibonacci sequence, such that each number is the sum of the two preceding ones, starting from 0 and 1. That is, F(0) = 0, F(1) = 1F(N) = F(N - 1) + F(N - 2), for N &gt; 1.Given N, calculate F(N). Example 1:Input: 2Output: 1Explanation: F(2) = F(1) + F(0) = 1 + 0 = 1. Example 2:Input: 3Output: 2Explanation: F(3) = F(2) + F(1) = 1 + 1 = 2. Example 3:Input: 4Output: 3Explanation: F(4) = F(3) + F(2) = 2 + 1 = 3. 经典的数列问题。1234567func fib(N int) int &#123; if N == 1 || N == 0&#123; return N &#125; return fib(N-1)+fib(N-2)&#125; 博主写的当然是这种烂大街的递归解法，很普通，下面分享最佳答案。1234567891011121314func fib(N int) int &#123; switch N &#123; case 0: return 0 case 1: return 1 default: a, b := 0, 1 for i := 2; i &lt;= N; i++ &#123; a, b = b, a+b &#125; return b &#125;&#125; 思路很清奇有没有！]]></content>
       <categories>
         <category>算法</category>
       </categories>
@@ -276,9 +298,9 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[leetcode之Fibonacci Number]]></title>
-    <url>%2F2019%2F02%2F01%2Fleetcode%E4%B9%8BFibonacci%20Number%2F</url>
-    <content type="text"><![CDATA[问题描述： The Fibonacci numbers, commonly denoted F(n) form a sequence, called the Fibonacci sequence, such that each number is the sum of the two preceding ones, starting from 0 and 1. That is, F(0) = 0, F(1) = 1F(N) = F(N - 1) + F(N - 2), for N &gt; 1.Given N, calculate F(N). Example 1:Input: 2Output: 1Explanation: F(2) = F(1) + F(0) = 1 + 0 = 1. Example 2:Input: 3Output: 2Explanation: F(3) = F(2) + F(1) = 1 + 1 = 2. Example 3:Input: 4Output: 3Explanation: F(4) = F(3) + F(2) = 2 + 1 = 3. 经典的数列问题。1234567func fib(N int) int &#123; if N == 1 || N == 0&#123; return N &#125; return fib(N-1)+fib(N-2)&#125; 博主写的当然是这种烂大街的递归解法，很普通，下面分享最佳答案。1234567891011121314func fib(N int) int &#123; switch N &#123; case 0: return 0 case 1: return 1 default: a, b := 0, 1 for i := 2; i &lt;= N; i++ &#123; a, b = b, a+b &#125; return b &#125;&#125; 思路很清奇有没有！]]></content>
+    <title><![CDATA[leetcode之Number of Recent Calls]]></title>
+    <url>%2F2019%2F02%2F01%2Fleetcode%E4%B9%8BNumber%20of%20Recent%20Calls%2F</url>
+    <content type="text"><![CDATA[问题描述： Write a class RecentCounter to count recent requests. It has only one method: ping(int t), where t represents some time in milliseconds. Return the number of pings that have been made from 3000 milliseconds ago until now. Any ping with time in [t - 3000, t] will count, including the current ping. It is guaranteed that every call to ping uses a strictly larger value of t than before. Example 1: Input: inputs = [“RecentCounter”,”ping”,”ping”,”ping”,”ping”], inputs = [[],[1],[100],[3001],[3002]]Output: [null,1,2,3,3] Note: Each test case will have at most 10000 calls to ping.Each test case will call ping with strictly increasing values of t.Each call to ping will have 1 &lt;= t &lt;= 10^9. 统计每个人调用ping函数的次数，t在[t - 3000, t] 这个区间统计一次。12345678910111213141516171819202122232425262728293031323334353637type RecentCounter struct &#123; curName string beforeName []string beforeTm []int cn int point int&#125;func Constructor() RecentCounter &#123; return RecentCounter&#123;&#125;&#125;const K int = 3000func findKey( this *RecentCounter,t int) int &#123; for i:=this.point;i&lt;len(this.beforeTm);i++ &#123; if this.beforeTm[i]+K &gt;= t &#123; this.point = i return len(this.beforeTm)-i+1 &#125; &#125; return 1&#125;func (this *RecentCounter) Ping(t int) int &#123; this.cn=1 for _,v := range this.beforeName &#123; if this.curName == v &#123; this.cn = findKey(this,t) break &#125; &#125; this.beforeName=append(this.beforeName,this.curName) this.beforeTm=append(this.beforeTm,t) return this.cn&#125; 本身没有java和c++的背景，不太熟悉这种面向对象的写法，写的比较丑陋，速度也一般。 代码题干不表了，注意看notes中第二条，调用者的time是递增的，也就是说，同一个调用者依次出现10次，第11次出现时，我们检查之前的t是否满足条件，如果第五次调用满足了 t in [t-3000,t] 这个区间函数，表示前四次一定是小于t-3000的。 因此就有了findKey总return的len(this.beforeTm)-i+1 。也是因为这个思路，所以我们会在每一个调用者调用函数时都append到我们的列表中。哦，对了，还有一个point，这个是记录我们上次检查到什么位置的，下一次从point开始就可以了，因为之前的time肯定是小于t-3000的。]]></content>
       <categories>
         <category>算法</category>
       </categories>
@@ -375,31 +397,20 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[leetcode之Robot Return to Origin]]></title>
-    <url>%2F2019%2F01%2F22%2Fleetcode%E4%B9%8BRobot%20Return%20to%20Origin%2F</url>
-    <content type="text"><![CDATA[问题描述： There is a robot starting at position (0, 0), the origin, on a 2D plane. Given a sequence of its moves, judge if this robot ends up at (0, 0) after it completes its moves. The move sequence is represented by a string, and the character moves[i] represents its ith move. Valid moves are R (right), L (left), U (up), and D (down). If the robot returns to the origin after it finishes all of its moves, return true. Otherwise, return false. Note: The way that the robot is “facing” is irrelevant. “R” will always make the robot move to the right once, “L” will always make it move left, etc. Also, assume that the magnitude of the robot’s movement is the same for each move. Example 1: Input: “UD”Output: trueExplanation: The robot moves up once, and then down once. All moves have the same magnitude, so it ended up at the origin where it started. Therefore, we return true. Example 2: Input: “LL”Output: falseExplanation: The robot moves left twice. It ends up two “moves” to the left of the origin. We return false because it is not at the origin at the end of its moves. 模拟机器人走路，分别为 UDLR 代表上下左右，经过一顿操作后，是否还能回到原点1234567891011121314151617181920func judgeCircle(moves string) bool &#123; var k,h int if len(moves)%2 != 0 &#123; return false &#125; for i:=0;i&lt;len(moves);i++ &#123; switch &#123; case moves[i] == 'U': k++ case moves[i] == 'D': k-- case moves[i] == 'R': h++ case moves[i] == 'L': h-- &#125; &#125; return k==0&amp;&amp;h==0 &#125; 能回到原点，说明操作次数是偶数，左右，上下，一一对应。定义K和h分别记录操作次数，上和右加1，下和左减1.循环完K和h是0即可。]]></content>
-      <categories>
-        <category>算法</category>
-      </categories>
-      <tags>
-        <tag>算法</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[leetcode之Array Partition I]]></title>
-    <url>%2F2019%2F01%2F22%2Fleetcode%E4%B9%8BArray%20Partition%20I%2F</url>
-    <content type="text"><![CDATA[问题描述： Given an array of 2n integers, your task is to group these integers into n pairs of integer, say (a1, b1), (a2, b2), …, (an, bn) which makes sum of min(ai, bi) for all i from 1 to n as large as possible. Example 1:Input: [1,4,3,2] Output: 4Explanation: n is 2, and the maximum sum of pairs is 4 = min(1, 2) + min(3, 4).Note:n is a positive integer, which is in the range of [1, 10000].All the integers in the array will be in the range of [-10000, 10000]. 给定长度为2N的数组，然后分成N个小组，拿每组中最小的数字出来求和，得出结果，如何是的求和的结果是所有分组中最大的。12345678910111213141516171819202122type byNum []intfunc (a byNum) Len() int &#123; return len(a)&#125;func (p byNum) Less(i,j int) bool &#123; return p[i]&lt;p[j]&#125;func (p byNum) Swap (i,j int) &#123; p[i],p[j] = p[j],p[i]&#125;func arrayPairSum(A []int) int &#123; sort.Sort(byNum(A)) sm := 0 for i:=0; i &lt; len(A); i+=2 &#123; sm +=A[i] &#125; return sm&#125; 理解下题目，拿分组中较小的元素出来求和，也就是说最小的不能祸害最大的，再进一步，最小的最好和次小的放在一起，这样伤害最小。因此得出思路，将整个数组排序，然后计算奇数位置的数字和就可以了。但是这个代码用了84ms，只比32%的人快。是排序问题还是思路问题，有不同见解的同学欢迎留言。]]></content>
-      <categories>
-        <category>算法</category>
-      </categories>
-      <tags>
-        <tag>算法</tag>
-      </tags>
-  </entry>
-  <entry>
     <title><![CDATA[leetcode之Unique Morse Code Words]]></title>
     <url>%2F2019%2F01%2F22%2Fleetcode%E4%B9%8B%20Unique%20Morse%20Code%20Words%2F</url>
     <content type="text"><![CDATA[问题描述： International Morse Code defines a standard encoding where each letter is mapped to a series of dots and dashes, as follows: “a” maps to “.-“, “b” maps to “-…”, “c” maps to “-.-.”, and so on. For convenience, the full table for the 26 letters of the English alphabet is given below: [“.-“,”-…”,”-.-.”,”-..”,”.”,”..-.”,”–.”,”….”,”..”,”.—“,”-.-“,”.-..”,”–”,”-.”,”—“,”.–.”,”–.-“,”.-.”,”…”,”-“,”..-“,”…-“,”.–”,”-..-“,”-.–”,”–..”]Now, given a list of words, each word can be written as a concatenation of the Morse code of each letter. For example, “cba” can be written as “-.-..–…”, (which is the concatenation “-.-.” + “-…” + “.-“). We’ll call such a concatenation, the transformation of a word. Return the number of different transformations among all words we have. Example:Input: words = [“gin”, “zen”, “gig”, “msg”]Output: 2Explanation:The transformation of each word is:“gin” -&gt; “–…-.”“zen” -&gt; “–…-.”“gig” -&gt; “–…–.”“msg” -&gt; “–…–.” There are 2 different transformations, “–…-.” and “–…–.”.Note:The length of words will be at most 100.Each words[i] will have length in range [1, 12].words[i] will only consist of lowercase letters. 将字母翻译为摩斯码，返回去重后的摩斯码数量12345678910111213func uniqueMorseRepresentations(words []string) int &#123; M := []string&#123;".-","-...","-.-.","-..",".","..-.","--.","....","..",".---","-.-",".-..","--","-.","---",".--.","--.-",".-.","...","-","..-","...-",".--","-..-","-.--","--.."&#125; morse_mp := make(map[string] int) for i:=0; i &lt; len(words); i++ &#123; morse :="" for _,v := range words[i] &#123; morse = morse+M[v-'a'] &#125; morse_mp[morse]++ &#125; return len(morse_mp)&#125; 将每个字母映射为摩斯码，然后放在map中去重，返回map的长度即可。]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>算法</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[leetcode之Sort Array By Parity]]></title>
+    <url>%2F2019%2F01%2F22%2Fleetcode%E4%B9%8BSort%20Array%20By%20Parity%2F</url>
+    <content type="text"><![CDATA[问题描述： Given an array A of non-negative integers, return an array consisting of all the even elements of A, followed by all the odd elements of A. You may return any answer array that satisfies this condition. Example 1: Input: [3,1,2,4]Output: [2,4,3,1]The outputs [4,2,3,1], [2,4,1,3], and [4,2,1,3] would also be accepted. Note: 1 &lt;= A.length &lt;= 50000 &lt;= A[i] &lt;= 5000imes. 将数组按奇偶排序，偶数全部放在前面1234567891011121314151617func sortArrayByParity(A []int) []int &#123; var B [5000]int l := len(A) start := 0 end := l-1 for i:=0; i&lt;l; i++ &#123; if A[i] % 2 ==0 &#123; B[start]=A[i] start++ &#125;else &#123; B[end]=A[i] end-- &#125; &#125; return B[0:l] &#125; 定义一个大数组，然后把偶数从0开始放，奇数从l-1开始放。最后返回B的0-l的元素即可。]]></content>
       <categories>
         <category>算法</category>
       </categories>
@@ -430,42 +441,9 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[leetcode之To Lower Case]]></title>
-    <url>%2F2019%2F01%2F22%2Fleetcode%E4%B9%8BJewels%20and%20Stones%2F</url>
-    <content type="text"><![CDATA[问题描述： You’re given strings J representing the types of stones that are jewels, and S representing the stones you have. Each character in S is a type of stone you have. You want to know how many of the stones you have are also jewels. The letters in J are guaranteed distinct, and all characters in J and S are letters. Letters are case sensitive, so “a” is considered a different type of stone from “A”. Example 1: Input: J = “aA”, S = “aAAbbbb”Output: 3Example 2: Input: J = “z”, S = “ZZ”Output: 0Note: S and J will consist of letters and have length at most 50.The characters in J are distinct. 我把这道题翻译为：在石头中找宝石，返回宝石的数量。12345678910111213141516func numJewelsInStones(J string, S string) int &#123; mp :=make(map[byte] int) cn :=0 for i:=0;i&lt;len(J);i++ &#123; mp[J[i]]=i &#125; for i:=0;i&lt;len(S);i++ &#123; if _,ok :=mp[S[i]];ok &#123; cn++ &#125; &#125; return cn &#125; 将宝石放在map中，然后依次迭代数组查找就可以了。]]></content>
-      <categories>
-        <category>算法</category>
-      </categories>
-      <tags>
-        <tag>算法</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[leetcode之Self Dividing Numbers]]></title>
-    <url>%2F2019%2F01%2F22%2Fleetcode%E4%B9%8BSelf%20Dividing%20Numbers%2F</url>
-    <content type="text"><![CDATA[问题描述： A self-dividing number is a number that is divisible by every digit it contains. For example, 128 is a self-dividing number because 128 % 1 == 0, 128 % 2 == 0, and 128 % 8 == 0. Also, a self-dividing number is not allowed to contain the digit zero. Given a lower and upper number bound, output a list of every possible self dividing number, including the bounds if possible.Example 1:Input:left = 1, right = 22Output: [1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 15, 22]Note: The boundaries of each input argument are 1 &lt;= left &lt;= right &lt;= 10000. 给定数字开头和结尾，找出他们中间满足条件的数字，条件就是能被自己包含的数字整除，如 8743 要能被 8、7、4、3 都整除才算满足条件。1234567891011121314151617181920func selfDividingNumbers(left int, right int) []int &#123; var array []int for i:=left;i&lt;=right;i++ &#123; k := i isVaild := true for k !=0 &#123; if num := k%10; num == 0 || i % num != 0&#123; isVaild = false break &#125; k = k/10 &#125; if isVaild &#123; array = append(array,i) &#125; &#125; return array&#125; 之前做过一次数字反转的题目，这里的核心代码与它相同，一边找出余数，看看能不能整除，如果能就把剩下的数字继续找余数。注意，数字中任何一位是0都不能算，这个一定要在整除前判断。]]></content>
-      <categories>
-        <category>算法</category>
-      </categories>
-      <tags>
-        <tag>算法</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[leetcode之Squares of a Sorted Array]]></title>
-    <url>%2F2019%2F01%2F22%2Fleetcode%E4%B9%8BSquares%20of%20a%20Sorted%20Array%2F</url>
-    <content type="text"><![CDATA[问题描述： Given an array of integers A sorted in non-decreasing order, return an array of the squares of each number, also in sorted non-decreasing order. Example 1: Input: [-4,-1,0,3,10]Output: [0,1,9,16,100] Example 2: Input: [-7,-3,2,3,11]Output: [4,9,9,49,121] Note: 1 &lt;= A.length &lt;= 10000-10000 &lt;= A[i] &lt;= 10000A is sorted in non-decreasing order. 给定一个有序数组，按平方后的数据大小排序1234567891011121314151617181920type bySquare []intfunc (a bySquare) Len() int &#123; return len(a)&#125;func (p bySquare) Less(i,j int) bool &#123; return p[i]*p[i] &lt;p[j]*p[j]&#125;func (p bySquare) Swap (i,j int) &#123; p[i],p[j] = p[j],p[i]&#125;func sortedSquares(A []int) []int &#123; for k,_ := range A &#123; A[k]=A[k]*A[k] &#125; sort.Sort(bySquare(A)) return A&#125; 偷了个懒，利用了go的接口特性，重写了系统的sort函数。一定还有其他思路解决这个问题，因为对于题目中给定的有序数组这个特点没利用上。欢迎有思路的同学留言。]]></content>
-      <categories>
-        <category>算法</category>
-      </categories>
-      <tags>
-        <tag>算法</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[leetcode之To Lower Case]]></title>
-    <url>%2F2019%2F01%2F22%2Fleetcode%E4%B9%8BTo%20Lower%20Case%2F</url>
-    <content type="text"><![CDATA[问题描述： Implement function ToLowerCase() that has a string parameter str, and returns the same string in lowercase. Example 1: Input: “Hello”Output: “hello”Example 2: Input: “here”Output: “here”Example 3: Input: “LOVELY”Output: “lovely” 转换为小写字母123456789func toLowerCase(str string) string &#123; b :=[]byte(str) for i:=0;i&lt;len(str);i++ &#123; if str[i] &gt;=65 &amp;&amp; str[i] &lt;=90 &#123; b[i]=b[i]+32 &#125; &#125; return string(b) &#125; 没什么复杂的。]]></content>
+    <title><![CDATA[leetcode之N-Repeated Element in Size 2N Array]]></title>
+    <url>%2F2019%2F01%2F22%2Fleetcode%E4%B9%8B%20N-Repeated%20Element%20in%20Size%202N%20Array%2F</url>
+    <content type="text"><![CDATA[问题描述： In a array A of size 2N, there are N+1 unique elements, and exactly one of these elements is repeated N times. Return the element repeated N times. Example 1: Input: [1,2,3,3]Output: 3Example 2: Input: [2,1,2,5,3,2]Output: 2Example 3: Input: [5,1,5,2,5,3,5,4]Output: 5 在2N个元素中有N+1个是唯一的，只有一个元素重复了N次，返回这个重复的元素1234567891011func repeatedNTimes(A []int) int &#123; var mp [10000]int l := len(A) for i:=0;i &lt; l; i++ &#123; mp[A[i]]++ if mp[A[i]] &gt; 1 &#123; return A[i] &#125; &#125; return 0 &#125; 使用数组元素值作下标，当某个元素重复出现时，就是我们要找的元素。]]></content>
       <categories>
         <category>算法</category>
       </categories>
@@ -496,9 +474,9 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[leetcode之N-Repeated Element in Size 2N Array]]></title>
-    <url>%2F2019%2F01%2F22%2Fleetcode%E4%B9%8B%20N-Repeated%20Element%20in%20Size%202N%20Array%2F</url>
-    <content type="text"><![CDATA[问题描述： In a array A of size 2N, there are N+1 unique elements, and exactly one of these elements is repeated N times. Return the element repeated N times. Example 1: Input: [1,2,3,3]Output: 3Example 2: Input: [2,1,2,5,3,2]Output: 2Example 3: Input: [5,1,5,2,5,3,5,4]Output: 5 在2N个元素中有N+1个是唯一的，只有一个元素重复了N次，返回这个重复的元素1234567891011func repeatedNTimes(A []int) int &#123; var mp [10000]int l := len(A) for i:=0;i &lt; l; i++ &#123; mp[A[i]]++ if mp[A[i]] &gt; 1 &#123; return A[i] &#125; &#125; return 0 &#125; 使用数组元素值作下标，当某个元素重复出现时，就是我们要找的元素。]]></content>
+    <title><![CDATA[leetcode之Array Partition I]]></title>
+    <url>%2F2019%2F01%2F22%2Fleetcode%E4%B9%8BArray%20Partition%20I%2F</url>
+    <content type="text"><![CDATA[问题描述： Given an array of 2n integers, your task is to group these integers into n pairs of integer, say (a1, b1), (a2, b2), …, (an, bn) which makes sum of min(ai, bi) for all i from 1 to n as large as possible. Example 1:Input: [1,4,3,2] Output: 4Explanation: n is 2, and the maximum sum of pairs is 4 = min(1, 2) + min(3, 4).Note:n is a positive integer, which is in the range of [1, 10000].All the integers in the array will be in the range of [-10000, 10000]. 给定长度为2N的数组，然后分成N个小组，拿每组中最小的数字出来求和，得出结果，如何是的求和的结果是所有分组中最大的。12345678910111213141516171819202122type byNum []intfunc (a byNum) Len() int &#123; return len(a)&#125;func (p byNum) Less(i,j int) bool &#123; return p[i]&lt;p[j]&#125;func (p byNum) Swap (i,j int) &#123; p[i],p[j] = p[j],p[i]&#125;func arrayPairSum(A []int) int &#123; sort.Sort(byNum(A)) sm := 0 for i:=0; i &lt; len(A); i+=2 &#123; sm +=A[i] &#125; return sm&#125; 理解下题目，拿分组中较小的元素出来求和，也就是说最小的不能祸害最大的，再进一步，最小的最好和次小的放在一起，这样伤害最小。因此得出思路，将整个数组排序，然后计算奇数位置的数字和就可以了。但是这个代码用了84ms，只比32%的人快。是排序问题还是思路问题，有不同见解的同学欢迎留言。]]></content>
       <categories>
         <category>算法</category>
       </categories>
@@ -507,9 +485,53 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[leetcode之Sort Array By Parity]]></title>
-    <url>%2F2019%2F01%2F22%2Fleetcode%E4%B9%8BSort%20Array%20By%20Parity%2F</url>
-    <content type="text"><![CDATA[问题描述： Given an array A of non-negative integers, return an array consisting of all the even elements of A, followed by all the odd elements of A. You may return any answer array that satisfies this condition. Example 1: Input: [3,1,2,4]Output: [2,4,3,1]The outputs [4,2,3,1], [2,4,1,3], and [4,2,1,3] would also be accepted. Note: 1 &lt;= A.length &lt;= 50000 &lt;= A[i] &lt;= 5000imes. 将数组按奇偶排序，偶数全部放在前面1234567891011121314151617func sortArrayByParity(A []int) []int &#123; var B [5000]int l := len(A) start := 0 end := l-1 for i:=0; i&lt;l; i++ &#123; if A[i] % 2 ==0 &#123; B[start]=A[i] start++ &#125;else &#123; B[end]=A[i] end-- &#125; &#125; return B[0:l] &#125; 定义一个大数组，然后把偶数从0开始放，奇数从l-1开始放。最后返回B的0-l的元素即可。]]></content>
+    <title><![CDATA[leetcode之Squares of a Sorted Array]]></title>
+    <url>%2F2019%2F01%2F22%2Fleetcode%E4%B9%8BSquares%20of%20a%20Sorted%20Array%2F</url>
+    <content type="text"><![CDATA[问题描述： Given an array of integers A sorted in non-decreasing order, return an array of the squares of each number, also in sorted non-decreasing order. Example 1: Input: [-4,-1,0,3,10]Output: [0,1,9,16,100] Example 2: Input: [-7,-3,2,3,11]Output: [4,9,9,49,121] Note: 1 &lt;= A.length &lt;= 10000-10000 &lt;= A[i] &lt;= 10000A is sorted in non-decreasing order. 给定一个有序数组，按平方后的数据大小排序1234567891011121314151617181920type bySquare []intfunc (a bySquare) Len() int &#123; return len(a)&#125;func (p bySquare) Less(i,j int) bool &#123; return p[i]*p[i] &lt;p[j]*p[j]&#125;func (p bySquare) Swap (i,j int) &#123; p[i],p[j] = p[j],p[i]&#125;func sortedSquares(A []int) []int &#123; for k,_ := range A &#123; A[k]=A[k]*A[k] &#125; sort.Sort(bySquare(A)) return A&#125; 偷了个懒，利用了go的接口特性，重写了系统的sort函数。一定还有其他思路解决这个问题，因为对于题目中给定的有序数组这个特点没利用上。欢迎有思路的同学留言。]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>算法</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[leetcode之To Lower Case]]></title>
+    <url>%2F2019%2F01%2F22%2Fleetcode%E4%B9%8BJewels%20and%20Stones%2F</url>
+    <content type="text"><![CDATA[问题描述： You’re given strings J representing the types of stones that are jewels, and S representing the stones you have. Each character in S is a type of stone you have. You want to know how many of the stones you have are also jewels. The letters in J are guaranteed distinct, and all characters in J and S are letters. Letters are case sensitive, so “a” is considered a different type of stone from “A”. Example 1: Input: J = “aA”, S = “aAAbbbb”Output: 3Example 2: Input: J = “z”, S = “ZZ”Output: 0Note: S and J will consist of letters and have length at most 50.The characters in J are distinct. 我把这道题翻译为：在石头中找宝石，返回宝石的数量。12345678910111213141516func numJewelsInStones(J string, S string) int &#123; mp :=make(map[byte] int) cn :=0 for i:=0;i&lt;len(J);i++ &#123; mp[J[i]]=i &#125; for i:=0;i&lt;len(S);i++ &#123; if _,ok :=mp[S[i]];ok &#123; cn++ &#125; &#125; return cn &#125; 将宝石放在map中，然后依次迭代数组查找就可以了。]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>算法</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[leetcode之Self Dividing Numbers]]></title>
+    <url>%2F2019%2F01%2F22%2Fleetcode%E4%B9%8BSelf%20Dividing%20Numbers%2F</url>
+    <content type="text"><![CDATA[问题描述： A self-dividing number is a number that is divisible by every digit it contains. For example, 128 is a self-dividing number because 128 % 1 == 0, 128 % 2 == 0, and 128 % 8 == 0. Also, a self-dividing number is not allowed to contain the digit zero. Given a lower and upper number bound, output a list of every possible self dividing number, including the bounds if possible.Example 1:Input:left = 1, right = 22Output: [1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 15, 22]Note: The boundaries of each input argument are 1 &lt;= left &lt;= right &lt;= 10000. 给定数字开头和结尾，找出他们中间满足条件的数字，条件就是能被自己包含的数字整除，如 8743 要能被 8、7、4、3 都整除才算满足条件。1234567891011121314151617181920func selfDividingNumbers(left int, right int) []int &#123; var array []int for i:=left;i&lt;=right;i++ &#123; k := i isVaild := true for k !=0 &#123; if num := k%10; num == 0 || i % num != 0&#123; isVaild = false break &#125; k = k/10 &#125; if isVaild &#123; array = append(array,i) &#125; &#125; return array&#125; 之前做过一次数字反转的题目，这里的核心代码与它相同，一边找出余数，看看能不能整除，如果能就把剩下的数字继续找余数。注意，数字中任何一位是0都不能算，这个一定要在整除前判断。]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>算法</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[leetcode之Robot Return to Origin]]></title>
+    <url>%2F2019%2F01%2F22%2Fleetcode%E4%B9%8BRobot%20Return%20to%20Origin%2F</url>
+    <content type="text"><![CDATA[问题描述： There is a robot starting at position (0, 0), the origin, on a 2D plane. Given a sequence of its moves, judge if this robot ends up at (0, 0) after it completes its moves. The move sequence is represented by a string, and the character moves[i] represents its ith move. Valid moves are R (right), L (left), U (up), and D (down). If the robot returns to the origin after it finishes all of its moves, return true. Otherwise, return false. Note: The way that the robot is “facing” is irrelevant. “R” will always make the robot move to the right once, “L” will always make it move left, etc. Also, assume that the magnitude of the robot’s movement is the same for each move. Example 1: Input: “UD”Output: trueExplanation: The robot moves up once, and then down once. All moves have the same magnitude, so it ended up at the origin where it started. Therefore, we return true. Example 2: Input: “LL”Output: falseExplanation: The robot moves left twice. It ends up two “moves” to the left of the origin. We return false because it is not at the origin at the end of its moves. 模拟机器人走路，分别为 UDLR 代表上下左右，经过一顿操作后，是否还能回到原点1234567891011121314151617181920func judgeCircle(moves string) bool &#123; var k,h int if len(moves)%2 != 0 &#123; return false &#125; for i:=0;i&lt;len(moves);i++ &#123; switch &#123; case moves[i] == 'U': k++ case moves[i] == 'D': k-- case moves[i] == 'R': h++ case moves[i] == 'L': h-- &#125; &#125; return k==0&amp;&amp;h==0 &#125; 能回到原点，说明操作次数是偶数，左右，上下，一一对应。定义K和h分别记录操作次数，上和右加1，下和左减1.循环完K和h是0即可。]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>算法</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[leetcode之To Lower Case]]></title>
+    <url>%2F2019%2F01%2F22%2Fleetcode%E4%B9%8BTo%20Lower%20Case%2F</url>
+    <content type="text"><![CDATA[问题描述： Implement function ToLowerCase() that has a string parameter str, and returns the same string in lowercase. Example 1: Input: “Hello”Output: “hello”Example 2: Input: “here”Output: “here”Example 3: Input: “LOVELY”Output: “lovely” 转换为小写字母123456789func toLowerCase(str string) string &#123; b :=[]byte(str) for i:=0;i&lt;len(str);i++ &#123; if str[i] &gt;=65 &amp;&amp; str[i] &lt;=90 &#123; b[i]=b[i]+32 &#125; &#125; return string(b) &#125; 没什么复杂的。]]></content>
       <categories>
         <category>算法</category>
       </categories>

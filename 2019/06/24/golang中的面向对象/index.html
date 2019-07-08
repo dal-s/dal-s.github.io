@@ -92,7 +92,7 @@
 <meta property="og:site_name" content="dal&#39;s blog">
 <meta property="og:description" content="golang 中本身没有面向对象的说法，但是可以通过匿名字段来实现类似的功能。 12345678type speak struct &amp;#123;    speak string&amp;#125;type cat struct &amp;#123;    speak    name string    age int&amp;#125; 如上代码段，实现类cat继承了speak的所有字段/方法。 如果cat中有字段与父类">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-06-24T13:56:54.450Z">
+<meta property="og:updated_time" content="2019-07-08T06:26:30.534Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="golang中的面向对象">
 <meta name="twitter:description" content="golang 中本身没有面向对象的说法，但是可以通过匿名字段来实现类似的功能。 12345678type speak struct &amp;#123;    speak string&amp;#125;type cat struct &amp;#123;    speak    name string    age int&amp;#125; 如上代码段，实现类cat继承了speak的所有字段/方法。 如果cat中有字段与父类">
@@ -406,8 +406,7 @@
 <p>如果cat中有字段与父类字段中相同是，默认 cat.name 会优先使用字段中的字段，也就是自己有的用自己，没有的才去继承老爸的。</p>
 <p>类似的，子类也继承了父类的所有方法，父类拥有的方法，子类全部可以调用，父爱就是如此厚重。</p>
 <p>同样，如果子类拥有与父类相同的方法名，会优先调用子类的方法，这就是著名的方法重写！</p>
-<p>来，我们继续。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">type</span> smallCat struct &#123;</span><br><span class="line">    cat </span><br><span class="line">    sex int</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>来，我们继续。<br><a id="more"></a><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">type</span> smallCat struct &#123;</span><br><span class="line">    cat </span><br><span class="line">    sex int</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>如上代码段，实现了多重继承，即拥有cat的所有属性，也拥有speak的属性，和我们现在六个钱包买房一样，爷爷奶奶也是要奉献的。</p>
 <p>最后匿名字段的使用，和自己的属性一样，直接cat.属性名称就可以赋值调用。</p>
 <p>但是，如果你想在某个方法中修改对象的值，那么方法定义是要使用指针的，使用传地址的方式。</p>
@@ -526,7 +525,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">75</span>
+                  <span class="site-state-item-count">77</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
