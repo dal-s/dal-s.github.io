@@ -73,7 +73,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT">
+  <meta name="keywords" content="Share,">
 
 
 
@@ -84,17 +84,18 @@
 
 
 
-<meta name="description" content="享受编程带来的快乐">
-<meta name="keywords" content="技术">
-<meta property="og:type" content="website">
-<meta property="og:title" content="dal&#39;s blog">
-<meta property="og:url" content="https://dal-s.github.io/archives/page/2/index.html">
+<meta name="description" content="利用栈实现计算器的功能，我们处理的是后缀表达式。 来，我们先了解下什么是后缀表达式：后缀表达式也叫逆波兰表达式，其求值过程可以用到栈来辅助存储。假定待求值的后缀表达式为：6  5  2  3  + 8  + 3  +   这样的表达式求值非常简单，数字入栈，遇到操作符就弹出两个数字计算，然后把结果压入栈中，直到最后的输出。 是不是非常简单，感觉上是的。">
+<meta name="keywords" content="Share">
+<meta property="og:type" content="article">
+<meta property="og:title" content="golang利用栈实现计算器">
+<meta property="og:url" content="https://dal-s.github.io/2019/07/08/golang利用栈实现计算器/index.html">
 <meta property="og:site_name" content="dal&#39;s blog">
-<meta property="og:description" content="享受编程带来的快乐">
+<meta property="og:description" content="利用栈实现计算器的功能，我们处理的是后缀表达式。 来，我们先了解下什么是后缀表达式：后缀表达式也叫逆波兰表达式，其求值过程可以用到栈来辅助存储。假定待求值的后缀表达式为：6  5  2  3  + 8  + 3  +   这样的表达式求值非常简单，数字入栈，遇到操作符就弹出两个数字计算，然后把结果压入栈中，直到最后的输出。 是不是非常简单，感觉上是的。">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-07-08T12:42:56.157Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="dal&#39;s blog">
-<meta name="twitter:description" content="享受编程带来的快乐">
+<meta name="twitter:title" content="golang利用栈实现计算器">
+<meta name="twitter:description" content="利用栈实现计算器的功能，我们处理的是后缀表达式。 来，我们先了解下什么是后缀表达式：后缀表达式也叫逆波兰表达式，其求值过程可以用到栈来辅助存储。假定待求值的后缀表达式为：6  5  2  3  + 8  + 3  +   这样的表达式求值非常简单，数字入栈，遇到操作符就弹出两个数字计算，然后把结果压入栈中，直到最后的输出。 是不是非常简单，感觉上是的。">
 
 
 
@@ -124,13 +125,13 @@
 
 
 
-  <link rel="canonical" href="https://dal-s.github.io/archives/page/2/">
+  <link rel="canonical" href="https://dal-s.github.io/2019/07/08/golang利用栈实现计算器/">
 
 
 
 
 
-  <title>归档 | dal's blog</title>
+  <title>golang利用栈实现计算器 | dal's blog</title>
   
 
 
@@ -149,7 +150,7 @@
     
   
 
-  <div class="container sidebar-position-left page-archive">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
@@ -275,390 +276,217 @@
           <div id="content" class="content">
             
 
-  
-  
-  
-  <div class="post-block archive">
-    <div id="posts" class="posts-collapse">
-      <span class="archive-move-on"></span>
+  <div id="posts" class="posts-expand">
+    
 
-      <span class="archive-page-counter">
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://dal-s.github.io/2019/07/08/golang利用栈实现计算器/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="DaLi">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="dal's blog">
+    </span>
+
+    
+      <header class="post-header">
+
         
         
-         
+          <h1 class="post-title" itemprop="name headline">golang利用栈实现计算器</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-08T14:26:55+08:00">
+                2019-07-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
           
-        好! 目前共计 78 篇日志。 继续努力。
-      </span>
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/ARTS/" itemprop="url" rel="index">
+                    <span itemprop="name">ARTS</span>
+                  </a>
+                </span>
 
-      
-
-        
-        
-        
-
-        
+                
+                
+              
+            </span>
           
-          <div class="collection-title">
-            <h1 class="archive-year" id="archive-year-2019">2019</h1>
-          </div>
-        
-        
 
-        
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/07/08/golang利用栈实现计算器/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/07/08/golang利用栈实现计算器/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
 
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
+          
+          
+             <span id="/2019/07/08/golang利用栈实现计算器/" class="leancloud_visitors" data-flag-title="golang利用栈实现计算器">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
 
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/03/15/leetcode之Contains Duplicate/" itemprop="url">
-              
-                <span itemprop="name">leetcode之Contains Duplicate</span>
-              
-            </a>
-        
-      </h2>
+          
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-03-15T20:27:55+08:00" content="2019-03-15">
-          03-15
-        </time>
-      </div>
+          
 
-    </header>
-  </article>
+          
 
+        </div>
+      </header>
+    
 
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/03/15/Review之Reversing a Linked List/" itemprop="url">
-              
-                <span itemprop="name">Review之Reversing a Linked List: Easy as 1, 2, 3</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-03-15T11:12:55+08:00" content="2019-03-15">
-          03-15
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/03/15/Share之How a Googler solves coding problems/" itemprop="url">
-              
-                <span itemprop="name">Share之How a Googler solves coding problems</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-03-15T10:26:55+08:00" content="2019-03-15">
-          03-15
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
       
 
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/03/15/Tips之关于加班/" itemprop="url">
-              
-                <span itemprop="name">Tips之关于加班</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-03-15T10:26:55+08:00" content="2019-03-15">
-          03-15
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
+      
+        <p>利用栈实现计算器的功能，我们处理的是后缀表达式。</p>
+<p>来，我们先了解下什么是后缀表达式：<br>后缀表达式也叫逆波兰表达式，其求值过程可以用到栈来辅助存储。假定待求值的后缀表达式为：6  5  2  3  + 8 <em> + 3  +  </em></p>
+<p>这样的表达式求值非常简单，数字入栈，遇到操作符就弹出两个数字计算，然后把结果压入栈中，直到最后的输出。</p>
+<p>是不是非常简单，感觉上是的。</p>
+<a id="more"></a>
+<p>我们先不管上面那个奇怪的表达式怎么来的，我们先实现上面说的这个功能，也就是计算这个奇怪的表达式的值。</p>
+<p>第二步，我们再一起学习如何把正常的表达式（其实人家有学名，叫中缀表达式）转换成后缀表达式。</p>
+<p>首先实现计算后缀表达式的函数：</p>
+<p>存储结构的定义，与栈差不多，只是这里我们已经知道要放的是int类型，所以直接定义了int类型的切片作为栈元素类型。</p>
+<p>因为我们需要把元素弹出来，然后用来计算，所以pop函数稍微改动了一点点，把栈顶的元素返回给调用者。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">type</span> stack struct &#123;</span><br><span class="line">    data []int</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func (s *stack)push(data int)&#123;</span><br><span class="line">    s.data = append(s.data,data)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func (s *stack)pop () int&#123;</span><br><span class="line">    var result int</span><br><span class="line">    <span class="keyword">if</span> !s.<span class="function"><span class="title">is_empty</span></span>() &#123;</span><br><span class="line">        result = s.data[len(s.data)-1]</span><br><span class="line">        s.data = s.data[0:len(s.data)-1]</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">return</span> result</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>接下来，我们来实现计算的功能，也就是加减乘除，首先入参有三个，左操作数、右操作数、操作符；</p>
+<p>这里用了switch语法，判断操作符，然后把计算结果返回给调用者。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">func cal(left,right int,op string) int &#123;</span><br><span class="line"></span><br><span class="line">    result := 0</span><br><span class="line"></span><br><span class="line">    switch op &#123;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">"+"</span>:</span><br><span class="line">            result = left + right</span><br><span class="line">        <span class="keyword">case</span> <span class="string">"-"</span>:</span><br><span class="line">            result = left - right</span><br><span class="line">        <span class="keyword">case</span> <span class="string">"*"</span>:</span><br><span class="line">            result = left * right</span><br><span class="line">        <span class="keyword">case</span> <span class="string">"/"</span>:</span><br><span class="line">            result = left / right</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">return</span> result</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>来，我们继续实现主要的逻辑，遇数入栈，遇符出栈，结果入栈</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">func <span class="function"><span class="title">main</span></span>()&#123;</span><br><span class="line">    var st stack</span><br><span class="line">    cl := []string&#123;<span class="string">"6"</span>,<span class="string">"5"</span>,<span class="string">"2"</span>,<span class="string">"3"</span>,<span class="string">"+"</span>,<span class="string">"8"</span>,<span class="string">"*"</span>,<span class="string">"+"</span>,<span class="string">"3"</span>,<span class="string">"+"</span>,<span class="string">"*"</span>&#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> _,v := range cl &#123;</span><br><span class="line">        <span class="keyword">if</span> v != <span class="string">"+"</span> &amp;&amp; v != <span class="string">"-"</span> &amp;&amp; v != <span class="string">"*"</span> &amp;&amp; v != <span class="string">"/"</span> &#123;</span><br><span class="line">            i,_ := strconv.Atoi(v)</span><br><span class="line">            st.push(i)</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            left := st.pop()</span><br><span class="line">            right := st.pop()</span><br><span class="line">            st.push(cal(left,right,v))</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    fmt.Println(st)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>最终的计算结果是存在栈中的，我们姑且这么放着，等代码主要功能完成后，再优化细节。呐，不太主要的计算逻辑大体就是这样。</p>
+<p>下面我们来分析一下如果将普通表达式(中缀表达式)转换成后缀表达式。也就是说，把输入的表达式转换成为cl变量这样的表达式。</p>
+<p>来，我把从百科上查到的转换方法贴过来。</p>
+<p>规则：<br>中缀表达式a + b<em>c + (d </em> e + f) <em> g，其转换成后缀表达式则为a b c </em> + d e <em> f  + g </em> +<br>转换过程需要用到栈，具体过程如下：<br>1）如果遇到操作数，我们就直接将其输出。<br>2）如果遇到操作符，则我们将其放入到栈中，遇到左括号时我们也将其放入栈中。<br>3）如果遇到一个右括号，则将栈元素弹出，将弹出的操作符输出直到遇到左括号为止。注意，左括号只弹出并不输出。<br>4）如果遇到任何其他的操作符，如（“+”， “*”，“（”）等，从栈中弹出元素直到遇到发现更低优先级的元素(或者栈为空)为止。弹出完这些元素后，才将遇到的操作符压入到栈中。有一点需要注意，只有在遇到” ) “的情况下我们才弹出” ( “，其他情况我们都不会弹出” ( “。<br>5）如果我们读到了输入的末尾，则将栈中所有元素依次弹出。</p>
+<p>最重要的是第四点，下面来贴一下代码</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">#定义四则运算的优先级高低</span></span><br><span class="line">func getLevel (v rune) int &#123;</span><br><span class="line"></span><br><span class="line">    var lv = make(map[rune] int)</span><br><span class="line">    lv[<span class="string">'*'</span>] = 2</span><br><span class="line">    lv[<span class="string">'/'</span>] = 2</span><br><span class="line">    lv[<span class="string">'+'</span>] = 1</span><br><span class="line">    lv[<span class="string">'-'</span>] = 1</span><br><span class="line">    lv[<span class="string">'('</span>] = 0</span><br><span class="line"></span><br><span class="line">    <span class="built_in">return</span> lv[v]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func conver(s string) []rune&#123;</span><br><span class="line">    var result []rune</span><br><span class="line">    var st stackOper</span><br><span class="line">    <span class="keyword">for</span> _,v := range s &#123;</span><br><span class="line">        <span class="keyword">if</span> v == <span class="string">'+'</span> || v ==<span class="string">'-'</span> || v == <span class="string">'*'</span> || v == <span class="string">'/'</span> || v == <span class="string">'('</span> &#123;</span><br><span class="line">            <span class="keyword">if</span> st.is_empty() || v == <span class="string">'('</span>&#123;</span><br><span class="line">                st.push(v)</span><br><span class="line">            &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="keyword">for</span> !st.<span class="function"><span class="title">is_empty</span></span>()&#123;</span><br><span class="line">                    st_lv := getLevel(st.top())</span><br><span class="line">                    <span class="keyword">if</span> st_lv &gt;= getLevel(v) &#123;</span><br><span class="line">                        st_v := st.pop()</span><br><span class="line">                        result = append(result,st_v)</span><br><span class="line">                        <span class="keyword">if</span> st_lv == getLevel(v) &#123;</span><br><span class="line">                            <span class="built_in">break</span></span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">                        <span class="built_in">break</span></span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                st.push(v)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">        	<span class="comment">#处理左右括号</span></span><br><span class="line">            <span class="keyword">if</span> v == <span class="string">')'</span> &#123;</span><br><span class="line">                <span class="keyword">for</span> &#123;</span><br><span class="line">                    st_v := st.pop()</span><br><span class="line">                    <span class="keyword">if</span> st_v == <span class="string">'('</span> &#123;</span><br><span class="line">                        <span class="built_in">break</span></span><br><span class="line">                    &#125;</span><br><span class="line">                    result = append(result,st_v)</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                result = append(result,v)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">#遍历完字符串后，将栈中遗留的操作符全部弹出</span></span><br><span class="line">    <span class="keyword">for</span> !st.<span class="function"><span class="title">is_empty</span></span>() &#123;</span><br><span class="line">        result = append(result,st.pop())</span><br><span class="line">    &#125;</span><br><span class="line">    fmt.Println(string(result))</span><br><span class="line">    <span class="built_in">return</span> result</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>下面看下如何调用<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">func <span class="function"><span class="title">main</span></span>()&#123;</span><br><span class="line">    var st stack</span><br><span class="line">    s :=<span class="string">"3+(2-5)*6/3"</span></span><br><span class="line">    cl := string(conver(s))  <span class="comment">#将正常的表达式转换为后缀表达式</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> _,v := range cl &#123;</span><br><span class="line">        <span class="keyword">if</span> v != <span class="string">'+'</span> &amp;&amp; v != <span class="string">'-'</span> &amp;&amp; v != <span class="string">'*'</span> &amp;&amp; v != <span class="string">'/'</span> &#123;</span><br><span class="line">            i,_ := strconv.Atoi(string(v))</span><br><span class="line">            st.push(i)</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            right := st.pop()  <span class="comment">#先弹出的一定是右边的操作数，因为入栈的时候是左边先入</span></span><br><span class="line">            left := st.pop()</span><br><span class="line">            st.push(cal(left,right,v))</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    fmt.Println(st.data[0])</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>完整代码放在了git上，为了书写方便，操作栈和计算栈使用了不同的数据类型。</p>
 
       
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/03/08/leetcode之Intersection of Two Arrays/" itemprop="url">
-              
-                <span itemprop="name">leetcode之Intersection of Two Arrays</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-03-08T20:27:55+08:00" content="2019-03-08">
-          03-08
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/03/07/Review之Fun with array rotations/" itemprop="url">
-              
-                <span itemprop="name">Review之Fun with array rotations</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-03-07T11:12:55+08:00" content="2019-03-07">
-          03-07
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/03/07/Tips之打造个人品牌/" itemprop="url">
-              
-                <span itemprop="name">Tips之打造个人品牌</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-03-07T10:26:55+08:00" content="2019-03-07">
-          03-07
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/03/07/Share之How to Merge K Sorted Arrays/" itemprop="url">
-              
-                <span itemprop="name">Share之How to Merge K Sorted Arrays</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-03-07T10:26:55+08:00" content="2019-03-07">
-          03-07
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/03/01/Share之Practical Go Real world advice for writing maintainable Go programs/" itemprop="url">
-              
-                <span itemprop="name">Share之Practical Go Real world advice for writing maintainable Go programs</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-03-01T10:26:55+08:00" content="2019-03-01">
-          03-01
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/03/01/ARTS合集链接/" itemprop="url">
-              
-                <span itemprop="name">ARTS合集链接</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-03-01T10:12:55+08:00" content="2019-03-01">
-          03-01
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
     </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Share/" rel="tag"># Share</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/07/05/golang实现单链表/" rel="next" title="golang实现单链表">
+                <i class="fa fa-chevron-left"></i> golang实现单链表
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/07/08/golang实现双向链表/" rel="prev" title="golang实现双向表">
+                golang实现双向表 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
-
-  
-  <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/archives/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/archives/">1</a><span class="page-number current">2</span><a class="page-number" href="/archives/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/archives/page/8/">8</a><a class="extend next" rel="next" href="/archives/page/3/"><i class="fa fa-angle-right"></i></a>
-  </nav>
+  </article>
 
 
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -666,6 +494,13 @@
 
 
           
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
 
         </div>
         
@@ -904,6 +739,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 

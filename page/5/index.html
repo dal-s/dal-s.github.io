@@ -290,7 +290,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://dal-s.github.io/2019/01/22/leetcode之 N-Repeated Element in Size 2N Array/">
+    <link itemprop="mainEntityOfPage" href="https://dal-s.github.io/2019/01/22/leetcode之Flipping an Image/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="DaLi">
@@ -309,7 +309,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/01/22/leetcode之 N-Repeated Element in Size 2N Array/" itemprop="url">leetcode之N-Repeated Element in Size 2N Array</a></h1>
+                <a class="post-title-link" href="/2019/01/22/leetcode之Flipping an Image/" itemprop="url">leetcode之Flipping an Image</a></h1>
         
 
         <div class="post-meta">
@@ -362,8 +362,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2019/01/22/leetcode之 N-Repeated Element in Size 2N Array/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2019/01/22/leetcode之 N-Repeated Element in Size 2N Array/" itemprop="commentCount"></span>
+                <a href="/2019/01/22/leetcode之Flipping an Image/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/01/22/leetcode之Flipping an Image/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -371,7 +371,7 @@
 
           
           
-             <span id="/2019/01/22/leetcode之 N-Repeated Element in Size 2N Array/" class="leancloud_visitors" data-flag-title="leetcode之N-Repeated Element in Size 2N Array">
+             <span id="/2019/01/22/leetcode之Flipping an Image/" class="leancloud_visitors" data-flag-title="leetcode之Flipping an Image">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -404,11 +404,14 @@
       
         
           <p>问题描述：</p>
-<p>In a array A of size 2N, there are N+1 unique elements, and exactly one of these elements is repeated N times.</p>
-<p>Return the element repeated N times.</p>
+<p>Given a binary matrix A, we want to flip the image horizontally, then invert it, and return the resulting image.</p>
+<p>To flip an image horizontally means that each row of the image is reversed.  For example, flipping [1, 1, 0] horizontally results in [0, 1, 1].</p>
+<p>To invert an image means that each 0 is replaced by 1, and each 1 is replaced by 0. For example, inverting [0, 1, 1] results in [1, 0, 0].</p>
+<p>Example 1:</p>
+<p>Input: [[1,1,0],[1,0,1],[0,0,0]]<br>Output: [[1,0,0],[0,1,0],[1,1,1]]<br>Explanation: First reverse each row: [[0,1,1],[1,0,1],[0,0,0]].<br>Then, invert the image: [[1,0,0],[0,1,0],[1,1,1]]<br>Example 2:</p>
           <!--noindex-->
           <div class="text-center">
-            <a class="btn btn-link" href="/2019/01/22/leetcode之 N-Repeated Element in Size 2N Array/#more" rel="contents">
+            <a class="btn btn-link" href="/2019/01/22/leetcode之Flipping an Image/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -459,7 +462,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://dal-s.github.io/2019/01/22/leetcode之Unique Email Addresses/">
+    <link itemprop="mainEntityOfPage" href="https://dal-s.github.io/2019/01/22/leetcode之Sort Array By Parity/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="DaLi">
@@ -478,7 +481,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/01/22/leetcode之Unique Email Addresses/" itemprop="url">leetcode之Unique Email Addresses</a></h1>
+                <a class="post-title-link" href="/2019/01/22/leetcode之Sort Array By Parity/" itemprop="url">leetcode之Sort Array By Parity</a></h1>
         
 
         <div class="post-meta">
@@ -531,8 +534,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2019/01/22/leetcode之Unique Email Addresses/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2019/01/22/leetcode之Unique Email Addresses/" itemprop="commentCount"></span>
+                <a href="/2019/01/22/leetcode之Sort Array By Parity/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/01/22/leetcode之Sort Array By Parity/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -540,7 +543,7 @@
 
           
           
-             <span id="/2019/01/22/leetcode之Unique Email Addresses/" class="leancloud_visitors" data-flag-title="leetcode之Unique Email Addresses">
+             <span id="/2019/01/22/leetcode之Sort Array By Parity/" class="leancloud_visitors" data-flag-title="leetcode之Sort Array By Parity">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -573,531 +576,358 @@
       
         
           <p>问题描述：</p>
-<p>Every email consists of a local name and a domain name, separated by the @ sign.</p>
-<p>For example, in <a href="mailto:alice@leetcode.com" target="_blank" rel="noopener">alice@leetcode.com</a>, alice is the local name, and leetcode.com is the domain name.</p>
-<p>Besides lowercase letters, these emails may contain ‘.’s or ‘+’s.</p>
-<p>If you add periods (‘.’) between some characters in the local name part of an email address, mail sent there will be forwarded to the same address without dots in the local name.  For example, “<a href="mailto:alice.z@leetcode.com" target="_blank" rel="noopener">alice.z@leetcode.com</a>“ and “<a href="mailto:alicez@leetcode.com" target="_blank" rel="noopener">alicez@leetcode.com</a>“ forward to the same email address.  (Note that this rule does not apply for domain names.)</p>
-<p>If you add a plus (‘+’) in the local name, everything after the first plus sign will be ignored. This allows certain emails to be filtered, for example <a href="mailto:m.y+name@email.com" target="_blank" rel="noopener">m.y+name@email.com</a> will be forwarded to <a href="mailto:my@email.com" target="_blank" rel="noopener">my@email.com</a>.  (Again, this rule does not apply for domain names.)</p>
-<p>It is possible to use both of these rules at the same time.</p>
-<p>Given a list of emails, we send one email to each address in the list.  How many different addresses actually receive mails?<br>
-          <!--noindex-->
-          <div class="text-center">
-            <a class="btn btn-link" href="/2019/01/22/leetcode之Unique Email Addresses/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </p></div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://dal-s.github.io/2019/01/22/leetcode之Peak Index in a Mountain Array/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="DaLi">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="dal's blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/01/22/leetcode之Peak Index in a Mountain Array/" itemprop="url">leetcode之Peak Index in a Mountain Array</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-22T20:27:55+08:00">
-                2019-01-22
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/算法/" itemprop="url" rel="index">
-                    <span itemprop="name">算法</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2019/01/22/leetcode之Peak Index in a Mountain Array/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2019/01/22/leetcode之Peak Index in a Mountain Array/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-             <span id="/2019/01/22/leetcode之Peak Index in a Mountain Array/" class="leancloud_visitors" data-flag-title="leetcode之Peak Index in a Mountain Array">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数&#58;</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>问题描述：</p>
-<p>Let’s call an array A a mountain if the following properties hold:</p>
-<p>A.length &gt;= 3<br>There exists some 0 &lt; i &lt; A.length - 1 such that A[0] &lt; A[1] &lt; … A[i-1] &lt; A[i] &gt; A[i+1] &gt; … &gt; A[A.length - 1]<br>Given an array that is definitely a mountain, return any i such that A[0] &lt; A[1] &lt; … A[i-1] &lt; A[i] &gt; A[i+1] &gt; … &gt; A[A.length - 1].</p>
+<p>Given an array A of non-negative integers, return an array consisting of all the even elements of A, followed by all the odd elements of A.</p>
+<p>You may return any answer array that satisfies this condition.</p>
 <p>Example 1:</p>
-<p>Input: [0,1,0]<br>Output: 1<br>
-          <!--noindex-->
-          <div class="text-center">
-            <a class="btn btn-link" href="/2019/01/22/leetcode之Peak Index in a Mountain Array/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </p></div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://dal-s.github.io/2019/01/22/leetcode之Array Partition I/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="DaLi">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="dal's blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/01/22/leetcode之Array Partition I/" itemprop="url">leetcode之Array Partition I</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-22T20:27:55+08:00">
-                2019-01-22
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/算法/" itemprop="url" rel="index">
-                    <span itemprop="name">算法</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2019/01/22/leetcode之Array Partition I/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2019/01/22/leetcode之Array Partition I/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-             <span id="/2019/01/22/leetcode之Array Partition I/" class="leancloud_visitors" data-flag-title="leetcode之Array Partition I">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数&#58;</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>问题描述：</p>
-<p>Given an array of 2n integers, your task is to group these integers into n pairs of integer, say (a1, b1), (a2, b2), …, (an, bn) which makes sum of min(ai, bi) for all i from 1 to n as large as possible.</p>
-<p>Example 1:<br>Input: [1,4,3,2]</p>
-<p>Output: 4<br>Explanation: n is 2, and the maximum sum of pairs is 4 = min(1, 2) + min(3, 4).<br>Note:<br>n is a positive integer, which is in the range of [1, 10000].<br>All the integers in the array will be in the range of [-10000, 10000].</p>
-          <!--noindex-->
-          <div class="text-center">
-            <a class="btn btn-link" href="/2019/01/22/leetcode之Array Partition I/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://dal-s.github.io/2019/01/22/leetcode之Squares of a Sorted Array/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="DaLi">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="dal's blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/01/22/leetcode之Squares of a Sorted Array/" itemprop="url">leetcode之Squares of a Sorted Array</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-22T20:27:55+08:00">
-                2019-01-22
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/算法/" itemprop="url" rel="index">
-                    <span itemprop="name">算法</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2019/01/22/leetcode之Squares of a Sorted Array/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2019/01/22/leetcode之Squares of a Sorted Array/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-             <span id="/2019/01/22/leetcode之Squares of a Sorted Array/" class="leancloud_visitors" data-flag-title="leetcode之Squares of a Sorted Array">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数&#58;</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>问题描述：</p>
-<p>Given an array of integers A sorted in non-decreasing order, return an array of the squares of each number, also in sorted non-decreasing order.</p>
-<p>Example 1:</p>
-<p>Input: [-4,-1,0,3,10]<br>Output: [0,1,9,16,100]</p>
-<p>Example 2:</p>
-<p>Input: [-7,-3,2,3,11]<br>Output: [4,9,9,49,121]</p>
+<p>Input: [3,1,2,4]<br>Output: [2,4,3,1]<br>The outputs [4,2,3,1], [2,4,1,3], and [4,2,1,3] would also be accepted.</p>
 <p>Note:</p>
-<p>1 &lt;= A.length &lt;= 10000<br>-10000 &lt;= A[i] &lt;= 10000<br>A is sorted in non-decreasing order.</p>
+<p>1 &lt;= A.length &lt;= 5000<br>0 &lt;= A[i] &lt;= 5000imes.</p>
           <!--noindex-->
           <div class="text-center">
-            <a class="btn btn-link" href="/2019/01/22/leetcode之Squares of a Sorted Array/#more" rel="contents">
+            <a class="btn btn-link" href="/2019/01/22/leetcode之Sort Array By Parity/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://dal-s.github.io/2019/01/22/leetcode之Self Dividing Numbers/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="DaLi">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="dal's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/01/22/leetcode之Self Dividing Numbers/" itemprop="url">leetcode之Self Dividing Numbers</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-22T20:27:55+08:00">
+                2019-01-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/算法/" itemprop="url" rel="index">
+                    <span itemprop="name">算法</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/01/22/leetcode之Self Dividing Numbers/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/01/22/leetcode之Self Dividing Numbers/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2019/01/22/leetcode之Self Dividing Numbers/" class="leancloud_visitors" data-flag-title="leetcode之Self Dividing Numbers">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>问题描述：</p>
+<p>A self-dividing number is a number that is divisible by every digit it contains.</p>
+<p>For example, 128 is a self-dividing number because 128 % 1 == 0, 128 % 2 == 0, and 128 % 8 == 0.</p>
+<p>Also, a self-dividing number is not allowed to contain the digit zero.</p>
+<p>Given a lower and upper number bound, output a list of every possible self dividing number, including the bounds if possible.<br>
+          <!--noindex-->
+          <div class="text-center">
+            <a class="btn btn-link" href="/2019/01/22/leetcode之Self Dividing Numbers/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </p></div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://dal-s.github.io/2019/01/22/leetcode之Delete Columns to Make Sorted/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="DaLi">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="dal's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/01/22/leetcode之Delete Columns to Make Sorted/" itemprop="url">leetcode之Delete Columns to Make Sorted</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-22T20:27:55+08:00">
+                2019-01-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/算法/" itemprop="url" rel="index">
+                    <span itemprop="name">算法</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/01/22/leetcode之Delete Columns to Make Sorted/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/01/22/leetcode之Delete Columns to Make Sorted/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2019/01/22/leetcode之Delete Columns to Make Sorted/" class="leancloud_visitors" data-flag-title="leetcode之Delete Columns to Make Sorted">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>问题描述：</p>
+<p>We are given an array A of N lowercase letter strings, all of the same length.</p>
+<p>Now, we may choose any set of deletion indices, and for each string, we delete all the characters in those indices.</p>
+<p>For example, if we have an array A = [“abcdef”,”uvwxyz”] and deletion indices {0, 2, 3}, then the final array after deletions is [“bef”, “vyz”], and the remaining columns of A are [“b”,”v”], [“e”,”y”], and [“f”,”z”].  (Formally, the c-th column is [A[0][c], A[1][c], …, A[A.length-1][c]].)</p>
+<p>Suppose we chose a set of deletion indices D such that after deletions, each remaining column in A is in non-decreasing sorted order.</p>
+<p>Return the minimum possible value of D.length.</p>
+          <!--noindex-->
+          <div class="text-center">
+            <a class="btn btn-link" href="/2019/01/22/leetcode之Delete Columns to Make Sorted/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1321,7 +1151,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://dal-s.github.io/2019/01/22/leetcode之Self Dividing Numbers/">
+    <link itemprop="mainEntityOfPage" href="https://dal-s.github.io/2019/01/22/leetcode之Peak Index in a Mountain Array/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="DaLi">
@@ -1340,7 +1170,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/01/22/leetcode之Self Dividing Numbers/" itemprop="url">leetcode之Self Dividing Numbers</a></h1>
+                <a class="post-title-link" href="/2019/01/22/leetcode之Peak Index in a Mountain Array/" itemprop="url">leetcode之Peak Index in a Mountain Array</a></h1>
         
 
         <div class="post-meta">
@@ -1393,8 +1223,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2019/01/22/leetcode之Self Dividing Numbers/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2019/01/22/leetcode之Self Dividing Numbers/" itemprop="commentCount"></span>
+                <a href="/2019/01/22/leetcode之Peak Index in a Mountain Array/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/01/22/leetcode之Peak Index in a Mountain Array/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -1402,7 +1232,7 @@
 
           
           
-             <span id="/2019/01/22/leetcode之Self Dividing Numbers/" class="leancloud_visitors" data-flag-title="leetcode之Self Dividing Numbers">
+             <span id="/2019/01/22/leetcode之Peak Index in a Mountain Array/" class="leancloud_visitors" data-flag-title="leetcode之Peak Index in a Mountain Array">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -1435,13 +1265,13 @@
       
         
           <p>问题描述：</p>
-<p>A self-dividing number is a number that is divisible by every digit it contains.</p>
-<p>For example, 128 is a self-dividing number because 128 % 1 == 0, 128 % 2 == 0, and 128 % 8 == 0.</p>
-<p>Also, a self-dividing number is not allowed to contain the digit zero.</p>
-<p>Given a lower and upper number bound, output a list of every possible self dividing number, including the bounds if possible.<br>
+<p>Let’s call an array A a mountain if the following properties hold:</p>
+<p>A.length &gt;= 3<br>There exists some 0 &lt; i &lt; A.length - 1 such that A[0] &lt; A[1] &lt; … A[i-1] &lt; A[i] &gt; A[i+1] &gt; … &gt; A[A.length - 1]<br>Given an array that is definitely a mountain, return any i such that A[0] &lt; A[1] &lt; … A[i-1] &lt; A[i] &gt; A[i+1] &gt; … &gt; A[A.length - 1].</p>
+<p>Example 1:</p>
+<p>Input: [0,1,0]<br>Output: 1<br>
           <!--noindex-->
           <div class="text-center">
-            <a class="btn btn-link" href="/2019/01/22/leetcode之Self Dividing Numbers/#more" rel="contents">
+            <a class="btn btn-link" href="/2019/01/22/leetcode之Peak Index in a Mountain Array/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1492,7 +1322,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://dal-s.github.io/2019/01/22/leetcode之Robot Return to Origin/">
+    <link itemprop="mainEntityOfPage" href="https://dal-s.github.io/2019/01/22/leetcode之Unique Email Addresses/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="DaLi">
@@ -1511,7 +1341,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/01/22/leetcode之Robot Return to Origin/" itemprop="url">leetcode之Robot Return to Origin</a></h1>
+                <a class="post-title-link" href="/2019/01/22/leetcode之Unique Email Addresses/" itemprop="url">leetcode之Unique Email Addresses</a></h1>
         
 
         <div class="post-meta">
@@ -1564,8 +1394,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2019/01/22/leetcode之Robot Return to Origin/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2019/01/22/leetcode之Robot Return to Origin/" itemprop="commentCount"></span>
+                <a href="/2019/01/22/leetcode之Unique Email Addresses/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/01/22/leetcode之Unique Email Addresses/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -1573,7 +1403,7 @@
 
           
           
-             <span id="/2019/01/22/leetcode之Robot Return to Origin/" class="leancloud_visitors" data-flag-title="leetcode之Robot Return to Origin">
+             <span id="/2019/01/22/leetcode之Unique Email Addresses/" class="leancloud_visitors" data-flag-title="leetcode之Unique Email Addresses">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -1606,14 +1436,185 @@
       
         
           <p>问题描述：</p>
-<p>There is a robot starting at position (0, 0), the origin, on a 2D plane. Given a sequence of its moves, judge if this robot ends up at (0, 0) after it completes its moves.</p>
-<p>The move sequence is represented by a string, and the character moves[i] represents its ith move. Valid moves are R (right), L (left), U (up), and D (down). If the robot returns to the origin after it finishes all of its moves, return true. Otherwise, return false.</p>
-<p>Note: The way that the robot is “facing” is irrelevant. “R” will always make the robot move to the right once, “L” will always make it move left, etc. Also, assume that the magnitude of the robot’s movement is the same for each move.</p>
-<p>Example 1:</p>
-<p>Input: “UD”<br>Output: true<br>Explanation: The robot moves up once, and then down once. All moves have the same magnitude, so it ended up at the origin where it started. Therefore, we return true.</p>
+<p>Every email consists of a local name and a domain name, separated by the @ sign.</p>
+<p>For example, in <a href="mailto:alice@leetcode.com" target="_blank" rel="noopener">alice@leetcode.com</a>, alice is the local name, and leetcode.com is the domain name.</p>
+<p>Besides lowercase letters, these emails may contain ‘.’s or ‘+’s.</p>
+<p>If you add periods (‘.’) between some characters in the local name part of an email address, mail sent there will be forwarded to the same address without dots in the local name.  For example, “<a href="mailto:alice.z@leetcode.com" target="_blank" rel="noopener">alice.z@leetcode.com</a>“ and “<a href="mailto:alicez@leetcode.com" target="_blank" rel="noopener">alicez@leetcode.com</a>“ forward to the same email address.  (Note that this rule does not apply for domain names.)</p>
+<p>If you add a plus (‘+’) in the local name, everything after the first plus sign will be ignored. This allows certain emails to be filtered, for example <a href="mailto:m.y+name@email.com" target="_blank" rel="noopener">m.y+name@email.com</a> will be forwarded to <a href="mailto:my@email.com" target="_blank" rel="noopener">my@email.com</a>.  (Again, this rule does not apply for domain names.)</p>
+<p>It is possible to use both of these rules at the same time.</p>
+<p>Given a list of emails, we send one email to each address in the list.  How many different addresses actually receive mails?<br>
           <!--noindex-->
           <div class="text-center">
-            <a class="btn btn-link" href="/2019/01/22/leetcode之Robot Return to Origin/#more" rel="contents">
+            <a class="btn btn-link" href="/2019/01/22/leetcode之Unique Email Addresses/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </p></div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://dal-s.github.io/2019/01/22/leetcode之 N-Repeated Element in Size 2N Array/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="DaLi">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="dal's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/01/22/leetcode之 N-Repeated Element in Size 2N Array/" itemprop="url">leetcode之N-Repeated Element in Size 2N Array</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-22T20:27:55+08:00">
+                2019-01-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/算法/" itemprop="url" rel="index">
+                    <span itemprop="name">算法</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/01/22/leetcode之 N-Repeated Element in Size 2N Array/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/01/22/leetcode之 N-Repeated Element in Size 2N Array/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2019/01/22/leetcode之 N-Repeated Element in Size 2N Array/" class="leancloud_visitors" data-flag-title="leetcode之N-Repeated Element in Size 2N Array">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>问题描述：</p>
+<p>In a array A of size 2N, there are N+1 unique elements, and exactly one of these elements is repeated N times.</p>
+<p>Return the element repeated N times.</p>
+          <!--noindex-->
+          <div class="text-center">
+            <a class="btn btn-link" href="/2019/01/22/leetcode之 N-Repeated Element in Size 2N Array/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1664,7 +1665,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://dal-s.github.io/2019/01/22/leetcode之To Lower Case/">
+    <link itemprop="mainEntityOfPage" href="https://dal-s.github.io/2019/01/22/leetcode之 Unique Morse Code Words/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="DaLi">
@@ -1683,7 +1684,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/01/22/leetcode之To Lower Case/" itemprop="url">leetcode之To Lower Case</a></h1>
+                <a class="post-title-link" href="/2019/01/22/leetcode之 Unique Morse Code Words/" itemprop="url">leetcode之Unique Morse Code Words</a></h1>
         
 
         <div class="post-meta">
@@ -1736,8 +1737,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2019/01/22/leetcode之To Lower Case/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2019/01/22/leetcode之To Lower Case/" itemprop="commentCount"></span>
+                <a href="/2019/01/22/leetcode之 Unique Morse Code Words/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/01/22/leetcode之 Unique Morse Code Words/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -1745,7 +1746,7 @@
 
           
           
-             <span id="/2019/01/22/leetcode之To Lower Case/" class="leancloud_visitors" data-flag-title="leetcode之To Lower Case">
+             <span id="/2019/01/22/leetcode之 Unique Morse Code Words/" class="leancloud_visitors" data-flag-title="leetcode之Unique Morse Code Words">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -1778,14 +1779,15 @@
       
         
           <p>问题描述：</p>
-<p>Implement function ToLowerCase() that has a string parameter str, and returns the same string in lowercase.</p>
-<p>Example 1:</p>
-<p>Input: “Hello”<br>Output: “hello”<br>Example 2:</p>
-<p>Input: “here”<br>Output: “here”<br>Example 3:</p>
-<p>Input: “LOVELY”<br>Output: “lovely”<br>
+<p>International Morse Code defines a standard encoding where each letter is mapped to a series of dots and dashes, as follows: “a” maps to “.-“, “b” maps to “-…”, “c” maps to “-.-.”, and so on.</p>
+<p>For convenience, the full table for the 26 letters of the English alphabet is given below:</p>
+<p>[“.-“,”-…”,”-.-.”,”-..”,”.”,”..-.”,”–.”,”….”,”..”,”.—“,”-.-“,”.-..”,”–”,”-.”,”—“,”.–.”,”–.-“,”.-.”,”…”,”-“,”..-“,”…-“,”.–”,”-..-“,”-.–”,”–..”]<br>Now, given a list of words, each word can be written as a concatenation of the Morse code of each letter. For example, “cba” can be written as “-.-..–…”, (which is the concatenation “-.-.” + “-…” + “.-“). We’ll call such a concatenation, the transformation of a word.</p>
+<p>Return the number of different transformations among all words we have.</p>
+<p>Example:<br>Input: words = [“gin”, “zen”, “gig”, “msg”]<br>Output: 2<br>Explanation:<br>The transformation of each word is:<br>“gin” -&gt; “–…-.”<br>“zen” -&gt; “–…-.”<br>“gig” -&gt; “–…–.”<br>“msg” -&gt; “–…–.”</p>
+<p>There are 2 different transformations, “–…-.” and “–…–.”.<br>Note:<br>
           <!--noindex-->
           <div class="text-center">
-            <a class="btn btn-link" href="/2019/01/22/leetcode之To Lower Case/#more" rel="contents">
+            <a class="btn btn-link" href="/2019/01/22/leetcode之 Unique Morse Code Words/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1836,7 +1838,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://dal-s.github.io/2019/01/17/leetcode之Search Insert Position/">
+    <link itemprop="mainEntityOfPage" href="https://dal-s.github.io/2019/01/22/leetcode之Squares of a Sorted Array/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="DaLi">
@@ -1855,7 +1857,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/01/17/leetcode之Search Insert Position/" itemprop="url">leetcode之Search Insert Position</a></h1>
+                <a class="post-title-link" href="/2019/01/22/leetcode之Squares of a Sorted Array/" itemprop="url">leetcode之Squares of a Sorted Array</a></h1>
         
 
         <div class="post-meta">
@@ -1867,8 +1869,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-17T18:20:55+08:00">
-                2019-01-17
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-22T20:27:55+08:00">
+                2019-01-22
               </time>
             
 
@@ -1908,8 +1910,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2019/01/17/leetcode之Search Insert Position/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2019/01/17/leetcode之Search Insert Position/" itemprop="commentCount"></span>
+                <a href="/2019/01/22/leetcode之Squares of a Sorted Array/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/01/22/leetcode之Squares of a Sorted Array/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -1917,7 +1919,7 @@
 
           
           
-             <span id="/2019/01/17/leetcode之Search Insert Position/" class="leancloud_visitors" data-flag-title="leetcode之Search Insert Position">
+             <span id="/2019/01/22/leetcode之Squares of a Sorted Array/" class="leancloud_visitors" data-flag-title="leetcode之Squares of a Sorted Array">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -1950,21 +1952,23 @@
       
         
           <p>问题描述：</p>
-<p>Given a sorted array and a target value, return the index if the target is found. If not, return the index where it would be if it were inserted in order.</p>
-<p>You may assume no duplicates in the array.</p>
+<p>Given an array of integers A sorted in non-decreasing order, return an array of the squares of each number, also in sorted non-decreasing order.</p>
 <p>Example 1:</p>
-<p>Input: [1,3,5,6], 5<br>Output: 2<br>Example 2:</p>
-<p>Input: [1,3,5,6], 2<br>Output: 1<br>Example 3:<br>
+<p>Input: [-4,-1,0,3,10]<br>Output: [0,1,9,16,100]</p>
+<p>Example 2:</p>
+<p>Input: [-7,-3,2,3,11]<br>Output: [4,9,9,49,121]</p>
+<p>Note:</p>
+<p>1 &lt;= A.length &lt;= 10000<br>-10000 &lt;= A[i] &lt;= 10000<br>A is sorted in non-decreasing order.</p>
           <!--noindex-->
           <div class="text-center">
-            <a class="btn btn-link" href="/2019/01/17/leetcode之Search Insert Position/#more" rel="contents">
+            <a class="btn btn-link" href="/2019/01/22/leetcode之Squares of a Sorted Array/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
           <!--/noindex-->
         
       
-    </p></div>
+    </div>
     
     
     
@@ -2045,7 +2049,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">77</span>
+                  <span class="site-state-item-count">78</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
