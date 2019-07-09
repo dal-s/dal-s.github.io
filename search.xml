@@ -3,7 +3,7 @@
   <entry>
     <title><![CDATA[golang实现KMP]]></title>
     <url>%2F2019%2F07%2F09%2Fgolang%E5%AE%9E%E7%8E%B0KMP%2F</url>
-    <content type="text"><![CDATA[先把KMP的介绍复制过来： KMP算法是一种改进的字符串匹配算法，由D.E.Knuth，J.H.Morris和V.R.Pratt提出的，因此人们称它为克努特—莫里斯—普拉特操作（简称KMP算法）。KMP算法的关键是利用匹配失败后的信息，尽量减少模式串与主串的匹配次数以达到快速匹配的目的。具体实现就是实现一个next()函数，函数本身包含了模式串的局部匹配信息。时间复杂度O(m+n)。 查找子串的方法，一个是暴力穷举，一个就是KMP，好像还有两个基于KMP的变种算法，等后面遇到再聊。 暴力穷举就不说了，就是逐一比对，发现不匹配以后原字符串右移一位，然后再次从头开始匹配被查找字符串。 KMP优化的地方就在于，遇到不匹配的字符后，不在将指针移动到被匹配字符串的开头重新匹配一遍，而是跳过若干字节。 那关键来了，跳过多少字节？next数组就是来解决这个问题的，next数组就是告诉我们，当遇到一个没有匹配到的字符以后，我们把指针移动到什么位置重新匹配。 直接说结果，我们不需要再回到字符串的开头重新开始，只需要将当前被查找的字符串跳回到K的位置，K是当前字符前面的公共前缀后缀最长长度。 A B C D A B A B C D A B C D A B D E A B C D A B D 比如上面这个字符串，当查找到D时，原串中对应的是A，显然这个时候是不匹配的，指针要回到一个位置重新查找，回到哪儿呢？ 看D前面最长的公共前缀后缀的长度是多少。这个话比较绕，白话就是找前面的对称元素个数 。 比如，D前面是A B C D A B ，以C D 为对称轴，对称元素是 A B ，所以，2就是D的公共前缀后缀长度。 也就是从C这个字符开始重新匹配，跳过了前面的A B 。 这个 D 对应的 2 ，也就是我们上面说的next数组，这个数字存储的就是被查找字符串每个字符前面的最长对称元素个数。比如 A B C D A B D 的next数组是什么？ 0 0 0 0 0 1 2 大部分讲解，会先找出最长公共前缀后缀的长度，然后右移得到next数组，和我们这里找最长数组元素有一点点区别，那就是第一位，因为需要右移，第一位就是空值了，所以手动赋值为-1。 我们这里也保持一致，因为一个元素那有什么对称，所以也赋值为 -1 。最终数组就是 -1 0 0 0 0 1 2 得到了next数组，KMP算法的框架基本就完成了。 我们来重头理一下思路： 1、求得被查找字符串每个元素前面的对称元素个数2、第一个赋值 -1 ，其他赋值其对称元素个数，得到next数组3、根据next数组，逐一用被查找字符串与原字符串匹配4、遇到不能匹配的元素时，查找其对应的next数组值，将指针指向该位置，继续匹配（原字符串指针不需要回退，一直向前匹配即可） 来一点伪代码，s代表原字符串，t代表被查找字符串，i代表s的下标，p代表被查找字符串的下标 if s[i] != t[p] p = next[t[p]] 思路都理顺了，接下来最关键的就是实现next数组。那么如何查找每个元素前面的对称元素个数呢？]]></content>
+    <content type="text"><![CDATA[先把KMP的介绍复制过来： KMP算法是一种改进的字符串匹配算法，由D.E.Knuth，J.H.Morris和V.R.Pratt提出的，因此人们称它为克努特—莫里斯—普拉特操作（简称KMP算法）。KMP算法的关键是利用匹配失败后的信息，尽量减少模式串与主串的匹配次数以达到快速匹配的目的。具体实现就是实现一个next()函数，函数本身包含了模式串的局部匹配信息。时间复杂度O(m+n)。 查找子串的方法，一个是暴力穷举，一个就是KMP，好像还有两个基于KMP的变种算法，等后面遇到再聊。 暴力穷举就不说了，就是逐一比对，发现不匹配以后原字符串右移一位，然后再次从头开始匹配被查找字符串。 KMP优化的地方就在于，遇到不匹配的字符后，不在将指针移动到被匹配字符串的开头重新匹配一遍，而是跳过若干字节。 那关键来了，跳过多少字节？next数组就是来解决这个问题的，next数组就是告诉我们，当遇到一个没有匹配到的字符以后，我们把指针移动到什么位置重新匹配。 直接说结果，我们不需要再回到字符串的开头重新开始，只需要将当前被查找的字符串跳回到K的位置，K是当前字符前面的公共前缀后缀最长长度。 A B C D A B A B C D A B C D A B D E A B C D A B D 比如上面这个字符串，当查找到D时，原串中对应的是A，显然这个时候是不匹配的，指针要回到一个位置重新查找，回到哪儿呢？ 看D前面最长的公共前缀后缀的长度是多少。这个话比较绕，白话就是找前面的对称元素个数 。 比如，D前面是A B C D A B ，以C D 为对称轴，对称元素是 A B ，所以，2就是D的公共前缀后缀长度。 也就是从C这个字符开始重新匹配，跳过了前面的A B 。 这个 D 对应的 2 ，也就是我们上面说的next数组，这个数字存储的就是被查找字符串每个字符前面的最长对称元素个数。比如 A B C D A B D 的next数组是什么？ 0 0 0 0 0 1 2 大部分讲解，会先找出最长公共前缀后缀的长度，然后右移得到next数组，和我们这里找最长数组元素有一点点区别，那就是第一位，因为需要右移，第一位就是空值了，所以手动赋值为-1。 我们这里也保持一致，因为一个元素那有什么对称，所以也赋值为 -1 。最终数组就是 -1 0 0 0 0 1 2 得到了next数组，KMP算法的框架基本就完成了。 我们来重头理一下思路： 1、求得被查找字符串每个元素前面的对称元素个数2、第一个赋值 -1 ，其他赋值其对称元素个数，得到next数组3、根据next数组，逐一用被查找字符串与原字符串匹配4、遇到不能匹配的元素时，查找其对应的next数组值，将指针指向该位置，继续匹配（原字符串指针不需要回退，一直向前匹配即可） 来一点伪代码，s代表原字符串，t代表被查找字符串，i代表s的下标，p代表被查找字符串的下标 if s[i] != t[p] p = next[t[p]] 思路都理顺了，接下来最关键的就是实现next数组。那么如何查找每个元素前面的对称元素个数呢？ 这个对称不是对折以后一致，而是从中间开始，分别看两遍的字符串是否一致，例如： A B C D A B D 先看A，前面没有元素，所以是 -1 ；再看B，前面只有A一个元素，所以是0；然后是C，前面是A和B，不相等，所以是0；然后是D，前面是A B C ，从B分隔，A和C不相等，所以是0；然后是A，前面是A B C D，从中间分隔，得到A B 和C D 两个子串，不相等。前面的字符串指针前移，后面的字符串指针后移，去掉了B和C，分别得到的是A和D，也不相等，所以是0；然后是B，前面是A B C D A ，从中间分隔，得到的是A B 和D A ，不相等。前面的字符串指针前移，后面的字符串指针后移，去掉了B和D，得到的是A和A，相等，只有一个字符，所以是1；然后是D，前面是A B C D A B，从中间分隔，得到的是A B C 和D A B，不相等，继续分隔，去掉了C和D，分别得到了A B 和A B，相等，相同字符串长度为2，所以是2。最终，我们得到的next数组： A B C D A B D对应的是-1 0 0 0 0 1 2 实现代码如下：1234567891011121314151617181920212223242526func findIdx(dst string) int&#123; str := dst[0:len(dst)-1] #输入ABCD，我们看的是D前面的元素，所以去掉最后一个字符，然后分隔字符串判断是否相等 if len(str) == 0 &#123; return -1 &#125; if len(str) == 1 &#123; return 0 &#125; cn := 0 for i:=len(str)/2;i&gt;0;i--&#123; if str[0:i] == str[len(str)-i:] &#123; cn = i #因为是从中间开始向两边移动，所以第一个相等的字符串长度最长 break &#125; &#125; return cn&#125; func main()&#123; str := "ABCDABD" for i:=1;i&lt;=len(str);i++ &#123; fmt.Println(findIdx(str[0:i])) &#125; &#125; 上面是把每个元素对应的next数组值打印了出来，我们下面把它放在一个切片中，后面的代码就可以直接访问了。 接下来，我们该实现前面的字符串比较部分了。12345678910111213141516171819202122232425262728293031323334func search(src,dst string,next []int) int&#123; var s_idx,d_idx,idx int for ;s_idx&lt;=len(src)&amp;&amp;d_idx &lt; len(dst);&#123; if d_idx == -1|| src[s_idx] == dst[d_idx] &#123; s_idx++ d_idx++ &#125;else&#123; d_idx = next[d_idx] &#125; &#125; if d_idx == len(dst) &#123; idx = s_idx - d_idx &#125;else&#123; idx = -1 &#125; return idx&#125;func main()&#123; src := "BBC ABCDAB ABCDABCDABDE" dst := "ABCDABD" var next []int for i:=1;i&lt;=len(dst);i++ &#123; next = append(next,findIdx(dst[0:i])) &#125; fmt.Println(next) fmt.Println(search(src,dst,next))&#125;输出:[-1 0 0 0 0 1 2]15 我们从main函数开始看，先计算dst中每个字符对应的next数组元素，然后把每个元素存储在next切片中。 打印出来是[-1 0 0 0 0 1 2] 接下来调用search函数，使用for循环遍历我们的src字符串，这里有几个小坑特别提醒一下 1、为什么next的第一个元素是-1？-2、-3等等行不行？2、if d_idx == -1|| src[s_idx] == dst[d_idx] 这个if语句判断条件能否互换？ 第一个问题是，不行。这里用-1其实是个小技巧，相当于从dst的0的位置开始，可以是0吗？next数组我们先写死成0 0 0 0 1 2然后把if这段修改成下面这样，没毛病吧？123456if src[s_idx] == dst[d_idx] &#123; s_idx++ d_idx++&#125;else&#123; d_idx = next[d_idx]&#125; 上面的代码其实是会死循环的，因为第一个字符不相等。然后d_idx永远等于0. 第二个问题，上面的问题想清楚，这个问题就不是问题了，因为或运算又叫逻辑阻断，大概是这么意思，就是从左到右分别判断，只要有一个条件为真，则只需方法体中的内容，后面的条件不会继续只需，所以这里的d_idx=-1时，if中的dst[d_idx]也不会报错，方法体重的d_idx++操作就是为了让被查找的字符串从头开始查，所以只能是-1，如果设置成-999，那下一次循环就会报错了。 所以，next中第一个元素设置为-1，是防止构成死循环。而且if中的判断语句顺序不能互换。]]></content>
       <categories>
         <category>ARTS</category>
       </categories>
@@ -100,17 +100,6 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[Share之go实现幂运算]]></title>
-    <url>%2F2019%2F03%2F29%2FShare%E4%B9%8Bgo%E5%AE%9E%E7%8E%B0%E5%B9%82%E8%BF%90%E7%AE%97%2F</url>
-    <content type="text"><![CDATA[前两天刷题，偶然想到的。 如何不调用系统接口实现幂运算，代码如下 123456789func pow() &#123; n := 0.1 for i := 10;i&gt;=0;i-- &#123; n = n*10.0 fmt.Println(n) &#125;&#125; 应用场景：字符串转数字、字符串各数字位求和 等等题目]]></content>
-      <categories>
-        <category>ARTS</category>
-      </categories>
-      <tags>
-        <tag>Share</tag>
-      </tags>
-  </entry>
-  <entry>
     <title><![CDATA[Tips之分享一次面试经历]]></title>
     <url>%2F2019%2F03%2F29%2FTips%E4%B9%8B%E5%85%B3%E4%BA%8E%E9%9D%A2%E8%AF%95%2F</url>
     <content type="text"><![CDATA[关于面试，还是要自己多准备。不打无准备之仗嘛。 我先从个人经验谈一谈准备哪些，基于博主最近面的几个人来谈谈，当然博主也是第一次面别人，很多东西部成熟，权且当做一个记录吧。 说一下第一次面人，博主的内心OS吧。 我是当天拿到候选人简历的，所以没什么时间仔细了解候选人。 博主是首面技术面，所以这个倒是不影响。只管问技术嘛，其他的还有后面的人会去把关。 拿到简历之后，我也是一脸懵逼，这玩意儿也没提前我呀，什么都没准备，好慌。 那既然是给我们自己招人，那问问我们工作中常用的技术，这总没错吧。 好的，打定主意，先问我们工作中常用的一些技术。 带候选人到办公室，然后先做自我介绍嘛，顺便我也能趁这个空隙了解下他的工作背景。让我和候选人都稍微放松一下，不要太紧张。 博主看了一遍候选人简历，几乎没有过相关工作经验呀，怎么办…. 硬着头皮问吧，此刻我的内心是崩溃的。 然后问了一些我们工作中常用的技术，常见的问题以及处理办法。 当然了，因为候选人没有太多的相关技术，加上可能HR也没和人家说清楚我们用到的技术，所以这部分比较差。 呐，我想着大家都是干技术的，技术都是互通的嘛，既然这些不行，那问问他用过的技术吧，毕竟和一个好学的同伴工作，也是非常愉快的事情嘛。 候选人已经工作7、8年了，想着就看最近的三个项目吧，太久远的一来和现在的技术没什么关联，二来时间太久怕是很多细节都忘记了。 顺着简历开始问：1、最近工作用到那些技术、语言2、遇到过那些比较难解决的问题（下一个问题是如何解决的，但是没用上…）3、工作中负责那些部分，有没有了解自己用到，但是不是自己负责的技术 大致就这几类问题，遗憾的是，候选人对自己用过的技术要么是说不清楚，要么是深度不够。 聊到这里几乎可以结束了….. 但是我没有放弃，又问了几个问题1、最近有没有看什么技术类书籍2、对最近新出现的那些技术比较关注3、平时工作强度怎么样 没什么标准答案，只是想让候选人再展示下，说不定是个好学对新技术感兴趣的人呢。 最后，我还是把这位兄弟送走了。 不知道是我的问题，还是大兄弟的问题。 我只想得到两个答案：1、以后工作中用到的技术，你得熟悉吧2、不熟悉？没关系，你得是一个好学的，愿意自己动手学习新技术的同伴吧？说白了，就是主动学习的能力 两者都没有，我不敢让您过二面的呀，毕竟以后咱们是同事，我还是希望自己的同伴是能做事愿意做事的人。 基于以上，给自己做个记录： 1、以后出去面试，要准备目标公司目标职位的相关信息，用到的技术，起码简单聊几句也可以吧2、对于自己写在简历上的相关信息，一定要有总结，有深度，比较工作5年以上来，总不能啥也会啥也不精吧3、跳槽可以，注意频率]]></content>
@@ -119,6 +108,17 @@
       </categories>
       <tags>
         <tag>Tips</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Share之go实现幂运算]]></title>
+    <url>%2F2019%2F03%2F29%2FShare%E4%B9%8Bgo%E5%AE%9E%E7%8E%B0%E5%B9%82%E8%BF%90%E7%AE%97%2F</url>
+    <content type="text"><![CDATA[前两天刷题，偶然想到的。 如何不调用系统接口实现幂运算，代码如下 123456789func pow() &#123; n := 0.1 for i := 10;i&gt;=0;i-- &#123; n = n*10.0 fmt.Println(n) &#125;&#125; 应用场景：字符串转数字、字符串各数字位求和 等等题目]]></content>
+      <categories>
+        <category>ARTS</category>
+      </categories>
+      <tags>
+        <tag>Share</tag>
       </tags>
   </entry>
   <entry>
@@ -144,17 +144,6 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[Tips之关于加班]]></title>
-    <url>%2F2019%2F03%2F15%2FTips%E4%B9%8B%E5%85%B3%E4%BA%8E%E5%8A%A0%E7%8F%AD%2F</url>
-    <content type="text"><![CDATA[互联网公司，加班现象似乎非常普遍，不加班才是不正常的现象。 我想说这种现象本身就是一种扭曲。 但是，我们没有能力去改变整个生态环境。 所以，我的观点是，接受它。 无论加班与否，一个人每天可利用的时间大致是相同的。加班，我们是在公司渡过更多的时间，不加班，我们在家里渡过更多的时间。 对于大多数互联网单身狗来说，在家里和在公司里真的区别很大吗？ 对于博主这种没有其他爱好的单身狗，感觉区别并不大。 那么这个问题其实并不是加班的问题，而是我们如何充分利用时间的问题。 我们把加班分作两种情况考虑： 1、工作非常多，不加班无法完成；2、工作本身不需要加班，但是老板要求，甚至是kpi考核； 针对两种情况，第一种，没办法，只能加班，拿人钱财与人消灾嘛，公司付钱，我们干活；这就是一场交易；但是我们可以通过改变工作方法，提高效率，缩短加班的时间。第二种，同样也是没办法，要么干，要么滚； 来，我们分两种情况分别考虑一下。1、干；2、滚 留下接着干，但是内心非常不爽啊；但是没办法，也许是时机不合适，也许是能力不合适，我们没办法选择滚。所以加班干吗？当然是提高自己，争取早日能在干和滚这两种选择上，随便选啊。 滚，爷不伺候了；呐，要这么做，是需要底气的，你得掂量自己是否有能力短期内找到一家合适的，或者说条件待遇平台更好的公司；如果能，那当然可以选择说拜拜了，如果不能，那就回到了上面的情况了，留下来利用加班的时间提高自己。 你看，无论是工作需要加班，还是不人性的KPI考核加班；最终如何做，都是取决于我们自身的能力。 最徒劳的一种应对便是，一边吐槽，一边在公司浪费时间。最终时间都浪费在加班上了，但是自身没有任何提高，即使混个几年换家公司，你还是没有勇气没有能力对不合理的要求说出不字。 习总说，撸起袖子加油干嘛，为了我们都能拥有说不的能力；无论是否加班，都不要让时间浪费在游戏或无效的人际交往中。]]></content>
-      <categories>
-        <category>ARTS</category>
-      </categories>
-      <tags>
-        <tag>Tips</tag>
-      </tags>
-  </entry>
-  <entry>
     <title><![CDATA[Share之How a Googler solves coding problems]]></title>
     <url>%2F2019%2F03%2F15%2FShare%E4%B9%8BHow%20a%20Googler%20solves%20coding%20problems%2F</url>
     <content type="text"><![CDATA[原文链接在这里，不知道需不需要翻墙。 文章详细介绍了如何解决问题，虽然不知道是不是一位googler，但是作者的思路和做法很值得我们学习模仿。 做一点简单的翻译：1、不要直接写代码，先把问题写下来2、将思路用英文写下来，大概是为了后面给函数、变量起名的时候可以直接应用吧3、写伪代码4、将伪代码翻译成可执行代码5、最后就是跑起来测试了 详细内容还请移步原文。]]></content>
@@ -163,6 +152,17 @@
       </categories>
       <tags>
         <tag>Share</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Tips之关于加班]]></title>
+    <url>%2F2019%2F03%2F15%2FTips%E4%B9%8B%E5%85%B3%E4%BA%8E%E5%8A%A0%E7%8F%AD%2F</url>
+    <content type="text"><![CDATA[互联网公司，加班现象似乎非常普遍，不加班才是不正常的现象。 我想说这种现象本身就是一种扭曲。 但是，我们没有能力去改变整个生态环境。 所以，我的观点是，接受它。 无论加班与否，一个人每天可利用的时间大致是相同的。加班，我们是在公司渡过更多的时间，不加班，我们在家里渡过更多的时间。 对于大多数互联网单身狗来说，在家里和在公司里真的区别很大吗？ 对于博主这种没有其他爱好的单身狗，感觉区别并不大。 那么这个问题其实并不是加班的问题，而是我们如何充分利用时间的问题。 我们把加班分作两种情况考虑： 1、工作非常多，不加班无法完成；2、工作本身不需要加班，但是老板要求，甚至是kpi考核； 针对两种情况，第一种，没办法，只能加班，拿人钱财与人消灾嘛，公司付钱，我们干活；这就是一场交易；但是我们可以通过改变工作方法，提高效率，缩短加班的时间。第二种，同样也是没办法，要么干，要么滚； 来，我们分两种情况分别考虑一下。1、干；2、滚 留下接着干，但是内心非常不爽啊；但是没办法，也许是时机不合适，也许是能力不合适，我们没办法选择滚。所以加班干吗？当然是提高自己，争取早日能在干和滚这两种选择上，随便选啊。 滚，爷不伺候了；呐，要这么做，是需要底气的，你得掂量自己是否有能力短期内找到一家合适的，或者说条件待遇平台更好的公司；如果能，那当然可以选择说拜拜了，如果不能，那就回到了上面的情况了，留下来利用加班的时间提高自己。 你看，无论是工作需要加班，还是不人性的KPI考核加班；最终如何做，都是取决于我们自身的能力。 最徒劳的一种应对便是，一边吐槽，一边在公司浪费时间。最终时间都浪费在加班上了，但是自身没有任何提高，即使混个几年换家公司，你还是没有勇气没有能力对不合理的要求说出不字。 习总说，撸起袖子加油干嘛，为了我们都能拥有说不的能力；无论是否加班，都不要让时间浪费在游戏或无效的人际交往中。]]></content>
+      <categories>
+        <category>ARTS</category>
+      </categories>
+      <tags>
+        <tag>Tips</tag>
       </tags>
   </entry>
   <entry>
@@ -188,17 +188,6 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[Share之How to Merge K Sorted Arrays]]></title>
-    <url>%2F2019%2F03%2F07%2FShare%E4%B9%8BHow%20to%20Merge%20K%20Sorted%20Arrays%2F</url>
-    <content type="text"><![CDATA[原文链接在这里，不知道需不需要翻墙。 这篇文章介绍了几种merge 排序后数组的方案，还没看太懂。分享出来做个备忘。 详细内容还请移步原文。]]></content>
-      <categories>
-        <category>ARTS</category>
-      </categories>
-      <tags>
-        <tag>Share</tag>
-      </tags>
-  </entry>
-  <entry>
     <title><![CDATA[Tips之打造个人品牌]]></title>
     <url>%2F2019%2F03%2F07%2FTips%E4%B9%8B%E6%89%93%E9%80%A0%E4%B8%AA%E4%BA%BA%E5%93%81%E7%89%8C%2F</url>
     <content type="text"><![CDATA[原文链接在这里，不知道需不需要翻墙。 呐，上面的链接是打不开的，因为这篇文章是我自己对自己说的一些话。 我们在职场中，个人是乙方，单位是甲方。单位提供平台、资源、环境，我们拿钱干活，为公司输出自己的价值。所以，不存在弱势、强势的问题。就是一个议价问题嘛，和处对象一样，处的来就一直处下去，性格不合就好聚好散嘛。 所以，无论在哪家公司，为谁服务，我们都需要在工作中、在生活中注意提升自己，把自己当做品牌来经营。呐，什么样的品牌值得信赖呢？有能力当然是很重要的，但是我认为靠谱更重要。 一个靠谱的人是什么样的，就是领导将事情交给你很放心，不是说一定相信你的能力能摆平，而是说你会认认真真的对待，就算搞不定，也会想出一些方案应对。 大家在职场行走，无论是同事也好，还是领导也好，在同一家公司，大多数会融洽的相处，如果脱离公司这个平台呢，你有多少能力或者资源活下去？ 当然了，如果你能力很强，现在的社会一定不会缺少机会的，但是如果你能力很强，你当然不会失业，但是请你对自己要求再高一点，我们不是说有个工作就会去做。我们还是要去做一些自己感兴趣，对社会有意义的事情。当然了，这只是个人的一些看法，也许会有些偏颇。 在工作中，我努力的目标就是上面说的靠谱，当别人有事的时候能够第一个想到你。 认认真真做事，不只是为了对得起公司付给我们的薪水，也是一份职责和担当，但是更多的是对自己这个品牌的负责。 一个人的技能可以提高，性格也可以刻意培养，靠谱这种能力也可以。 经营好我们自己这个品牌，无论在职场还是在生活中，相信会会更舒服或者自由一些。 写的比较乱，个人文笔功底也是差到爆，各位看官多担待，这个博客希望是我文笔提升的一个见证。]]></content>
@@ -207,6 +196,17 @@
       </categories>
       <tags>
         <tag>Tips</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Share之How to Merge K Sorted Arrays]]></title>
+    <url>%2F2019%2F03%2F07%2FShare%E4%B9%8BHow%20to%20Merge%20K%20Sorted%20Arrays%2F</url>
+    <content type="text"><![CDATA[原文链接在这里，不知道需不需要翻墙。 这篇文章介绍了几种merge 排序后数组的方案，还没看太懂。分享出来做个备忘。 详细内容还请移步原文。]]></content>
+      <categories>
+        <category>ARTS</category>
+      </categories>
+      <tags>
+        <tag>Share</tag>
       </tags>
   </entry>
   <entry>
@@ -298,9 +298,9 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[leetcode之Number of Lines To Write String]]></title>
-    <url>%2F2019%2F02%2F01%2Fleetcode%E4%B9%8BNumber%20of%20Lines%20To%20Write%20String%2F</url>
-    <content type="text"><![CDATA[问题描述：We are to write the letters of a given string S, from left to right into lines. Each line has maximum width 100 units, and if writing a letter would cause the width of the line to exceed 100 units, it is written on the next line. We are given an array widths, an array where widths[0] is the width of ‘a’, widths[1] is the width of ‘b’, …, and widths[25] is the width of ‘z’. Now answer two questions: how many lines have at least one character from S, and what is the width used by the last such line? Return your answer as an integer list of length 2. Example :Input:widths = [10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10]S = “abcdefghijklmnopqrstuvwxyz”Output: [3, 60]Explanation:All letters have the same length of 10. To write all 26 letters,we need two full lines and one line with 60 units. Example :Input:widths = [4,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10]S = “bbbcccdddaaa”Output: [2, 4]Explanation:All letters except ‘a’ have the same length of 10, and“bbbcccdddaa” will cover 9 10 + 2 4 = 98 units.For the last ‘a’, it is written on the second line becausethere is only 2 units left in the first line.So the answer is 2 lines, plus 4 units in the second line. Note: The length of S will be in the range [1, 1000].S will only contain lowercase letters.widths is an array of length 26.widths[i] will be in the range of [2, 10]. 这个题目比较复杂，widths是每个字母需要占空间的大小 比如案例二中 4 代表的是a需要的空间，10代表的是b需要的空间，以此类推。然后S是给定的字符串，计算S总共需要多少空间，要注意的是每行允许100个占位，每个字母的占位不能分到两行去。 如案例二，bbbcccdddaa需要98个位置，那一行只剩2个空位，剩下一个a需要四个空位，因此需要将a放在下一行。 返回的结果就是，给定的字符串需要占用几行，以及最后一行占用了多少空间。123456789101112131415161718func numberOfLines(widths []int, S string) []int &#123; var bts,lines int for _,v := range S &#123; bts = bts + widths[v-97] if bts == 100 &#123; lines++ bts = 0 &#125; if bts &gt; 100 &#123; lines++ bts = widths[v-97] &#125; &#125; if bts != 0 &#123; lines++ &#125; return []int &#123;lines,bts&#125; &#125; 我的思路也比较简单，计算每个字符的占位依次放就好了，widths[v-97] 是v需要的空间，然后bts统计目前占的空间大小，如果正好等于100，行数加1，bts归零。 如果bts大于100了，说明最后这个字符放不下了，行数加1，bts初始化为最后一个字符，然后接着遍历S。如果正好加了一行，下一行又没占满lines，则lines在循环内不会加1，因此在循环外判断bts不为0，增加lines。]]></content>
+    <title><![CDATA[leetcode之Number Complement]]></title>
+    <url>%2F2019%2F02%2F01%2Fleetcode%E4%B9%8BNumber%20Complement%2F</url>
+    <content type="text"><![CDATA[问题描述：Given a positive integer, output its complement number. The complement strategy is to flip the bits of its binary representation. Note:The given integer is guaranteed to fit within the range of a 32-bit signed integer.You could assume no leading zero bit in the integer’s binary representation. Note:The given integer is guaranteed to fit within the range of a 32-bit signed integer.You could assume no leading zero bit in the integer’s binary representation.Example 1:Input: 5Output: 2Explanation: The binary representation of 5 is 101 (no leading zero bits), and its complement is 010. So you need to output 2. Example 2:Input: 1Output: 0Explanation: The binary representation of 1 is 1 (no leading zero bits), and its complement is 0. So you need to output 0. 将数字转换为二进制，然后安位取反，以0开头的需要剔除。123456789func findComplement(num int) int &#123; bts := []rune(fmt.Sprintf("%b",num)) cn := 0 num_len := len(bts) for k:=0;k&lt; num_len;k++ &#123; cn = cn + int(bts[k] ^ 1 - '0')*int(math.Pow(2,float64(num_len - k -1))) &#125; return cn &#125; 我的思路是，把数字转换为二进制，然后…我忘记当时怎么想的了…. 假装时间紧不多说了，想起来再补吧。]]></content>
       <categories>
         <category>算法</category>
       </categories>
@@ -320,9 +320,9 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[leetcode之Fibonacci Number]]></title>
-    <url>%2F2019%2F02%2F01%2Fleetcode%E4%B9%8BFibonacci%20Number%2F</url>
-    <content type="text"><![CDATA[问题描述： The Fibonacci numbers, commonly denoted F(n) form a sequence, called the Fibonacci sequence, such that each number is the sum of the two preceding ones, starting from 0 and 1. That is, F(0) = 0, F(1) = 1F(N) = F(N - 1) + F(N - 2), for N &gt; 1.Given N, calculate F(N). Example 1:Input: 2Output: 1Explanation: F(2) = F(1) + F(0) = 1 + 0 = 1. Example 2:Input: 3Output: 2Explanation: F(3) = F(2) + F(1) = 1 + 1 = 2. Example 3:Input: 4Output: 3Explanation: F(4) = F(3) + F(2) = 2 + 1 = 3. 经典的数列问题。1234567func fib(N int) int &#123; if N == 1 || N == 0&#123; return N &#125; return fib(N-1)+fib(N-2)&#125; 博主写的当然是这种烂大街的递归解法，很普通，下面分享最佳答案。1234567891011121314func fib(N int) int &#123; switch N &#123; case 0: return 0 case 1: return 1 default: a, b := 0, 1 for i := 2; i &lt;= N; i++ &#123; a, b = b, a+b &#125; return b &#125;&#125; 思路很清奇有没有！]]></content>
+    <title><![CDATA[leetcode之Number of Lines To Write String]]></title>
+    <url>%2F2019%2F02%2F01%2Fleetcode%E4%B9%8BNumber%20of%20Lines%20To%20Write%20String%2F</url>
+    <content type="text"><![CDATA[问题描述：We are to write the letters of a given string S, from left to right into lines. Each line has maximum width 100 units, and if writing a letter would cause the width of the line to exceed 100 units, it is written on the next line. We are given an array widths, an array where widths[0] is the width of ‘a’, widths[1] is the width of ‘b’, …, and widths[25] is the width of ‘z’. Now answer two questions: how many lines have at least one character from S, and what is the width used by the last such line? Return your answer as an integer list of length 2. Example :Input:widths = [10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10]S = “abcdefghijklmnopqrstuvwxyz”Output: [3, 60]Explanation:All letters have the same length of 10. To write all 26 letters,we need two full lines and one line with 60 units. Example :Input:widths = [4,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10]S = “bbbcccdddaaa”Output: [2, 4]Explanation:All letters except ‘a’ have the same length of 10, and“bbbcccdddaa” will cover 9 10 + 2 4 = 98 units.For the last ‘a’, it is written on the second line becausethere is only 2 units left in the first line.So the answer is 2 lines, plus 4 units in the second line. Note: The length of S will be in the range [1, 1000].S will only contain lowercase letters.widths is an array of length 26.widths[i] will be in the range of [2, 10]. 这个题目比较复杂，widths是每个字母需要占空间的大小 比如案例二中 4 代表的是a需要的空间，10代表的是b需要的空间，以此类推。然后S是给定的字符串，计算S总共需要多少空间，要注意的是每行允许100个占位，每个字母的占位不能分到两行去。 如案例二，bbbcccdddaa需要98个位置，那一行只剩2个空位，剩下一个a需要四个空位，因此需要将a放在下一行。 返回的结果就是，给定的字符串需要占用几行，以及最后一行占用了多少空间。123456789101112131415161718func numberOfLines(widths []int, S string) []int &#123; var bts,lines int for _,v := range S &#123; bts = bts + widths[v-97] if bts == 100 &#123; lines++ bts = 0 &#125; if bts &gt; 100 &#123; lines++ bts = widths[v-97] &#125; &#125; if bts != 0 &#123; lines++ &#125; return []int &#123;lines,bts&#125; &#125; 我的思路也比较简单，计算每个字符的占位依次放就好了，widths[v-97] 是v需要的空间，然后bts统计目前占的空间大小，如果正好等于100，行数加1，bts归零。 如果bts大于100了，说明最后这个字符放不下了，行数加1，bts初始化为最后一个字符，然后接着遍历S。如果正好加了一行，下一行又没占满lines，则lines在循环内不会加1，因此在循环外判断bts不为0，增加lines。]]></content>
       <categories>
         <category>算法</category>
       </categories>
@@ -342,9 +342,9 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[leetcode之Number Complement]]></title>
-    <url>%2F2019%2F02%2F01%2Fleetcode%E4%B9%8BNumber%20Complement%2F</url>
-    <content type="text"><![CDATA[问题描述：Given a positive integer, output its complement number. The complement strategy is to flip the bits of its binary representation. Note:The given integer is guaranteed to fit within the range of a 32-bit signed integer.You could assume no leading zero bit in the integer’s binary representation. Note:The given integer is guaranteed to fit within the range of a 32-bit signed integer.You could assume no leading zero bit in the integer’s binary representation.Example 1:Input: 5Output: 2Explanation: The binary representation of 5 is 101 (no leading zero bits), and its complement is 010. So you need to output 2. Example 2:Input: 1Output: 0Explanation: The binary representation of 1 is 1 (no leading zero bits), and its complement is 0. So you need to output 0. 将数字转换为二进制，然后安位取反，以0开头的需要剔除。123456789func findComplement(num int) int &#123; bts := []rune(fmt.Sprintf("%b",num)) cn := 0 num_len := len(bts) for k:=0;k&lt; num_len;k++ &#123; cn = cn + int(bts[k] ^ 1 - '0')*int(math.Pow(2,float64(num_len - k -1))) &#125; return cn &#125; 我的思路是，把数字转换为二进制，然后…我忘记当时怎么想的了…. 假装时间紧不多说了，想起来再补吧。]]></content>
+    <title><![CDATA[leetcode之Fibonacci Number]]></title>
+    <url>%2F2019%2F02%2F01%2Fleetcode%E4%B9%8BFibonacci%20Number%2F</url>
+    <content type="text"><![CDATA[问题描述： The Fibonacci numbers, commonly denoted F(n) form a sequence, called the Fibonacci sequence, such that each number is the sum of the two preceding ones, starting from 0 and 1. That is, F(0) = 0, F(1) = 1F(N) = F(N - 1) + F(N - 2), for N &gt; 1.Given N, calculate F(N). Example 1:Input: 2Output: 1Explanation: F(2) = F(1) + F(0) = 1 + 0 = 1. Example 2:Input: 3Output: 2Explanation: F(3) = F(2) + F(1) = 1 + 1 = 2. Example 3:Input: 4Output: 3Explanation: F(4) = F(3) + F(2) = 2 + 1 = 3. 经典的数列问题。1234567func fib(N int) int &#123; if N == 1 || N == 0&#123; return N &#125; return fib(N-1)+fib(N-2)&#125; 博主写的当然是这种烂大街的递归解法，很普通，下面分享最佳答案。1234567891011121314func fib(N int) int &#123; switch N &#123; case 0: return 0 case 1: return 1 default: a, b := 0, 1 for i := 2; i &lt;= N; i++ &#123; a, b = b, a+b &#125; return b &#125;&#125; 思路很清奇有没有！]]></content>
       <categories>
         <category>算法</category>
       </categories>
@@ -419,9 +419,9 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[leetcode之Unique Email Addresses]]></title>
-    <url>%2F2019%2F01%2F22%2Fleetcode%E4%B9%8BUnique%20Email%20Addresses%2F</url>
-    <content type="text"><![CDATA[问题描述： Every email consists of a local name and a domain name, separated by the @ sign. For example, in alice@leetcode.com, alice is the local name, and leetcode.com is the domain name. Besides lowercase letters, these emails may contain ‘.’s or ‘+’s. If you add periods (‘.’) between some characters in the local name part of an email address, mail sent there will be forwarded to the same address without dots in the local name. For example, “alice.z@leetcode.com“ and “alicez@leetcode.com“ forward to the same email address. (Note that this rule does not apply for domain names.) If you add a plus (‘+’) in the local name, everything after the first plus sign will be ignored. This allows certain emails to be filtered, for example m.y+name@email.com will be forwarded to my@email.com. (Again, this rule does not apply for domain names.) It is possible to use both of these rules at the same time. Given a list of emails, we send one email to each address in the list. How many different addresses actually receive mails? Example 1: Input: [“test.email+alex@leetcode.com“,”test.e.mail+bob.cathy@leetcode.com“,”testemail+david@lee.tcode.com“]Output: 2Explanation: “testemail@leetcode.com“ and “testemail@lee.tcode.com“ actually receive mails Note: 1 &lt;= emails[i].length &lt;= 1001 &lt;= emails.length &lt;= 100Each emails[i] contains exactly one ‘@’ character.. 过滤合法的邮箱地址，其中local name中的.为无效字符可直接过滤，+后面的字符都无效不算。domain name只包含一个@而且.和+都是合法的。12345678910111213141516171819202122232425262728293031323334func numUniqueEmails(emails []string) int &#123; mp := make (map[string] int) for i:=0;i&lt;len(emails);i++ &#123; em := []byte(emails[i]) k :=0 findDot := 0 findPlus := false for _,val := range emails[i] &#123; if val == '@' &#123; findPlus =false findDot++ &#125; if val == '.'||findPlus &#123; if findDot == 0 &#123; continue &#125; &#125; if val == '+' &#123; findPlus =true continue &#125; em[k]=byte(val) k++ &#125; if k &gt; 0 &amp;&amp; findDot == 1&#123; mp[string(em)[0:k]]++ &#125; &#125; return len(mp) &#125; 依次迭代邮箱地址，记录@、.、+的符号，然后按照规则处理就可以了。]]></content>
+    <title><![CDATA[leetcode之Sort Array By Parity]]></title>
+    <url>%2F2019%2F01%2F22%2Fleetcode%E4%B9%8BSort%20Array%20By%20Parity%2F</url>
+    <content type="text"><![CDATA[问题描述： Given an array A of non-negative integers, return an array consisting of all the even elements of A, followed by all the odd elements of A. You may return any answer array that satisfies this condition. Example 1: Input: [3,1,2,4]Output: [2,4,3,1]The outputs [4,2,3,1], [2,4,1,3], and [4,2,1,3] would also be accepted. Note: 1 &lt;= A.length &lt;= 50000 &lt;= A[i] &lt;= 5000imes. 将数组按奇偶排序，偶数全部放在前面1234567891011121314151617func sortArrayByParity(A []int) []int &#123; var B [5000]int l := len(A) start := 0 end := l-1 for i:=0; i&lt;l; i++ &#123; if A[i] % 2 ==0 &#123; B[start]=A[i] start++ &#125;else &#123; B[end]=A[i] end-- &#125; &#125; return B[0:l] &#125; 定义一个大数组，然后把偶数从0开始放，奇数从l-1开始放。最后返回B的0-l的元素即可。]]></content>
       <categories>
         <category>算法</category>
       </categories>
@@ -441,17 +441,6 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[leetcode之Squares of a Sorted Array]]></title>
-    <url>%2F2019%2F01%2F22%2Fleetcode%E4%B9%8BSquares%20of%20a%20Sorted%20Array%2F</url>
-    <content type="text"><![CDATA[问题描述： Given an array of integers A sorted in non-decreasing order, return an array of the squares of each number, also in sorted non-decreasing order. Example 1: Input: [-4,-1,0,3,10]Output: [0,1,9,16,100] Example 2: Input: [-7,-3,2,3,11]Output: [4,9,9,49,121] Note: 1 &lt;= A.length &lt;= 10000-10000 &lt;= A[i] &lt;= 10000A is sorted in non-decreasing order. 给定一个有序数组，按平方后的数据大小排序1234567891011121314151617181920type bySquare []intfunc (a bySquare) Len() int &#123; return len(a)&#125;func (p bySquare) Less(i,j int) bool &#123; return p[i]*p[i] &lt;p[j]*p[j]&#125;func (p bySquare) Swap (i,j int) &#123; p[i],p[j] = p[j],p[i]&#125;func sortedSquares(A []int) []int &#123; for k,_ := range A &#123; A[k]=A[k]*A[k] &#125; sort.Sort(bySquare(A)) return A&#125; 偷了个懒，利用了go的接口特性，重写了系统的sort函数。一定还有其他思路解决这个问题，因为对于题目中给定的有序数组这个特点没利用上。欢迎有思路的同学留言。]]></content>
-      <categories>
-        <category>算法</category>
-      </categories>
-      <tags>
-        <tag>算法</tag>
-      </tags>
-  </entry>
-  <entry>
     <title><![CDATA[leetcode之Delete Columns to Make Sorted]]></title>
     <url>%2F2019%2F01%2F22%2Fleetcode%E4%B9%8BDelete%20Columns%20to%20Make%20Sorted%2F</url>
     <content type="text"><![CDATA[问题描述： We are given an array A of N lowercase letter strings, all of the same length. Now, we may choose any set of deletion indices, and for each string, we delete all the characters in those indices. For example, if we have an array A = [“abcdef”,”uvwxyz”] and deletion indices {0, 2, 3}, then the final array after deletions is [“bef”, “vyz”], and the remaining columns of A are [“b”,”v”], [“e”,”y”], and [“f”,”z”]. (Formally, the c-th column is [A[0][c], A[1][c], …, A[A.length-1][c]].) Suppose we chose a set of deletion indices D such that after deletions, each remaining column in A is in non-decreasing sorted order. Return the minimum possible value of D.length. Example 1: Input: [“cba”,”daf”,”ghi”]Output: 1Explanation:After choosing D = {1}, each column [“c”,”d”,”g”] and [“a”,”f”,”i”] are in non-decreasing sorted order.If we chose D = {}, then a column [“b”,”a”,”h”] would not be in non-decreasing sorted order. Example 2: Input: [“a”,”b”]Output: 0Explanation: D = {} Example 3: Input: [“zyx”,”wvu”,”tsr”]Output: 3Explanation: D = {0, 1, 2} Note: 1 &lt;= A.length &lt;= 1001 &lt;= A[i].length &lt;= 1000nation: First reverse each row: [[0,1,1],[1,0,1],[0,0,0]].Then, invert the image: [[1,0,0],[0,1,0],[1,1,1]] 这个题目比较有意思，给定一个二维数组，删除一列，剩下的列是 non-decreasing sorted order ，也就是每一列都是降序排列1234567891011121314func minDeletionSize(A []string) int &#123; stringLen := len(A) cn := 0 for i:=0;i&lt;len(A[0]);i++ &#123; for k:=0;k&lt;stringLen-1;k++ &#123; if A[k][i] &gt; A[k+1][i] &#123; cn++ break &#125; &#125; &#125; return cn &#125; 删除一列，使得剩下的列都是降序排列。也就是说找出非降序排列的列的个数，代码如上。]]></content>
@@ -463,9 +452,9 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[leetcode之Self Dividing Numbers]]></title>
-    <url>%2F2019%2F01%2F22%2Fleetcode%E4%B9%8BSelf%20Dividing%20Numbers%2F</url>
-    <content type="text"><![CDATA[问题描述： A self-dividing number is a number that is divisible by every digit it contains. For example, 128 is a self-dividing number because 128 % 1 == 0, 128 % 2 == 0, and 128 % 8 == 0. Also, a self-dividing number is not allowed to contain the digit zero. Given a lower and upper number bound, output a list of every possible self dividing number, including the bounds if possible.Example 1:Input:left = 1, right = 22Output: [1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 15, 22]Note: The boundaries of each input argument are 1 &lt;= left &lt;= right &lt;= 10000. 给定数字开头和结尾，找出他们中间满足条件的数字，条件就是能被自己包含的数字整除，如 8743 要能被 8、7、4、3 都整除才算满足条件。1234567891011121314151617181920func selfDividingNumbers(left int, right int) []int &#123; var array []int for i:=left;i&lt;=right;i++ &#123; k := i isVaild := true for k !=0 &#123; if num := k%10; num == 0 || i % num != 0&#123; isVaild = false break &#125; k = k/10 &#125; if isVaild &#123; array = append(array,i) &#125; &#125; return array&#125; 之前做过一次数字反转的题目，这里的核心代码与它相同，一边找出余数，看看能不能整除，如果能就把剩下的数字继续找余数。注意，数字中任何一位是0都不能算，这个一定要在整除前判断。]]></content>
+    <title><![CDATA[leetcode之N-Repeated Element in Size 2N Array]]></title>
+    <url>%2F2019%2F01%2F22%2Fleetcode%E4%B9%8B%20N-Repeated%20Element%20in%20Size%202N%20Array%2F</url>
+    <content type="text"><![CDATA[问题描述： In a array A of size 2N, there are N+1 unique elements, and exactly one of these elements is repeated N times. Return the element repeated N times. Example 1: Input: [1,2,3,3]Output: 3Example 2: Input: [2,1,2,5,3,2]Output: 2Example 3: Input: [5,1,5,2,5,3,5,4]Output: 5 在2N个元素中有N+1个是唯一的，只有一个元素重复了N次，返回这个重复的元素1234567891011func repeatedNTimes(A []int) int &#123; var mp [10000]int l := len(A) for i:=0;i &lt; l; i++ &#123; mp[A[i]]++ if mp[A[i]] &gt; 1 &#123; return A[i] &#125; &#125; return 0 &#125; 使用数组元素值作下标，当某个元素重复出现时，就是我们要找的元素。]]></content>
       <categories>
         <category>算法</category>
       </categories>
@@ -496,20 +485,9 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[leetcode之To Lower Case]]></title>
-    <url>%2F2019%2F01%2F22%2Fleetcode%E4%B9%8BJewels%20and%20Stones%2F</url>
-    <content type="text"><![CDATA[问题描述： You’re given strings J representing the types of stones that are jewels, and S representing the stones you have. Each character in S is a type of stone you have. You want to know how many of the stones you have are also jewels. The letters in J are guaranteed distinct, and all characters in J and S are letters. Letters are case sensitive, so “a” is considered a different type of stone from “A”. Example 1: Input: J = “aA”, S = “aAAbbbb”Output: 3Example 2: Input: J = “z”, S = “ZZ”Output: 0Note: S and J will consist of letters and have length at most 50.The characters in J are distinct. 我把这道题翻译为：在石头中找宝石，返回宝石的数量。12345678910111213141516func numJewelsInStones(J string, S string) int &#123; mp :=make(map[byte] int) cn :=0 for i:=0;i&lt;len(J);i++ &#123; mp[J[i]]=i &#125; for i:=0;i&lt;len(S);i++ &#123; if _,ok :=mp[S[i]];ok &#123; cn++ &#125; &#125; return cn &#125; 将宝石放在map中，然后依次迭代数组查找就可以了。]]></content>
-      <categories>
-        <category>算法</category>
-      </categories>
-      <tags>
-        <tag>算法</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[leetcode之Unique Morse Code Words]]></title>
-    <url>%2F2019%2F01%2F22%2Fleetcode%E4%B9%8B%20Unique%20Morse%20Code%20Words%2F</url>
-    <content type="text"><![CDATA[问题描述： International Morse Code defines a standard encoding where each letter is mapped to a series of dots and dashes, as follows: “a” maps to “.-“, “b” maps to “-…”, “c” maps to “-.-.”, and so on. For convenience, the full table for the 26 letters of the English alphabet is given below: [“.-“,”-…”,”-.-.”,”-..”,”.”,”..-.”,”–.”,”….”,”..”,”.—“,”-.-“,”.-..”,”–”,”-.”,”—“,”.–.”,”–.-“,”.-.”,”…”,”-“,”..-“,”…-“,”.–”,”-..-“,”-.–”,”–..”]Now, given a list of words, each word can be written as a concatenation of the Morse code of each letter. For example, “cba” can be written as “-.-..–…”, (which is the concatenation “-.-.” + “-…” + “.-“). We’ll call such a concatenation, the transformation of a word. Return the number of different transformations among all words we have. Example:Input: words = [“gin”, “zen”, “gig”, “msg”]Output: 2Explanation:The transformation of each word is:“gin” -&gt; “–…-.”“zen” -&gt; “–…-.”“gig” -&gt; “–…–.”“msg” -&gt; “–…–.” There are 2 different transformations, “–…-.” and “–…–.”.Note:The length of words will be at most 100.Each words[i] will have length in range [1, 12].words[i] will only consist of lowercase letters. 将字母翻译为摩斯码，返回去重后的摩斯码数量12345678910111213func uniqueMorseRepresentations(words []string) int &#123; M := []string&#123;".-","-...","-.-.","-..",".","..-.","--.","....","..",".---","-.-",".-..","--","-.","---",".--.","--.-",".-.","...","-","..-","...-",".--","-..-","-.--","--.."&#125; morse_mp := make(map[string] int) for i:=0; i &lt; len(words); i++ &#123; morse :="" for _,v := range words[i] &#123; morse = morse+M[v-'a'] &#125; morse_mp[morse]++ &#125; return len(morse_mp)&#125; 将每个字母映射为摩斯码，然后放在map中去重，返回map的长度即可。]]></content>
+    <title><![CDATA[leetcode之Unique Email Addresses]]></title>
+    <url>%2F2019%2F01%2F22%2Fleetcode%E4%B9%8BUnique%20Email%20Addresses%2F</url>
+    <content type="text"><![CDATA[问题描述： Every email consists of a local name and a domain name, separated by the @ sign. For example, in alice@leetcode.com, alice is the local name, and leetcode.com is the domain name. Besides lowercase letters, these emails may contain ‘.’s or ‘+’s. If you add periods (‘.’) between some characters in the local name part of an email address, mail sent there will be forwarded to the same address without dots in the local name. For example, “alice.z@leetcode.com“ and “alicez@leetcode.com“ forward to the same email address. (Note that this rule does not apply for domain names.) If you add a plus (‘+’) in the local name, everything after the first plus sign will be ignored. This allows certain emails to be filtered, for example m.y+name@email.com will be forwarded to my@email.com. (Again, this rule does not apply for domain names.) It is possible to use both of these rules at the same time. Given a list of emails, we send one email to each address in the list. How many different addresses actually receive mails? Example 1: Input: [“test.email+alex@leetcode.com“,”test.e.mail+bob.cathy@leetcode.com“,”testemail+david@lee.tcode.com“]Output: 2Explanation: “testemail@leetcode.com“ and “testemail@lee.tcode.com“ actually receive mails Note: 1 &lt;= emails[i].length &lt;= 1001 &lt;= emails.length &lt;= 100Each emails[i] contains exactly one ‘@’ character.. 过滤合法的邮箱地址，其中local name中的.为无效字符可直接过滤，+后面的字符都无效不算。domain name只包含一个@而且.和+都是合法的。12345678910111213141516171819202122232425262728293031323334func numUniqueEmails(emails []string) int &#123; mp := make (map[string] int) for i:=0;i&lt;len(emails);i++ &#123; em := []byte(emails[i]) k :=0 findDot := 0 findPlus := false for _,val := range emails[i] &#123; if val == '@' &#123; findPlus =false findDot++ &#125; if val == '.'||findPlus &#123; if findDot == 0 &#123; continue &#125; &#125; if val == '+' &#123; findPlus =true continue &#125; em[k]=byte(val) k++ &#125; if k &gt; 0 &amp;&amp; findDot == 1&#123; mp[string(em)[0:k]]++ &#125; &#125; return len(mp) &#125; 依次迭代邮箱地址，记录@、.、+的符号，然后按照规则处理就可以了。]]></content>
       <categories>
         <category>算法</category>
       </categories>
@@ -529,6 +507,39 @@
       </tags>
   </entry>
   <entry>
+    <title><![CDATA[leetcode之Self Dividing Numbers]]></title>
+    <url>%2F2019%2F01%2F22%2Fleetcode%E4%B9%8BSelf%20Dividing%20Numbers%2F</url>
+    <content type="text"><![CDATA[问题描述： A self-dividing number is a number that is divisible by every digit it contains. For example, 128 is a self-dividing number because 128 % 1 == 0, 128 % 2 == 0, and 128 % 8 == 0. Also, a self-dividing number is not allowed to contain the digit zero. Given a lower and upper number bound, output a list of every possible self dividing number, including the bounds if possible.Example 1:Input:left = 1, right = 22Output: [1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 15, 22]Note: The boundaries of each input argument are 1 &lt;= left &lt;= right &lt;= 10000. 给定数字开头和结尾，找出他们中间满足条件的数字，条件就是能被自己包含的数字整除，如 8743 要能被 8、7、4、3 都整除才算满足条件。1234567891011121314151617181920func selfDividingNumbers(left int, right int) []int &#123; var array []int for i:=left;i&lt;=right;i++ &#123; k := i isVaild := true for k !=0 &#123; if num := k%10; num == 0 || i % num != 0&#123; isVaild = false break &#125; k = k/10 &#125; if isVaild &#123; array = append(array,i) &#125; &#125; return array&#125; 之前做过一次数字反转的题目，这里的核心代码与它相同，一边找出余数，看看能不能整除，如果能就把剩下的数字继续找余数。注意，数字中任何一位是0都不能算，这个一定要在整除前判断。]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>算法</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[leetcode之To Lower Case]]></title>
+    <url>%2F2019%2F01%2F22%2Fleetcode%E4%B9%8BJewels%20and%20Stones%2F</url>
+    <content type="text"><![CDATA[问题描述： You’re given strings J representing the types of stones that are jewels, and S representing the stones you have. Each character in S is a type of stone you have. You want to know how many of the stones you have are also jewels. The letters in J are guaranteed distinct, and all characters in J and S are letters. Letters are case sensitive, so “a” is considered a different type of stone from “A”. Example 1: Input: J = “aA”, S = “aAAbbbb”Output: 3Example 2: Input: J = “z”, S = “ZZ”Output: 0Note: S and J will consist of letters and have length at most 50.The characters in J are distinct. 我把这道题翻译为：在石头中找宝石，返回宝石的数量。12345678910111213141516func numJewelsInStones(J string, S string) int &#123; mp :=make(map[byte] int) cn :=0 for i:=0;i&lt;len(J);i++ &#123; mp[J[i]]=i &#125; for i:=0;i&lt;len(S);i++ &#123; if _,ok :=mp[S[i]];ok &#123; cn++ &#125; &#125; return cn &#125; 将宝石放在map中，然后依次迭代数组查找就可以了。]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>算法</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[leetcode之Squares of a Sorted Array]]></title>
+    <url>%2F2019%2F01%2F22%2Fleetcode%E4%B9%8BSquares%20of%20a%20Sorted%20Array%2F</url>
+    <content type="text"><![CDATA[问题描述： Given an array of integers A sorted in non-decreasing order, return an array of the squares of each number, also in sorted non-decreasing order. Example 1: Input: [-4,-1,0,3,10]Output: [0,1,9,16,100] Example 2: Input: [-7,-3,2,3,11]Output: [4,9,9,49,121] Note: 1 &lt;= A.length &lt;= 10000-10000 &lt;= A[i] &lt;= 10000A is sorted in non-decreasing order. 给定一个有序数组，按平方后的数据大小排序1234567891011121314151617181920type bySquare []intfunc (a bySquare) Len() int &#123; return len(a)&#125;func (p bySquare) Less(i,j int) bool &#123; return p[i]*p[i] &lt;p[j]*p[j]&#125;func (p bySquare) Swap (i,j int) &#123; p[i],p[j] = p[j],p[i]&#125;func sortedSquares(A []int) []int &#123; for k,_ := range A &#123; A[k]=A[k]*A[k] &#125; sort.Sort(bySquare(A)) return A&#125; 偷了个懒，利用了go的接口特性，重写了系统的sort函数。一定还有其他思路解决这个问题，因为对于题目中给定的有序数组这个特点没利用上。欢迎有思路的同学留言。]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>算法</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[leetcode之To Lower Case]]></title>
     <url>%2F2019%2F01%2F22%2Fleetcode%E4%B9%8BTo%20Lower%20Case%2F</url>
     <content type="text"><![CDATA[问题描述： Implement function ToLowerCase() that has a string parameter str, and returns the same string in lowercase. Example 1: Input: “Hello”Output: “hello”Example 2: Input: “here”Output: “here”Example 3: Input: “LOVELY”Output: “lovely” 转换为小写字母123456789func toLowerCase(str string) string &#123; b :=[]byte(str) for i:=0;i&lt;len(str);i++ &#123; if str[i] &gt;=65 &amp;&amp; str[i] &lt;=90 &#123; b[i]=b[i]+32 &#125; &#125; return string(b) &#125; 没什么复杂的。]]></content>
@@ -540,20 +551,9 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[leetcode之N-Repeated Element in Size 2N Array]]></title>
-    <url>%2F2019%2F01%2F22%2Fleetcode%E4%B9%8B%20N-Repeated%20Element%20in%20Size%202N%20Array%2F</url>
-    <content type="text"><![CDATA[问题描述： In a array A of size 2N, there are N+1 unique elements, and exactly one of these elements is repeated N times. Return the element repeated N times. Example 1: Input: [1,2,3,3]Output: 3Example 2: Input: [2,1,2,5,3,2]Output: 2Example 3: Input: [5,1,5,2,5,3,5,4]Output: 5 在2N个元素中有N+1个是唯一的，只有一个元素重复了N次，返回这个重复的元素1234567891011func repeatedNTimes(A []int) int &#123; var mp [10000]int l := len(A) for i:=0;i &lt; l; i++ &#123; mp[A[i]]++ if mp[A[i]] &gt; 1 &#123; return A[i] &#125; &#125; return 0 &#125; 使用数组元素值作下标，当某个元素重复出现时，就是我们要找的元素。]]></content>
-      <categories>
-        <category>算法</category>
-      </categories>
-      <tags>
-        <tag>算法</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[leetcode之Sort Array By Parity]]></title>
-    <url>%2F2019%2F01%2F22%2Fleetcode%E4%B9%8BSort%20Array%20By%20Parity%2F</url>
-    <content type="text"><![CDATA[问题描述： Given an array A of non-negative integers, return an array consisting of all the even elements of A, followed by all the odd elements of A. You may return any answer array that satisfies this condition. Example 1: Input: [3,1,2,4]Output: [2,4,3,1]The outputs [4,2,3,1], [2,4,1,3], and [4,2,1,3] would also be accepted. Note: 1 &lt;= A.length &lt;= 50000 &lt;= A[i] &lt;= 5000imes. 将数组按奇偶排序，偶数全部放在前面1234567891011121314151617func sortArrayByParity(A []int) []int &#123; var B [5000]int l := len(A) start := 0 end := l-1 for i:=0; i&lt;l; i++ &#123; if A[i] % 2 ==0 &#123; B[start]=A[i] start++ &#125;else &#123; B[end]=A[i] end-- &#125; &#125; return B[0:l] &#125; 定义一个大数组，然后把偶数从0开始放，奇数从l-1开始放。最后返回B的0-l的元素即可。]]></content>
+    <title><![CDATA[leetcode之Unique Morse Code Words]]></title>
+    <url>%2F2019%2F01%2F22%2Fleetcode%E4%B9%8B%20Unique%20Morse%20Code%20Words%2F</url>
+    <content type="text"><![CDATA[问题描述： International Morse Code defines a standard encoding where each letter is mapped to a series of dots and dashes, as follows: “a” maps to “.-“, “b” maps to “-…”, “c” maps to “-.-.”, and so on. For convenience, the full table for the 26 letters of the English alphabet is given below: [“.-“,”-…”,”-.-.”,”-..”,”.”,”..-.”,”–.”,”….”,”..”,”.—“,”-.-“,”.-..”,”–”,”-.”,”—“,”.–.”,”–.-“,”.-.”,”…”,”-“,”..-“,”…-“,”.–”,”-..-“,”-.–”,”–..”]Now, given a list of words, each word can be written as a concatenation of the Morse code of each letter. For example, “cba” can be written as “-.-..–…”, (which is the concatenation “-.-.” + “-…” + “.-“). We’ll call such a concatenation, the transformation of a word. Return the number of different transformations among all words we have. Example:Input: words = [“gin”, “zen”, “gig”, “msg”]Output: 2Explanation:The transformation of each word is:“gin” -&gt; “–…-.”“zen” -&gt; “–…-.”“gig” -&gt; “–…–.”“msg” -&gt; “–…–.” There are 2 different transformations, “–…-.” and “–…–.”.Note:The length of words will be at most 100.Each words[i] will have length in range [1, 12].words[i] will only consist of lowercase letters. 将字母翻译为摩斯码，返回去重后的摩斯码数量12345678910111213func uniqueMorseRepresentations(words []string) int &#123; M := []string&#123;".-","-...","-.-.","-..",".","..-.","--.","....","..",".---","-.-",".-..","--","-.","---",".--.","--.-",".-.","...","-","..-","...-",".--","-..-","-.--","--.."&#125; morse_mp := make(map[string] int) for i:=0; i &lt; len(words); i++ &#123; morse :="" for _,v := range words[i] &#123; morse = morse+M[v-'a'] &#125; morse_mp[morse]++ &#125; return len(morse_mp)&#125; 将每个字母映射为摩斯码，然后放在map中去重，返回map的长度即可。]]></content>
       <categories>
         <category>算法</category>
       </categories>

@@ -462,7 +462,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://dal-s.github.io/2019/02/01/leetcode之Number Complement/">
+    <link itemprop="mainEntityOfPage" href="https://dal-s.github.io/2019/02/01/leetcode之Fibonacci Number/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="DaLi">
@@ -481,7 +481,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/02/01/leetcode之Number Complement/" itemprop="url">leetcode之Number Complement</a></h1>
+                <a class="post-title-link" href="/2019/02/01/leetcode之Fibonacci Number/" itemprop="url">leetcode之Fibonacci Number</a></h1>
         
 
         <div class="post-meta">
@@ -534,8 +534,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2019/02/01/leetcode之Number Complement/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2019/02/01/leetcode之Number Complement/" itemprop="commentCount"></span>
+                <a href="/2019/02/01/leetcode之Fibonacci Number/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/02/01/leetcode之Fibonacci Number/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -543,7 +543,7 @@
 
           
           
-             <span id="/2019/02/01/leetcode之Number Complement/" class="leancloud_visitors" data-flag-title="leetcode之Number Complement">
+             <span id="/2019/02/01/leetcode之Fibonacci Number/" class="leancloud_visitors" data-flag-title="leetcode之Fibonacci Number">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -575,11 +575,12 @@
 
       
         
-          <p>问题描述：<br>Given a positive integer, output its complement number. The complement strategy is to flip the bits of its binary representation.</p>
-<p>Note:<br>The given integer is guaranteed to fit within the range of a 32-bit signed integer.<br>You could assume no leading zero bit in the integer’s binary representation.</p>
+          <p>问题描述：</p>
+<p>The Fibonacci numbers, commonly denoted F(n) form a sequence, called the Fibonacci sequence, such that each number is the sum of the two preceding ones, starting from 0 and 1. That is,</p>
+<p>F(0) = 0,   F(1) = 1<br>F(N) = F(N - 1) + F(N - 2), for N &gt; 1.<br>Given N, calculate F(N).</p>
           <!--noindex-->
           <div class="text-center">
-            <a class="btn btn-link" href="/2019/02/01/leetcode之Number Complement/#more" rel="contents">
+            <a class="btn btn-link" href="/2019/02/01/leetcode之Fibonacci Number/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1639,7 +1640,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://dal-s.github.io/2019/01/22/leetcode之Unique Email Addresses/">
+    <link itemprop="mainEntityOfPage" href="https://dal-s.github.io/2019/01/22/leetcode之Sort Array By Parity/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="DaLi">
@@ -1658,7 +1659,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/01/22/leetcode之Unique Email Addresses/" itemprop="url">leetcode之Unique Email Addresses</a></h1>
+                <a class="post-title-link" href="/2019/01/22/leetcode之Sort Array By Parity/" itemprop="url">leetcode之Sort Array By Parity</a></h1>
         
 
         <div class="post-meta">
@@ -1711,8 +1712,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2019/01/22/leetcode之Unique Email Addresses/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2019/01/22/leetcode之Unique Email Addresses/" itemprop="commentCount"></span>
+                <a href="/2019/01/22/leetcode之Sort Array By Parity/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/01/22/leetcode之Sort Array By Parity/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -1720,7 +1721,7 @@
 
           
           
-             <span id="/2019/01/22/leetcode之Unique Email Addresses/" class="leancloud_visitors" data-flag-title="leetcode之Unique Email Addresses">
+             <span id="/2019/01/22/leetcode之Sort Array By Parity/" class="leancloud_visitors" data-flag-title="leetcode之Sort Array By Parity">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -1753,23 +1754,22 @@
       
         
           <p>问题描述：</p>
-<p>Every email consists of a local name and a domain name, separated by the @ sign.</p>
-<p>For example, in <a href="mailto:alice@leetcode.com" target="_blank" rel="noopener">alice@leetcode.com</a>, alice is the local name, and leetcode.com is the domain name.</p>
-<p>Besides lowercase letters, these emails may contain ‘.’s or ‘+’s.</p>
-<p>If you add periods (‘.’) between some characters in the local name part of an email address, mail sent there will be forwarded to the same address without dots in the local name.  For example, “<a href="mailto:alice.z@leetcode.com" target="_blank" rel="noopener">alice.z@leetcode.com</a>“ and “<a href="mailto:alicez@leetcode.com" target="_blank" rel="noopener">alicez@leetcode.com</a>“ forward to the same email address.  (Note that this rule does not apply for domain names.)</p>
-<p>If you add a plus (‘+’) in the local name, everything after the first plus sign will be ignored. This allows certain emails to be filtered, for example <a href="mailto:m.y+name@email.com" target="_blank" rel="noopener">m.y+name@email.com</a> will be forwarded to <a href="mailto:my@email.com" target="_blank" rel="noopener">my@email.com</a>.  (Again, this rule does not apply for domain names.)</p>
-<p>It is possible to use both of these rules at the same time.</p>
-<p>Given a list of emails, we send one email to each address in the list.  How many different addresses actually receive mails?<br>
+<p>Given an array A of non-negative integers, return an array consisting of all the even elements of A, followed by all the odd elements of A.</p>
+<p>You may return any answer array that satisfies this condition.</p>
+<p>Example 1:</p>
+<p>Input: [3,1,2,4]<br>Output: [2,4,3,1]<br>The outputs [4,2,3,1], [2,4,1,3], and [4,2,1,3] would also be accepted.</p>
+<p>Note:</p>
+<p>1 &lt;= A.length &lt;= 5000<br>0 &lt;= A[i] &lt;= 5000imes.</p>
           <!--noindex-->
           <div class="text-center">
-            <a class="btn btn-link" href="/2019/01/22/leetcode之Unique Email Addresses/#more" rel="contents">
+            <a class="btn btn-link" href="/2019/01/22/leetcode之Sort Array By Parity/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
           <!--/noindex-->
         
       
-    </p></div>
+    </div>
     
     
     
