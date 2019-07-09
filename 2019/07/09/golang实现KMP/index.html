@@ -92,12 +92,12 @@
 <meta property="og:site_name" content="dal&#39;s blog">
 <meta property="og:description" content="先把KMP的介绍复制过来： KMP算法是一种改进的字符串匹配算法，由D.E.Knuth，J.H.Morris和V.R.Pratt提出的，因此人们称它为克努特—莫里斯—普拉特操作（简称KMP算法）。KMP算法的关键是利用匹配失败后的信息，尽量减少模式串与主串的匹配次数以达到快速匹配的目的。具体实现就是实现一个next()函数，函数本身包含了模式串的局部匹配信息。时间复杂度O(m+n)。 查找子串的方">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://dal-s.github.io/2019/07/09/golang实现KMP/1.png">
-<meta property="og:updated_time" content="2019-07-09T03:27:44.908Z">
+<meta property="og:image" content="https://github.com/dal-s/-/blob/master/1.png">
+<meta property="og:updated_time" content="2019-07-09T05:58:58.658Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="golang实现KMP">
 <meta name="twitter:description" content="先把KMP的介绍复制过来： KMP算法是一种改进的字符串匹配算法，由D.E.Knuth，J.H.Morris和V.R.Pratt提出的，因此人们称它为克努特—莫里斯—普拉特操作（简称KMP算法）。KMP算法的关键是利用匹配失败后的信息，尽量减少模式串与主串的匹配次数以达到快速匹配的目的。具体实现就是实现一个next()函数，函数本身包含了模式串的局部匹配信息。时间复杂度O(m+n)。 查找子串的方">
-<meta name="twitter:image" content="https://dal-s.github.io/2019/07/09/golang实现KMP/1.png">
+<meta name="twitter:image" content="https://github.com/dal-s/-/blob/master/1.png">
 
 
 
@@ -409,9 +409,9 @@
 <p>KMP优化的地方就在于，遇到不匹配的字符后，不在将指针移动到被匹配字符串的开头重新匹配一遍，而是跳过若干字节。</p>
 <p>那关键来了，跳过多少字节？<br><a id="more"></a><br>next数组就是来解决这个问题的，next数组就是告诉我们，当遇到一个没有匹配到的字符以后，我们把指针移动到什么位置重新匹配。</p>
 <p>直接说结果，我们不需要再回到字符串的开头重新开始，只需要将当前被查找的字符串跳回到K的位置，K是当前字符前面的公共前缀后缀最长长度。</p>
-<p>B   B   C   A   B   C   D   A   B   A   B   C   D   A   B   C   D   A   B   D   E</p>
-<pre><code>A   B   C   D   A   B   D                                           
-</code></pre><p>比如上面这个字符串，当查找到D时，原串中对应的是A，显然这个时候是不匹配的，指针要回到一个位置重新查找，回到哪儿呢？</p>
+<p>A   B   C   D   A   B   A   B   C   D   A   B   C   D   A   B   D   E</p>
+<p>A   B   C   D   A   B   D                                           </p>
+<p>比如上面这个字符串，当查找到D时，原串中对应的是A，显然这个时候是不匹配的，指针要回到一个位置重新查找，回到哪儿呢？</p>
 <p>看D前面最长的公共前缀后缀的长度是多少。这个话比较绕，白话就是找前面的对称元素个数 。</p>
 <p>比如，D前面是A B C D A B ，以C D 为对称轴，对称元素是 A B ，所以，2就是D的公共前缀后缀长度。  也就是从C这个字符开始重新匹配，跳过了前面的A B 。</p>
 <p>这个 D 对应的 2 ，也就是我们上面说的next数组，这个数字存储的就是被查找字符串每个字符前面的最长对称元素个数。比如</p>
@@ -423,7 +423,7 @@
 <p>得到了next数组，KMP算法的框架基本就完成了。</p>
 <p>我们来重头理一下思路：</p>
 <p>1、求得被查找字符串每个元素前面的对称元素个数<br>2、第一个赋值 -1 ，其他赋值其对称元素个数，得到next数组<br>3、根据next数组，逐一用被查找字符串与原字符串匹配<br>4、遇到不能匹配的元素时，查找其对应的next数组值，将指针指向该位置，继续匹配（原字符串指针不需要回退，一直向前匹配即可）<br>    来一点伪代码，s代表原字符串，t代表被查找字符串，i代表s的下标，p代表被查找字符串的下标<br>        if s[i] != t[p]<br>            p = next[t[p]]</p>
-<p><img src="./1.png" alt="跳起来"></p>
+<p><img src="https://github.com/dal-s/-/blob/master/1.png" alt="跳起来"></p>
 <p>思路都理顺了，接下来最关键的就是实现next数组。那么如何查找每个元素前面的对称元素个数呢？</p>
 
       
@@ -455,8 +455,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/07/08/golang利用栈实现计算器/" rel="next" title="golang利用栈实现计算器">
-                <i class="fa fa-chevron-left"></i> golang利用栈实现计算器
+              <a href="/2019/07/08/golang实现栈/" rel="next" title="golang实现栈">
+                <i class="fa fa-chevron-left"></i> golang实现栈
               </a>
             
           </div>
