@@ -73,7 +73,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT">
+  <meta name="keywords" content="Share,">
 
 
 
@@ -84,17 +84,18 @@
 
 
 
-<meta name="description" content="享受编程带来的快乐">
-<meta name="keywords" content="技术">
-<meta property="og:type" content="website">
-<meta property="og:title" content="dal&#39;s blog">
-<meta property="og:url" content="https://dal-s.github.io/categories/golang/index.html">
+<meta name="description" content="题目：给定一个由 ‘1’（陆地）和 ‘0’（水）组成的的二维网格，计算岛屿的数量。一个岛被水包围，并且它是通过水平方向或垂直方向上相邻的陆地连接而成的。你可以假设网格的四个边均被水包围。 ps：注意是找岛屿的数量，而非 陆地的数量，这个差异非常重要 找岛屿，也就是找有几片联通的陆地被水全部包围 进一步，就是连通性问题，只要节点是连通的就一直走下去，直到没有节点。这样就找到一个岛屿了 下一步就是找下">
+<meta name="keywords" content="Share">
+<meta property="og:type" content="article">
+<meta property="og:title" content="leetcode之岛屿数量">
+<meta property="og:url" content="https://dal-s.github.io/2019/07/09/leetcode之岛的个数/index.html">
 <meta property="og:site_name" content="dal&#39;s blog">
-<meta property="og:description" content="享受编程带来的快乐">
+<meta property="og:description" content="题目：给定一个由 ‘1’（陆地）和 ‘0’（水）组成的的二维网格，计算岛屿的数量。一个岛被水包围，并且它是通过水平方向或垂直方向上相邻的陆地连接而成的。你可以假设网格的四个边均被水包围。 ps：注意是找岛屿的数量，而非 陆地的数量，这个差异非常重要 找岛屿，也就是找有几片联通的陆地被水全部包围 进一步，就是连通性问题，只要节点是连通的就一直走下去，直到没有节点。这样就找到一个岛屿了 下一步就是找下">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-07-24T06:50:39.704Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="dal&#39;s blog">
-<meta name="twitter:description" content="享受编程带来的快乐">
+<meta name="twitter:title" content="leetcode之岛屿数量">
+<meta name="twitter:description" content="题目：给定一个由 ‘1’（陆地）和 ‘0’（水）组成的的二维网格，计算岛屿的数量。一个岛被水包围，并且它是通过水平方向或垂直方向上相邻的陆地连接而成的。你可以假设网格的四个边均被水包围。 ps：注意是找岛屿的数量，而非 陆地的数量，这个差异非常重要 找岛屿，也就是找有几片联通的陆地被水全部包围 进一步，就是连通性问题，只要节点是连通的就一直走下去，直到没有节点。这样就找到一个岛屿了 下一步就是找下">
 
 
 
@@ -124,13 +125,13 @@
 
 
 
-  <link rel="canonical" href="https://dal-s.github.io/categories/golang/">
+  <link rel="canonical" href="https://dal-s.github.io/2019/07/09/leetcode之岛的个数/">
 
 
 
 
 
-  <title>分类: golang | dal's blog</title>
+  <title>leetcode之岛屿数量 | dal's blog</title>
   
 
 
@@ -149,7 +150,7 @@
     
   
 
-  <div class="container sidebar-position-left ">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
@@ -275,183 +276,202 @@
           <div id="content" class="content">
             
 
+  <div id="posts" class="posts-expand">
+    
+
+  
+
   
   
   
-  <div class="post-block category">
-
-    <div id="posts" class="posts-collapse">
-      <div class="collection-title">
-        <h1>golang<small>分类</small>
-        </h1>
-      </div>
-
-      
-        
 
   <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://dal-s.github.io/2019/07/09/leetcode之岛的个数/">
 
-      <h2 class="post-title">
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="DaLi">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="dal's blog">
+    </span>
+
+    
+      <header class="post-header">
+
         
-            <a class="post-title-link" href="/2018/12/18/Go系列-六-atomic和mutex/" itemprop="url">
-              
-                <span itemprop="name">Go系列(六):sync/atomic和mutex</span>
-              
-            </a>
         
-      </h2>
+          <h1 class="post-title" itemprop="name headline">leetcode之岛屿数量</h1>
+        
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2018-12-18T20:00:55+08:00" content="2018-12-18">
-          12-18
-        </time>
-      </div>
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-09T14:26:55+08:00">
+                2019-07-09
+              </time>
+            
 
-    </header>
-  </article>
+            
 
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/ARTS/" itemprop="url" rel="index">
+                    <span itemprop="name">ARTS</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/07/09/leetcode之岛的个数/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/07/09/leetcode之岛的个数/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2019/07/09/leetcode之岛的个数/" class="leancloud_visitors" data-flag-title="leetcode之岛屿数量">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-        
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2018/12/12/Go系列-五-Goroutines/" itemprop="url">
-              
-                <span itemprop="name">Go系列(五):Goroutines</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2018-12-12T20:54:55+08:00" content="2018-12-12">
-          12-12
-        </time>
-      </div>
-
-    </header>
-  </article>
-
+      
 
       
-        
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2018/12/04/Go系列-四-函数和方法/" itemprop="url">
-              
-                <span itemprop="name">Go系列(四):函数和方法</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2018-12-04T20:54:55+08:00" content="2018-12-04">
-          12-04
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-      
-        
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2018/11/29/Go系列-三-new和make/" itemprop="url">
-              
-                <span itemprop="name">Go系列(三):new和make</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2018-11-29T15:29:55+08:00" content="2018-11-29">
-          11-29
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-      
-        
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2018/11/27/Go系列-二-数组 map slice/" itemprop="url">
-              
-                <span itemprop="name">Go系列(二):数组 map slice</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2018-11-27T15:29:55+08:00" content="2018-11-27">
-          11-27
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-      
-        
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2018/11/26/Go系列-一-变量声明/" itemprop="url">
-              
-                <span itemprop="name">Go系列(一):变量声明</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2018-11-26T15:29:55+08:00" content="2018-11-26">
-          11-26
-        </time>
-      </div>
-
-    </header>
-  </article>
-
+        <p>题目：<br>给定一个由 ‘1’（陆地）和 ‘0’（水）组成的的二维网格，计算岛屿的数量。一个岛被水包围，并且它是通过水平方向或垂直方向上相邻的陆地连接而成的。你可以假设网格的四个边均被水包围。</p>
+<p>ps：注意是找岛屿的数量，而非 陆地的数量，这个差异非常重要</p>
+<p>找岛屿，也就是找有几片联通的陆地被水全部包围</p>
+<p>进一步，就是连通性问题，只要节点是连通的就一直走下去，直到没有节点。这样就找到一个岛屿了</p>
+<p>下一步就是找下一个岛屿的起点，然后重复上面的过程。</p>
+<p>key：使用队列辅助实现BFS算法，然后需要记录已访问过的节点，队列每清空一次，说明找到一片岛屿，然后找下一片岛屿的始点，重复上面的过程。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br></pre></td><td class="code"><pre><span class="line">package main </span><br><span class="line"></span><br><span class="line">import <span class="string">"fmt"</span></span><br><span class="line"></span><br><span class="line">//一个存放节点信息的队列,max是队列最大容量</span><br><span class="line"><span class="built_in">type</span> MyCircularQueue struct &#123;</span><br><span class="line">    queue []Node</span><br><span class="line">    size int</span><br><span class="line">    max int</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//存放每个节点的位置信息</span><br><span class="line"><span class="built_in">type</span> Node struct&#123;</span><br><span class="line">    val byte</span><br><span class="line">    x int</span><br><span class="line">    y int</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/** Initialize your data structure here. Set the size of the queue to be k. */</span><br><span class="line">func Constructor(k int) MyCircularQueue &#123;</span><br><span class="line">    <span class="built_in">return</span> MyCircularQueue&#123;[]Node&#123;&#125;,0,k&#125;   </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">/** Insert an element into the circular queue. Return <span class="literal">true</span> <span class="keyword">if</span> the operation is successful. */</span><br><span class="line">func (this *MyCircularQueue) EnQueue(value Node) bool &#123;</span><br><span class="line">    <span class="keyword">if</span> this.max == this.size &#123;</span><br><span class="line">        <span class="built_in">return</span> <span class="literal">false</span></span><br><span class="line">    &#125;    </span><br><span class="line">    this.queue = append(this.queue,value)</span><br><span class="line">    this.size++</span><br><span class="line">    <span class="built_in">return</span> <span class="literal">true</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">/** Delete an element from the circular queue. Return <span class="literal">true</span> <span class="keyword">if</span> the operation is successful. */</span><br><span class="line">func (this *MyCircularQueue) DeQueue() bool &#123;</span><br><span class="line">    <span class="keyword">if</span> this.size == 0 &#123;</span><br><span class="line">        <span class="built_in">return</span> <span class="literal">false</span></span><br><span class="line">    &#125;   </span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> this.size &gt; 1 &#123;</span><br><span class="line">        this.queue = this.queue[1:this.size]</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        this.queue = this.queue[0:0]</span><br><span class="line">    &#125;</span><br><span class="line">    this.size--</span><br><span class="line">    <span class="built_in">return</span> <span class="literal">true</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/** Checks whether the circular queue is empty or not. */</span><br><span class="line">func (this *MyCircularQueue) IsEmpty() bool &#123;</span><br><span class="line">    <span class="built_in">return</span> this.size==0    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">/** Checks whether the circular queue is full or not. */</span><br><span class="line">func (this *MyCircularQueue) IsFull() bool &#123;</span><br><span class="line">    <span class="built_in">return</span> this.size == this.max   </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/** Get the front item from the queue. */</span><br><span class="line">func (this *MyCircularQueue) Front() Node &#123;</span><br><span class="line">    <span class="keyword">if</span> this.size == 0 &#123;</span><br><span class="line">        <span class="built_in">return</span> Node&#123;&#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">return</span> this.queue[0]   </span><br><span class="line">&#125;</span><br><span class="line">//上面的部分实现了队列的基本操作</span><br><span class="line"></span><br><span class="line">func max(x,y int) int &#123;</span><br><span class="line">    <span class="keyword">if</span> x &gt; y &#123;</span><br><span class="line">        <span class="built_in">return</span> x</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">return</span> y</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//初始化队列，寻找第一个没有被访问过的陆地，作为队列的第一个节点</span><br><span class="line">func initQueue(grid [][]byte,used map[Node]int) MyCircularQueue&#123;</span><br><span class="line">    obj := Constructor(len(grid)*(len(grid[0])))</span><br><span class="line">    <span class="keyword">for</span> i := 0;i&lt;len(grid);i++&#123;</span><br><span class="line">        <span class="keyword">for</span> j:=0;j &lt; len(grid[0]);j++&#123;</span><br><span class="line">            <span class="keyword">if</span> _,ok := used[Node&#123;grid[i][j],i,j&#125;];!ok&amp;&amp;grid[i][j] &gt;=<span class="string">'1'</span> &#123;</span><br><span class="line">                obj.EnQueue(Node&#123;grid[i][j],i,j&#125;)</span><br><span class="line">                goto pass</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">pass:</span><br><span class="line">    <span class="built_in">return</span> obj</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func numIslands(grid [][]byte) int &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> len(grid) == 0 &#123;</span><br><span class="line">        <span class="built_in">return</span> 0</span><br><span class="line">    &#125;</span><br><span class="line">    rows := len(grid)</span><br><span class="line">    cols := len(grid[0])</span><br><span class="line">    k := rows*cols</span><br><span class="line">    obj := Constructor(k);</span><br><span class="line">    used := make(map[Node]int)   //每个访问过的节点都放在这里，以免重复访问</span><br><span class="line">    var cn int</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> &#123;</span><br><span class="line"></span><br><span class="line">    	//队列每清空一次，代表找到一片岛屿，然后寻找下一个未被访问过的陆地，作为下一片岛屿的始发点</span><br><span class="line">        <span class="keyword">if</span> obj.<span class="function"><span class="title">IsEmpty</span></span>()&#123;</span><br><span class="line">            <span class="keyword">if</span> obj = initQueue(grid,used);obj.<span class="function"><span class="title">IsEmpty</span></span>() &#123;</span><br><span class="line">                <span class="built_in">break</span></span><br><span class="line">            &#125;</span><br><span class="line">            cn++</span><br><span class="line">            fmt.Println(obj.queue)</span><br><span class="line">        &#125;</span><br><span class="line">        size := obj.size</span><br><span class="line">        <span class="keyword">for</span> i := 1;i &lt;= size ;i++ &#123;</span><br><span class="line">            curNode := obj.Front()</span><br><span class="line">            used[Node&#123;grid[curNode.x][curNode.y],curNode.x,curNode.y&#125;]++</span><br><span class="line"></span><br><span class="line">            //尝试查看当前节点的四周是否有连通的陆地，如果有陆地，且没有被访问过，就放在队列中，等待访问</span><br><span class="line">            //右</span><br><span class="line">            <span class="keyword">if</span> curNode.y &lt; cols-1 &amp;&amp; grid[curNode.x][curNode.y+1] &gt;= <span class="string">'1'</span> &#123;</span><br><span class="line">                <span class="keyword">if</span> _,ok := used[Node&#123;grid[curNode.x][curNode.y+1],curNode.x,curNode.y+1&#125;];!ok&#123;</span><br><span class="line">                    obj.EnQueue(Node&#123;grid[curNode.x][curNode.y+1],curNode.x,curNode.y+1&#125;)</span><br><span class="line">                    used[Node&#123;grid[curNode.x][curNode.y+1],curNode.x,curNode.y+1&#125;]++</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            //下</span><br><span class="line">            <span class="keyword">if</span> curNode.x &lt; rows-1 &amp;&amp; grid[curNode.x+1][curNode.y] &gt;=<span class="string">'1'</span>&#123;</span><br><span class="line">                <span class="keyword">if</span> _,ok := used[Node&#123;grid[curNode.x+1][curNode.y],curNode.x+1,curNode.y&#125;];!ok &#123;</span><br><span class="line">                    obj.EnQueue(Node&#123;grid[curNode.x+1][curNode.y],curNode.x+1,curNode.y&#125;)</span><br><span class="line">                    used[Node&#123;grid[curNode.x+1][curNode.y],curNode.x+1,curNode.y&#125;]++</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            //左</span><br><span class="line">            <span class="keyword">if</span> curNode.y &gt; 0 &amp;&amp; grid[curNode.x][curNode.y-1] &gt;= <span class="string">'1'</span> &#123;</span><br><span class="line">                <span class="keyword">if</span> _,ok := used[Node&#123;grid[curNode.x][curNode.y-1],curNode.x,curNode.y-1&#125;];!ok&#123;</span><br><span class="line">                    obj.EnQueue(Node&#123;grid[curNode.x][curNode.y-1],curNode.x,curNode.y-1&#125;)</span><br><span class="line">                    used[Node&#123;grid[curNode.x][curNode.y-1],curNode.x,curNode.y-1&#125;]++</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            //上</span><br><span class="line">            <span class="keyword">if</span> curNode.x &gt; 0 &amp;&amp; grid[curNode.x-1][curNode.y] &gt;=<span class="string">'1'</span>&#123;</span><br><span class="line">                <span class="keyword">if</span> _,ok := used[Node&#123;grid[curNode.x-1][curNode.y],curNode.x-1,curNode.y&#125;];!ok &#123;</span><br><span class="line">                    obj.EnQueue(Node&#123;grid[curNode.x-1][curNode.y],curNode.x-1,curNode.y&#125;)</span><br><span class="line">                    used[Node&#123;grid[curNode.x-1][curNode.y],curNode.x-1,curNode.y&#125;]++</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            //每个处理过的节点要从队列中弹出取</span><br><span class="line">            obj.DeQueue()</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">return</span> cn</span><br><span class="line">&#125;</span><br><span class="line">func <span class="function"><span class="title">main</span></span>()&#123;</span><br><span class="line"></span><br><span class="line">    //grid :=[][]int&#123;&#123;1,2,3,4,0&#125;,&#123;5,6,0,7,0&#125;,&#123;8,9,0,0,0&#125;,&#123;0,0,0,11,12&#125;,&#123;13,14,15,16,17&#125;&#125;</span><br><span class="line">    //grid :=[][]int&#123;&#123;1,1,1,1,0&#125;,&#123;1,1,0,1,0&#125;,&#123;1,1,0,0,0&#125;,&#123;0,0,0,0,0&#125;&#125;</span><br><span class="line">    //grid :=[][]byte&#123;&#123;1,2,3,4,0&#125;,&#123;5,6,0,7,0&#125;,&#123;8,9,0,0,10&#125;,&#123;0,11,0,12,0&#125;&#125;</span><br><span class="line"></span><br><span class="line">    grid :=[][]byte&#123;&#123;<span class="string">'1'</span>,<span class="string">'1'</span>,<span class="string">'1'</span>&#125;,&#123;<span class="string">'0'</span>,<span class="string">'1'</span>,<span class="string">'0'</span>&#125;,&#123;<span class="string">'1'</span>,<span class="string">'1'</span>,<span class="string">'1'</span>&#125;&#125;</span><br><span class="line">    fmt.Println(numIslands(grid))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>因为题目给定的是有1和0组成，所以至少有一片岛屿存在，不考虑全是1的情况。</p>
+<p>可以优化的地方：<br>1、队列的初始化循环放在主循环的位置，这样就不用每次从头找一遍<br>2、查找四周是否有陆地，可以拎出来写个通用的函数，看起来代码就简单一些</p>
 
       
     </div>
+    
+    
+    
 
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Share/" rel="tag"># Share</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/07/08/golang实现栈/" rel="next" title="golang实现栈">
+                <i class="fa fa-chevron-left"></i> golang实现栈
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/07/09/golang实现KMP/" rel="prev" title="golang实现KMP">
+                golang实现KMP <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
 
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -459,6 +479,13 @@
 
 
           
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
 
         </div>
         
@@ -697,6 +724,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 
